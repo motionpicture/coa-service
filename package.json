@@ -1,0 +1,22 @@
+{
+  "name": "@motionpicture/coa-service",
+  "version": "1.0.3",
+  "main": "./lib/coa-service.js",
+  "types": "./lib/coa-service.d.ts",
+  "dependencies": {
+    "@types/request": "0.0.36",
+    "request": "^2.79.0"
+  },
+  "description": "COA Client Library for Node.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {},
+  "keywords": [],
+  "author": "Tetsu Yamazaki <yamazaki@motionpicture.jp>",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=7.0.0",
+    "npm": ">=3.10.0"
+  }
+}
