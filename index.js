@@ -13,6 +13,8 @@ let credentials = {
     expired_at: ""
 };
 function publishAccessToken(cb) {
+    if (!COA_URI || !COA_REFRESH_TOKEN)
+        return cb(new Error("coa-service requires initialization."));
     if (credentials.access_token && Date.parse(credentials.expired_at) > Date.now())
         return cb(null);
     request.post({
@@ -39,7 +41,7 @@ var findTheaterInterface;
     function call(args, cb) {
         publishAccessToken((err) => {
             if (err)
-                return cb(new Error("failed in publishing access token."), null);
+                return cb(err, null);
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/theater/`,
                 auth: { bearer: credentials.access_token },
@@ -71,7 +73,7 @@ var findFilmsByTheaterCodeInterface;
     function call(args, cb) {
         publishAccessToken((err) => {
             if (err)
-                return cb(new Error("failed in publishing access token."), []);
+                return cb(err, []);
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/title/`,
                 auth: { bearer: credentials.access_token },
@@ -98,7 +100,7 @@ var findScreensByTheaterCodeInterface;
     function call(args, cb) {
         publishAccessToken((err) => {
             if (err)
-                return cb(new Error("failed in publishing access token."), []);
+                return cb(err, []);
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/screen/`,
                 auth: { bearer: credentials.access_token },
@@ -124,7 +126,7 @@ var findPerformancesByTheaterCodeInterface;
     function call(args, cb) {
         publishAccessToken((err) => {
             if (err)
-                return cb(new Error("failed in publishing access token."), []);
+                return cb(err, []);
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/schedule/`,
                 auth: { bearer: credentials.access_token },
@@ -155,7 +157,7 @@ var reserveSeatsTemporarilyInterface;
         console.log("reserveSeatsTemporarilyInterface calling...", args);
         publishAccessToken((err) => {
             if (err)
-                return cb(new Error("failed in publishing access token."), null);
+                return cb(err, null);
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/upd_tmp_reserve_seat/`,
                 auth: { bearer: credentials.access_token },
@@ -195,7 +197,7 @@ var deleteTmpReserveInterface;
         console.log("deleteTmpReserveInterface calling...", args);
         publishAccessToken((err) => {
             if (err)
-                return cb(new Error("failed in publishing access token."), false);
+                return cb(err, false);
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/del_tmp_reserve/`,
                 auth: { bearer: credentials.access_token },
@@ -230,7 +232,7 @@ var getStateReserveSeatInterface;
         console.log("getStateReserveSeat calling...", args);
         publishAccessToken((err) => {
             if (err)
-                return cb(new Error("failed in publishing access token."), null);
+                return cb(err, null);
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/state_reserve_seat/`,
                 auth: { bearer: credentials.access_token },
@@ -268,7 +270,7 @@ var countFreeSeatInterface;
         console.log("countFreeSeat calling...", args);
         publishAccessToken((err) => {
             if (err)
-                return cb(new Error("failed in publishing access token."), null);
+                return cb(err, null);
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/count_free_seat/`,
                 auth: { bearer: credentials.access_token },
@@ -303,7 +305,7 @@ var salesTicketInterface;
         console.log("salesTicket calling...", args);
         publishAccessToken((err) => {
             if (err)
-                return cb(new Error("failed in publishing access token."), null);
+                return cb(err, null);
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/sales_ticket/`,
                 auth: { bearer: credentials.access_token },
@@ -339,7 +341,7 @@ var ticketInterface;
         console.log("ticket calling...", args);
         publishAccessToken((err) => {
             if (err)
-                return cb(new Error("failed in publishing access token."), null);
+                return cb(err, null);
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/ticket/`,
                 auth: { bearer: credentials.access_token },
@@ -370,7 +372,7 @@ var updateReserveInterface;
         console.log("updateReserve calling...", args);
         publishAccessToken((err) => {
             if (err)
-                return cb(new Error("failed in publishing access token."), null);
+                return cb(err, null);
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/upd_reserve/`,
                 auth: { bearer: credentials.access_token },
@@ -421,7 +423,7 @@ var deleteReserveInterface;
         console.log("deleteReserve calling...", args);
         publishAccessToken((err) => {
             if (err)
-                return cb(new Error("failed in publishing access token."), false);
+                return cb(err, false);
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/del_reserve/`,
                 auth: { bearer: credentials.access_token },
@@ -460,7 +462,7 @@ var stateReserveInterface;
         console.log("stateReserve calling...", args);
         publishAccessToken((err) => {
             if (err)
-                return cb(new Error("failed in publishing access token."), null);
+                return cb(err, null);
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/state_reserve/`,
                 auth: { bearer: credentials.access_token },

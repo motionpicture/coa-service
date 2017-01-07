@@ -1,6 +1,8 @@
 import request = require("request");
 
+/** APIエンドポイント */
 let COA_URI = "";
+/** リフレッシュトークン */
 let COA_REFRESH_TOKEN = "";
 
 export function initialize(args: {
@@ -11,9 +13,7 @@ export function initialize(args: {
     COA_REFRESH_TOKEN = args.refresh_token;
 };
 
-/**
- * API認証情報
- */
+/** API認証情報 */
 let credentials = {
     access_token: "",
     expired_at: ""
@@ -23,6 +23,8 @@ let credentials = {
  * アクセストークンを発行する
  */
 function publishAccessToken(cb: (err: Error | null) => void): void {
+    if (!COA_URI || !COA_REFRESH_TOKEN) return cb(new Error("coa-service requires initialization."));
+
     // アクセストークン有効期限チェック
     if (credentials.access_token && Date.parse(credentials.expired_at) > Date.now()) return cb(null);
 
@@ -65,7 +67,7 @@ export namespace findTheaterInterface {
     }
     export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
         publishAccessToken((err) => {
-            if (err) return cb(new Error("failed in publishing access token."), null);
+            if (err) return cb(err, null);
 
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/theater/`,
@@ -129,7 +131,7 @@ export namespace findFilmsByTheaterCodeInterface {
     };
     export function call(args: Args, cb: (err: Error | null, results: Array<Result>) => void): void {
         publishAccessToken((err) => {
-            if (err) return cb(new Error("failed in publishing access token."), []);
+            if (err) return cb(err, []);
 
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/title/`,
@@ -183,7 +185,7 @@ export namespace findScreensByTheaterCodeInterface {
     };
     export function call(args: Args, cb: (err: Error | null, results: Array<Result>) => void): void {
         publishAccessToken((err) => {
-            if (err) return cb(new Error("failed in publishing access token."), []);
+            if (err) return cb(err, []);
 
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/screen/`,
@@ -238,7 +240,7 @@ export namespace findPerformancesByTheaterCodeInterface {
     }
     export function call(args: Args, cb: (err: Error | null, results: Array<Result>) => void): void {
         publishAccessToken((err) => {
-            if (err) return cb(new Error("failed in publishing access token."), []);
+            if (err) return cb(err, []);
 
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/schedule/`,
@@ -304,7 +306,7 @@ export namespace reserveSeatsTemporarilyInterface {
     export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
         console.log("reserveSeatsTemporarilyInterface calling...", args);
         publishAccessToken((err) => {
-            if (err) return cb(new Error("failed in publishing access token."), null);
+            if (err) return cb(err, null);
 
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/upd_tmp_reserve_seat/`,
@@ -359,7 +361,7 @@ export namespace deleteTmpReserveInterface {
     export function call(args: Args, cb: (err: Error | null, result: boolean) => void): void {
         console.log("deleteTmpReserveInterface calling...", args);
         publishAccessToken((err) => {
-            if (err) return cb(new Error("failed in publishing access token."), false);
+            if (err) return cb(err, false);
 
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/del_tmp_reserve/`,
@@ -423,7 +425,7 @@ export namespace getStateReserveSeatInterface {
     export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
         console.log("getStateReserveSeat calling...", args);
         publishAccessToken((err) => {
-            if (err) return cb(new Error("failed in publishing access token."), null);
+            if (err) return cb(err, null);
 
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/state_reserve_seat/`,
@@ -494,7 +496,7 @@ export namespace countFreeSeatInterface {
     export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
         console.log("countFreeSeat calling...", args);
         publishAccessToken((err) => {
-            if (err) return cb(new Error("failed in publishing access token."), null);
+            if (err) return cb(err, null);
 
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/count_free_seat/`,
@@ -565,7 +567,7 @@ export namespace salesTicketInterface {
     export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
         console.log("salesTicket calling...", args);
         publishAccessToken((err) => {
-            if (err) return cb(new Error("failed in publishing access token."), null);
+            if (err) return cb(err, null);
 
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/sales_ticket/`,
@@ -617,7 +619,7 @@ export namespace ticketInterface {
     export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
         console.log("ticket calling...", args);
         publishAccessToken((err) => {
-            if (err) return cb(new Error("failed in publishing access token."), null);
+            if (err) return cb(err, null);
 
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/ticket/`,
@@ -702,7 +704,7 @@ export namespace updateReserveInterface {
     export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
         console.log("updateReserve calling...", args);
         publishAccessToken((err) => {
-            if (err) return cb(new Error("failed in publishing access token."), null);
+            if (err) return cb(err, null);
 
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/upd_reserve/`,
@@ -777,7 +779,7 @@ export namespace deleteReserveInterface {
     export function call(args: Args, cb: (err: Error | null, result: boolean) => void): void {
         console.log("deleteReserve calling...", args);
         publishAccessToken((err) => {
-            if (err) return cb(new Error("failed in publishing access token."), false);
+            if (err) return cb(err, false);
 
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/del_reserve/`,
@@ -849,7 +851,7 @@ export namespace stateReserveInterface {
     export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
         console.log("stateReserve calling...", args);
         publishAccessToken((err) => {
-            if (err) return cb(new Error("failed in publishing access token."), null);
+            if (err) return cb(err, null);
 
             request.get({
                 url: `${COA_URI}/api/v1/theater/${args.theater_code}/state_reserve/`,
