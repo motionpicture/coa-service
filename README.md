@@ -18,7 +18,7 @@ npm install @motionpicture/coa-service
 var COA = require('@motionpicture/coa-service');
 ```
 
-When using the Mvtk Service SDK, you must provide connection information for the soap url to use. This can be provided using:
+When using the COA Service SDK, you must provide connection information. This can be provided using:
 
 * Initializing - For example, `COA.inititalize({endpoint: "", refresh_token: ""}});`
 
@@ -27,4 +27,4 @@ When using the Mvtk Service SDK, you must provide connection information for the
 
 Some samples are available.
 
-* [How to use the Util Service from Node.js](/examples/samples/findTheater.js)
+* [How to use the findTheater Service from Node.js](/examples/samples/findTheater.js)

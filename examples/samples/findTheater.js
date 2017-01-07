@@ -1,4 +1,4 @@
-﻿var COA = require('../../lib/coa-service');
+var COA = require("../../index");
 
 COA.initialize({
     endpoint: "http://coacinema.aa0.netvolante.jp",
