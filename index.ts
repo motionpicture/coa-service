@@ -320,6 +320,7 @@ export namespace reserveSeatsTemporarilyInterface {
                     cnt_reserve_seat: args.list_seat.length,
                     seat_section: args.list_seat.map((value) => { return value.seat_section; }),
                     seat_num: args.list_seat.map((value) => { return value.seat_num; }),
+                    screen_code: args.screen_code,
                 },
                 useQuerystring: true
             }, (error, response, body) => {
@@ -436,6 +437,7 @@ export namespace getStateReserveSeatInterface {
                     title_code: args.title_code,
                     title_branch_num: args.title_branch_num,
                     time_begin: args.time_begin,
+                    screen_code: args.screen_code,
                 },
                 useQuerystring: true
             }, (error, response, body) => {
