@@ -1,16 +1,13 @@
 import request = require("request");
 
-/** APIエンドポイント */
-let COA_URI = "";
-/** リフレッシュトークン */
-let COA_REFRESH_TOKEN = "";
-
 export function initialize(args: {
+    /** APIエンドポイント */
     endpoint: string,
+    /** リフレッシュトークン */
     refresh_token: string
 }) {
-    COA_URI = args.endpoint;
-    COA_REFRESH_TOKEN = args.refresh_token;
+    process.env.COA_ENDPOINT = args.endpoint;
+    process.env.COA_REFRESH_TOKEN = args.refresh_token;
 };
 
 /** API認証情報 */
@@ -23,15 +20,15 @@ let credentials = {
  * アクセストークンを発行する
  */
 function publishAccessToken(cb: (err: Error | null) => void): void {
-    if (!COA_URI || !COA_REFRESH_TOKEN) return cb(new Error("coa-service requires initialization."));
+    if (!process.env.COA_ENDPOINT || !process.env.COA_REFRESH_TOKEN) return cb(new Error("coa-service requires initialization."));
 
     // アクセストークン有効期限チェック
     if (credentials.access_token && Date.parse(credentials.expired_at) > Date.now()) return cb(null);
 
     request.post({
-        url: `${COA_URI}/token/access_token`,
+        url: `${process.env.COA_ENDPOINT}/token/access_token`,
         form: {
-            refresh_token: COA_REFRESH_TOKEN
+            refresh_token: process.env.COA_REFRESH_TOKEN
         },
         json: true
     }, (error, response, body) => {
@@ -70,7 +67,7 @@ export namespace findTheaterInterface {
             if (err) return cb(err, null);
 
             request.get({
-                url: `${COA_URI}/api/v1/theater/${args.theater_code}/theater/`,
+                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/theater/`,
                 auth: { bearer: credentials.access_token },
                 json: true
             }, (error, response, body) => {
@@ -134,7 +131,7 @@ export namespace findFilmsByTheaterCodeInterface {
             if (err) return cb(err, []);
 
             request.get({
-                url: `${COA_URI}/api/v1/theater/${args.theater_code}/title/`,
+                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/title/`,
                 auth: { bearer: credentials.access_token },
                 json: true
             }, (error, response, body) => {
@@ -188,7 +185,7 @@ export namespace findScreensByTheaterCodeInterface {
             if (err) return cb(err, []);
 
             request.get({
-                url: `${COA_URI}/api/v1/theater/${args.theater_code}/screen/`,
+                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/screen/`,
                 auth: { bearer: credentials.access_token },
                 json: true
             }, (error, response, body) => {
@@ -243,7 +240,7 @@ export namespace findPerformancesByTheaterCodeInterface {
             if (err) return cb(err, []);
 
             request.get({
-                url: `${COA_URI}/api/v1/theater/${args.theater_code}/schedule/`,
+                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/schedule/`,
                 auth: { bearer: credentials.access_token },
                 json: true,
                 qs: {
@@ -309,7 +306,7 @@ export namespace reserveSeatsTemporarilyInterface {
             if (err) return cb(err, null);
 
             request.get({
-                url: `${COA_URI}/api/v1/theater/${args.theater_code}/upd_tmp_reserve_seat/`,
+                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_tmp_reserve_seat/`,
                 auth: { bearer: credentials.access_token },
                 json: true,
                 qs: {
@@ -365,7 +362,7 @@ export namespace deleteTmpReserveInterface {
             if (err) return cb(err, false);
 
             request.get({
-                url: `${COA_URI}/api/v1/theater/${args.theater_code}/del_tmp_reserve/`,
+                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_tmp_reserve/`,
                 auth: { bearer: credentials.access_token },
                 json: true,
                 qs: {
@@ -429,7 +426,7 @@ export namespace getStateReserveSeatInterface {
             if (err) return cb(err, null);
 
             request.get({
-                url: `${COA_URI}/api/v1/theater/${args.theater_code}/state_reserve_seat/`,
+                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve_seat/`,
                 auth: { bearer: credentials.access_token },
                 json: true,
                 qs: {
@@ -501,7 +498,7 @@ export namespace countFreeSeatInterface {
             if (err) return cb(err, null);
 
             request.get({
-                url: `${COA_URI}/api/v1/theater/${args.theater_code}/count_free_seat/`,
+                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/count_free_seat/`,
                 auth: { bearer: credentials.access_token },
                 json: true,
                 qs: {
@@ -572,7 +569,7 @@ export namespace salesTicketInterface {
             if (err) return cb(err, null);
 
             request.get({
-                url: `${COA_URI}/api/v1/theater/${args.theater_code}/sales_ticket/`,
+                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/sales_ticket/`,
                 auth: { bearer: credentials.access_token },
                 json: true,
                 qs: {
@@ -624,7 +621,7 @@ export namespace ticketInterface {
             if (err) return cb(err, null);
 
             request.get({
-                url: `${COA_URI}/api/v1/theater/${args.theater_code}/ticket/`,
+                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/ticket/`,
                 auth: { bearer: credentials.access_token },
                 json: true,
                 qs: {
@@ -709,7 +706,7 @@ export namespace updateReserveInterface {
             if (err) return cb(err, null);
 
             request.get({
-                url: `${COA_URI}/api/v1/theater/${args.theater_code}/upd_reserve/`,
+                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_reserve/`,
                 auth: { bearer: credentials.access_token },
                 json: true,
                 qs: {
@@ -784,7 +781,7 @@ export namespace deleteReserveInterface {
             if (err) return cb(err, false);
 
             request.get({
-                url: `${COA_URI}/api/v1/theater/${args.theater_code}/del_reserve/`,
+                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_reserve/`,
                 auth: { bearer: credentials.access_token },
                 json: true,
                 qs: {
@@ -856,7 +853,7 @@ export namespace stateReserveInterface {
             if (err) return cb(err, null);
 
             request.get({
-                url: `${COA_URI}/api/v1/theater/${args.theater_code}/state_reserve/`,
+                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve/`,
                 auth: { bearer: credentials.access_token },
                 json: true,
                 qs: {

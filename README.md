@@ -20,7 +20,13 @@ var COA = require('@motionpicture/coa-service');
 
 When using the COA Service SDK, you must provide connection information. This can be provided using:
 
-* Initializing - For example, `COA.inititalize({endpoint: "", refresh_token: ""}});`
+* initializing - For example, `COA.inititalize({endpoint: "", refresh_token: ""}});`
+or
+* set environment variables - For example,
+```shell
+set COA_ENDPOINT=*****
+set COA_REFRESH_TOKEN=*****
+```
 
 
 ## Code Samples

@@ -21,7 +21,8 @@
         "newLine": "CRLF",
         "noImplicitAny": true,
         "noImplicitReturns": true,
-        "noImplicitThis": false,
+        "noImplicitThis": true,
+        "noImplicitUseStrict": false,
         "noLib": false,
         "noResolve": false,
         "noUnusedLocals": true,
@@ -35,7 +36,7 @@
         "strictNullChecks": true,
         "stripInternal": false,
         "suppressExcessPropertyErrors": false,
-        "suppressImplicitAnyIndexErrors": true,
+        "suppressImplicitAnyIndexErrors": false,
         "target": "es6",
         "watch": false
     },
