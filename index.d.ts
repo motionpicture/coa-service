@@ -1,3 +1,4 @@
+/// <reference types="node" />
 export declare function initialize(args: {
     endpoint: string;
     refresh_token: string;
@@ -203,7 +204,7 @@ export declare namespace updateReserveInterface {
         time_begin: string;
         tmp_reserve_num: string;
         reserve_name: string;
-        reserve_name_kana: string;
+        reserve_name_jkana: string;
         tel_num: string;
         mail_addr: string;
         reserve_amount: number;

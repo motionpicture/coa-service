@@ -662,7 +662,7 @@ export namespace updateReserveInterface {
         /** 予約者名 */
         reserve_name: string,
         /** 予約者名（かな） */
-        reserve_name_kana: string,
+        reserve_name_jkana: string,
         /** 電話番号 */
         tel_num: string,
         /** メールアドレス */
@@ -717,7 +717,7 @@ export namespace updateReserveInterface {
                     time_begin: args.time_begin,
                     tmp_reserve_num: args.tmp_reserve_num,
                     reserve_name: args.reserve_name,
-                    reserve_name_kana: args.reserve_name_kana,
+                    reserve_name_jkana: args.reserve_name_jkana,
                     tel_num: args.tel_num,
                     mail_addr: args.mail_addr,
                     reserve_amount: args.reserve_amount,
