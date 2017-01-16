@@ -1,4 +1,4 @@
-import request = require("request");
+import request = require("request-promise-native");
 
 export function initialize(args: {
     /** APIエンドポイント */
@@ -19,29 +19,32 @@ let credentials = {
 /**
  * アクセストークンを発行する
  */
-function publishAccessToken(cb: (err: Error | null) => void): void {
-    if (!process.env.COA_ENDPOINT || !process.env.COA_REFRESH_TOKEN) return cb(new Error("coa-service requires initialization."));
+async function publishAccessToken(): Promise<void> {
+    if (!process.env.COA_ENDPOINT || !process.env.COA_REFRESH_TOKEN) throw new Error("coa-service requires initialization.");
 
     // アクセストークン有効期限チェック
-    if (credentials.access_token && Date.parse(credentials.expired_at) > Date.now()) return cb(null);
+    if (credentials.access_token && Date.parse(credentials.expired_at) > Date.now()) return;
 
-    request.post({
+    let body = await request.post({
+        simple: false,
         url: `${process.env.COA_ENDPOINT}/token/access_token`,
         form: {
             refresh_token: process.env.COA_REFRESH_TOKEN
         },
         json: true
-    }, (error, response, body) => {
-        console.log("request processed.", error, (response) ? response.statusCode : undefined, body);
-        if (error) return cb(error);
-        if (typeof body === "string") return cb(new Error(body));
-        if (body.message) return cb(new Error(body.message));
+    }).then(throwIfNot200);
+    console.log("request processed.", body);
 
-        credentials = body;
-        console.log("credentials:", credentials);
+    credentials = body;
+    console.log("credentials:", credentials);
+}
 
-        cb(null);
-    });
+async function throwIfNot200(body: any): Promise<any> {
+    if (typeof body === "string") throw new Error(body);
+    if (body.message) throw new Error(body.message);
+    if (body.status !== undefined && body.status !== 0) throw new Error(body.status);
+
+    return body;
 }
 
 /**
@@ -62,29 +65,24 @@ export namespace findTheaterInterface {
         /** 施設名称（英） */
         theater_name_kana: string
     }
-    export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
-        publishAccessToken((err) => {
-            if (err) return cb(err, null);
+    export async function call(args: Args): Promise<Result> {
+        await publishAccessToken();
 
-            request.get({
-                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/theater/`,
-                auth: { bearer: credentials.access_token },
-                json: true
-            }, (error, response, body) => {
-                console.log("request processed.", error, (response) ? response.statusCode : undefined, body);
-                if (error) return cb(error, null);
-                if (typeof body === "string") return cb(new Error(body), null);
-                if (body.message) return cb(new Error(body.message), null);
-                if (body.status !== 0) return cb(new Error(body.status), null);
+        console.log("request processing...", args);
+        let body = await request.get({
+            simple: false,
+            url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/theater/`,
+            auth: { bearer: credentials.access_token },
+            json: true,
+        }).then(throwIfNot200);
+        console.log("request processed.", body);
 
-                cb(null, {
-                    theater_code: body.theater_code,
-                    theater_name: body.theater_name,
-                    theater_name_eng: body.theater_name_eng,
-                    theater_name_kana: body.theater_name_kana,
-                });
-            });
-        });
+        return {
+            theater_code: body.theater_code,
+            theater_name: body.theater_name,
+            theater_name_eng: body.theater_name_eng,
+            theater_name_kana: body.theater_name_kana,
+        };
     }
 }
 
@@ -126,24 +124,19 @@ export namespace findFilmsByTheaterCodeInterface {
         /** 公演終了予定日 */
         date_end: string
     };
-    export function call(args: Args, cb: (err: Error | null, results: Array<Result>) => void): void {
-        publishAccessToken((err) => {
-            if (err) return cb(err, []);
+    export async function call(args: Args): Promise<Result> {
+        await publishAccessToken();
 
-            request.get({
-                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/title/`,
-                auth: { bearer: credentials.access_token },
-                json: true
-            }, (error, response, body) => {
-                console.log("request processed.", error, (response) ? response.statusCode : undefined, body);
-                if (error) return cb(error, []);
-                if (typeof body === "string") return cb(new Error(body), []);
-                if (body.message) return cb(new Error(body.message), []);
-                if (body.status !== 0) return cb(new Error(body.status), []);
+        console.log("request processing...", args);
+        let body = await request.get({
+            simple: false,
+            url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/title/`,
+            auth: { bearer: credentials.access_token },
+            json: true
+        }).then(throwIfNot200);
+        console.log("request processed.", body);
 
-                cb(null, body.list_title);
-            });
-        });
+        return body.list_title;
     }
 }
 
@@ -180,24 +173,19 @@ export namespace findScreensByTheaterCodeInterface {
             flg_spare: string
         }>
     };
-    export function call(args: Args, cb: (err: Error | null, results: Array<Result>) => void): void {
-        publishAccessToken((err) => {
-            if (err) return cb(err, []);
+    export async function call(args: Args): Promise<Array<Result>> {
+        await publishAccessToken();
 
-            request.get({
-                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/screen/`,
-                auth: { bearer: credentials.access_token },
-                json: true
-            }, (error, response, body) => {
-                console.log("request processed.", error, (response) ? response.statusCode : undefined, body);
-                if (error) return cb(error, []);
-                if (typeof body === "string") return cb(new Error(body), []);
-                if (body.message) return cb(new Error(body.message), []);
-                if (body.status !== 0) return cb(new Error(body.status), []);
+        console.log("request processing...", args);
+        let body = await request.get({
+            simple: false,
+            url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/screen/`,
+            auth: { bearer: credentials.access_token },
+            json: true
+        }).then(throwIfNot200);
+        console.log("request processed.", body);
 
-                cb(null, body.list_screen);
-            });
-        });
+        return body.list_screen;
     }
 }
 
@@ -235,28 +223,23 @@ export namespace findPerformancesByTheaterCodeInterface {
         /** サービスデイ名称 */
         name_service_day: string,
     }
-    export function call(args: Args, cb: (err: Error | null, results: Array<Result>) => void): void {
-        publishAccessToken((err) => {
-            if (err) return cb(err, []);
+    export async function call(args: Args): Promise<Array<Result>> {
+        await publishAccessToken();
 
-            request.get({
-                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/schedule/`,
-                auth: { bearer: credentials.access_token },
-                json: true,
-                qs: {
-                    begin: args.begin,
-                    end: args.end
-                }
-            }, (error, response, body) => {
-                console.log("request processed.", error, (response) ? response.statusCode : undefined, body);
-                if (error) return cb(error, []);
-                if (typeof body === "string") return cb(new Error(body), []);
-                if (body.message) return cb(new Error(body.message), []);
-                if (body.status !== 0) return cb(new Error(body.status), []);
+        console.log("request processing...", args);
+        let body = await request.get({
+            simple: false,
+            url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/schedule/`,
+            auth: { bearer: credentials.access_token },
+            json: true,
+            qs: {
+                begin: args.begin,
+                end: args.end
+            }
+        }).then(throwIfNot200);
+        console.log("request processed.", body);
 
-                cb(null, body.list_schedule);
-            });
-        });
+        return body.list_schedule;
     }
 }
 
@@ -300,39 +283,33 @@ export namespace reserveSeatsTemporarilyInterface {
             sts_tmp_reserve: string,
         }>
     }
-    export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
-        console.log("reserveSeatsTemporarilyInterface calling...", args);
-        publishAccessToken((err) => {
-            if (err) return cb(err, null);
+    export async function call(args: Args): Promise<Result> {
+        await publishAccessToken();
 
-            request.get({
-                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_tmp_reserve_seat/`,
-                auth: { bearer: credentials.access_token },
-                json: true,
-                qs: {
-                    date_jouei: args.date_jouei,
-                    title_code: args.title_code,
-                    title_branch_num: args.title_branch_num,
-                    time_begin: args.time_begin,
-                    cnt_reserve_seat: args.list_seat.length,
-                    seat_section: args.list_seat.map((value) => { return value.seat_section; }),
-                    seat_num: args.list_seat.map((value) => { return value.seat_num; }),
-                    screen_code: args.screen_code,
-                },
-                useQuerystring: true
-            }, (error, response, body) => {
-                console.log("request processed.", error, (response) ? response.statusCode : undefined, body);
-                if (error) return cb(error, null);
-                if (typeof body === "string") return cb(new Error(body), null);
-                if (body.message) return cb(new Error(body.message), null);
-                if (body.status !== 0) return cb(new Error(body.status), null);
+        console.log("request processing...", args);
+        let body = await request.get({
+            simple: false,
+            url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_tmp_reserve_seat/`,
+            auth: { bearer: credentials.access_token },
+            json: true,
+            qs: {
+                date_jouei: args.date_jouei,
+                title_code: args.title_code,
+                title_branch_num: args.title_branch_num,
+                time_begin: args.time_begin,
+                cnt_reserve_seat: args.list_seat.length,
+                seat_section: args.list_seat.map((value) => { return value.seat_section; }),
+                seat_num: args.list_seat.map((value) => { return value.seat_num; }),
+                screen_code: args.screen_code,
+            },
+            useQuerystring: true
+        }).then(throwIfNot200);
+        console.log("request processed.", body);
 
-                cb(null, {
-                    tmp_reserve_num: body.tmp_reserve_num,
-                    list_tmp_reserve: body.list_tmp_reserve
-                });
-            });
-        });
+        return {
+            tmp_reserve_num: body.tmp_reserve_num,
+            list_tmp_reserve: body.list_tmp_reserve
+        };
     }
 }
 
@@ -356,33 +333,25 @@ export namespace deleteTmpReserveInterface {
     }
     export interface Result {
     }
-    export function call(args: Args, cb: (err: Error | null, result: boolean) => void): void {
-        console.log("deleteTmpReserveInterface calling...", args);
-        publishAccessToken((err) => {
-            if (err) return cb(err, false);
+    export async function call(args: Args): Promise<void> {
+        await publishAccessToken();
 
-            request.get({
-                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_tmp_reserve/`,
-                auth: { bearer: credentials.access_token },
-                json: true,
-                qs: {
-                    date_jouei: args.date_jouei,
-                    title_code: args.title_code,
-                    title_branch_num: args.title_branch_num,
-                    time_begin: args.time_begin,
-                    tmp_reserve_num: args.tmp_reserve_num,
-                },
-                useQuerystring: true
-            }, (error, response, body) => {
-                console.log("request processed.", error, (response) ? response.statusCode : undefined, body);
-                if (error) return cb(error, false);
-                if (typeof body === "string") return cb(new Error(body), false);
-                if (body.message) return cb(new Error(body.message), false);
-                if (body.status !== 0) return cb(new Error(body.status), false);
-
-                cb(null, true);
-            });
-        });
+        console.log("request processing...", args);
+        let body = await request.get({
+            simple: false,
+            url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_tmp_reserve/`,
+            auth: { bearer: credentials.access_token },
+            json: true,
+            qs: {
+                date_jouei: args.date_jouei,
+                title_code: args.title_code,
+                title_branch_num: args.title_branch_num,
+                time_begin: args.time_begin,
+                tmp_reserve_num: args.tmp_reserve_num,
+            },
+            useQuerystring: true
+        }).then(throwIfNot200);
+        console.log("request processed.", body);
     }
 }
 
@@ -420,37 +389,31 @@ export namespace getStateReserveSeatInterface {
             }>
         }>
     }
-    export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
-        console.log("getStateReserveSeat calling...", args);
-        publishAccessToken((err) => {
-            if (err) return cb(err, null);
+    export async function call(args: Args): Promise<Result> {
+        await publishAccessToken();
 
-            request.get({
-                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve_seat/`,
-                auth: { bearer: credentials.access_token },
-                json: true,
-                qs: {
-                    date_jouei: args.date_jouei,
-                    title_code: args.title_code,
-                    title_branch_num: args.title_branch_num,
-                    time_begin: args.time_begin,
-                    screen_code: args.screen_code,
-                },
-                useQuerystring: true
-            }, (error, response, body) => {
-                console.log("request processed.", error, (response) ? response.statusCode : undefined, body);
-                if (error) return cb(error, null);
-                if (typeof body === "string") return cb(new Error(body), null);
-                if (body.message) return cb(new Error(body.message), null);
-                if (body.status !== 0) return cb(new Error(body.status), null);
+        console.log("request processing...", args);
+        let body = await request.get({
+            simple: false,
+            url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve_seat/`,
+            auth: { bearer: credentials.access_token },
+            json: true,
+            qs: {
+                date_jouei: args.date_jouei,
+                title_code: args.title_code,
+                title_branch_num: args.title_branch_num,
+                time_begin: args.time_begin,
+                screen_code: args.screen_code,
+            },
+            useQuerystring: true
+        }).then(throwIfNot200);
+        console.log("request processed.", body);
 
-                cb(null, {
-                    cnt_reserve_free: body.cnt_reserve_free,
-                    cnt_seat_line: body.cnt_seat_line,
-                    list_seat: body.list_seat,
-                });
-            });
-        });
+        return {
+            cnt_reserve_free: body.cnt_reserve_free,
+            cnt_seat_line: body.cnt_seat_line,
+            list_seat: body.list_seat,
+        };
     }
 }
 
@@ -492,33 +455,27 @@ export namespace countFreeSeatInterface {
             cnt_performance: number,
         }>
     }
-    export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
-        console.log("countFreeSeat calling...", args);
-        publishAccessToken((err) => {
-            if (err) return cb(err, null);
+    export async function call(args: Args): Promise<Result> {
+        await publishAccessToken();
 
-            request.get({
-                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/count_free_seat/`,
-                auth: { bearer: credentials.access_token },
-                json: true,
-                qs: {
-                    begin: args.begin,
-                    end: args.end,
-                },
-                useQuerystring: true
-            }, (error, response, body) => {
-                console.log("request processed.", error, (response) ? response.statusCode : undefined, body);
-                if (error) return cb(error, null);
-                if (typeof body === "string") return cb(new Error(body), null);
-                if (body.message) return cb(new Error(body.message), null);
-                if (body.status !== 0) return cb(new Error(body.status), null);
+        console.log("request processing...", args);
+        let body = await request.get({
+            simple: false,
+            url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/count_free_seat/`,
+            auth: { bearer: credentials.access_token },
+            json: true,
+            qs: {
+                begin: args.begin,
+                end: args.end,
+            },
+            useQuerystring: true
+        }).then(throwIfNot200);
+        console.log("request processed.", body);
 
-                cb(null, {
-                    theater_code: body.theater_code,
-                    list_date: body.list_date,
-                });
-            });
-        });
+        return {
+            theater_code: body.theater_code,
+            list_date: body.list_date,
+        };
     }
 }
 
@@ -563,34 +520,28 @@ export namespace salesTicketInterface {
             ticket_note: string,
         }>
     }
-    export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
-        console.log("salesTicket calling...", args);
-        publishAccessToken((err) => {
-            if (err) return cb(err, null);
+    export async function call(args: Args): Promise<Result> {
+        await publishAccessToken();
 
-            request.get({
-                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/sales_ticket/`,
-                auth: { bearer: credentials.access_token },
-                json: true,
-                qs: {
-                    date_jouei: args.date_jouei,
-                    title_code: args.title_code,
-                    title_branch_num: args.title_branch_num,
-                    time_begin: args.time_begin,
-                },
-                useQuerystring: true
-            }, (error, response, body) => {
-                console.log("request processed.", error, (response) ? response.statusCode : undefined, body);
-                if (error) return cb(error, null);
-                if (typeof body === "string") return cb(new Error(body), null);
-                if (body.message) return cb(new Error(body.message), null);
-                if (body.status !== 0) return cb(new Error(body.status), null);
+        console.log("request processing...", args);
+        let body = await request.get({
+            simple: false,
+            url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/sales_ticket/`,
+            auth: { bearer: credentials.access_token },
+            json: true,
+            qs: {
+                date_jouei: args.date_jouei,
+                title_code: args.title_code,
+                title_branch_num: args.title_branch_num,
+                time_begin: args.time_begin,
+            },
+            useQuerystring: true
+        }).then(throwIfNot200);
+        console.log("request processed.", body);
 
-                cb(null, {
-                    list_ticket: body.list_ticket,
-                });
-            });
-        });
+        return {
+            list_ticket: body.list_ticket,
+        };
     }
 }
 
@@ -615,30 +566,24 @@ export namespace ticketInterface {
             ticket_name_eng: string,
         }>
     }
-    export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
-        console.log("ticket calling...", args);
-        publishAccessToken((err) => {
-            if (err) return cb(err, null);
+    export async function call(args: Args): Promise<Result> {
+        await publishAccessToken();
 
-            request.get({
-                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/ticket/`,
-                auth: { bearer: credentials.access_token },
-                json: true,
-                qs: {
-                },
-                useQuerystring: true
-            }, (error, response, body) => {
-                console.log("request processed.", error, (response) ? response.statusCode : undefined, body);
-                if (error) return cb(error, null);
-                if (typeof body === "string") return cb(new Error(body), null);
-                if (body.message) return cb(new Error(body.message), null);
-                if (body.status !== 0) return cb(new Error(body.status), null);
+        console.log("request processing...", args);
+        let body = await request.get({
+            simple: false,
+            url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/ticket/`,
+            auth: { bearer: credentials.access_token },
+            json: true,
+            qs: {
+            },
+            useQuerystring: true
+        }).then(throwIfNot200);
+        console.log("request processed.", body);
 
-                cb(null, {
-                    list_ticket: body.list_ticket,
-                });
-            });
-        });
+        return {
+            list_ticket: body.list_ticket,
+        };
     }
 }
 
@@ -700,49 +645,43 @@ export namespace updateReserveInterface {
             seat_qrcode: string,
         }>
     }
-    export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
-        console.log("updateReserve calling...", args);
-        publishAccessToken((err) => {
-            if (err) return cb(err, null);
+    export async function call(args: Args): Promise<Result> {
+        await publishAccessToken();
 
-            request.get({
-                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_reserve/`,
-                auth: { bearer: credentials.access_token },
-                json: true,
-                qs: {
-                    theater_code: args.theater_code,
-                    date_jouei: args.date_jouei,
-                    title_code: args.title_code,
-                    title_branch_num: args.title_branch_num,
-                    time_begin: args.time_begin,
-                    tmp_reserve_num: args.tmp_reserve_num,
-                    reserve_name: args.reserve_name,
-                    reserve_name_jkana: args.reserve_name_jkana,
-                    tel_num: args.tel_num,
-                    mail_addr: args.mail_addr,
-                    reserve_amount: args.reserve_amount,
-                    ticket_code: args.list_ticket.map((value) => { return value.ticket_code; }),
-                    std_price: args.list_ticket.map((value) => { return value.std_price; }),
-                    add_price: args.list_ticket.map((value) => { return value.add_price; }),
-                    dis_price: args.list_ticket.map((value) => { return value.dis_price; }),
-                    sale_price: args.list_ticket.map((value) => { return value.sale_price; }),
-                    ticket_count: args.list_ticket.map((value) => { return value.ticket_count; }),
-                    seat_num: args.list_ticket.map((value) => { return value.seat_num; }),
-                },
-                useQuerystring: true
-            }, (error, response, body) => {
-                console.log("request processed.", error, (response) ? response.statusCode : undefined, body);
-                if (error) return cb(error, null);
-                if (typeof body === "string") return cb(new Error(body), null);
-                if (body.message) return cb(new Error(body.message), null);
-                if (body.status !== 0) return cb(new Error(body.status), null);
+        console.log("request processing...", args);
+        let body = await request.get({
+            simple: false,
+            url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_reserve/`,
+            auth: { bearer: credentials.access_token },
+            json: true,
+            qs: {
+                theater_code: args.theater_code,
+                date_jouei: args.date_jouei,
+                title_code: args.title_code,
+                title_branch_num: args.title_branch_num,
+                time_begin: args.time_begin,
+                tmp_reserve_num: args.tmp_reserve_num,
+                reserve_name: args.reserve_name,
+                reserve_name_jkana: args.reserve_name_jkana,
+                tel_num: args.tel_num,
+                mail_addr: args.mail_addr,
+                reserve_amount: args.reserve_amount,
+                ticket_code: args.list_ticket.map((value) => { return value.ticket_code; }),
+                std_price: args.list_ticket.map((value) => { return value.std_price; }),
+                add_price: args.list_ticket.map((value) => { return value.add_price; }),
+                dis_price: args.list_ticket.map((value) => { return value.dis_price; }),
+                sale_price: args.list_ticket.map((value) => { return value.sale_price; }),
+                ticket_count: args.list_ticket.map((value) => { return value.ticket_count; }),
+                seat_num: args.list_ticket.map((value) => { return value.seat_num; }),
+            },
+            useQuerystring: true
+        }).then(throwIfNot200);
+        console.log("request processed.", body);
 
-                cb(null, {
-                    reserve_num: body.reserve_num,
-                    list_qr: body.list_qr,
-                });
-            });
-        });
+        return {
+            reserve_num: body.reserve_num,
+            list_qr: body.list_qr,
+        };
     }
 }
 
@@ -775,37 +714,29 @@ export namespace deleteReserveInterface {
     }
     export interface Result {
     }
-    export function call(args: Args, cb: (err: Error | null, result: boolean) => void): void {
-        console.log("deleteReserve calling...", args);
-        publishAccessToken((err) => {
-            if (err) return cb(err, false);
+    export async function call(args: Args): Promise<void> {
+        await publishAccessToken();
 
-            request.get({
-                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_reserve/`,
-                auth: { bearer: credentials.access_token },
-                json: true,
-                qs: {
-                    theater_code: args.theater_code,
-                    date_jouei: args.date_jouei,
-                    title_code: args.title_code,
-                    title_branch_num: args.title_branch_num,
-                    time_begin: args.time_begin,
-                    reserve_num: args.reserve_num,
-                    tel_num: args.tel_num,
-                    seat_section: args.list_seat.map((value) => { return value.seat_section; }),
-                    seat_num: args.list_seat.map((value) => { return value.seat_num; }),
-                },
-                useQuerystring: true
-            }, (error, response, body) => {
-                console.log("request processed.", error, (response) ? response.statusCode : undefined, body);
-                if (error) return cb(error, false);
-                if (typeof body === "string") return cb(new Error(body), false);
-                if (body.message) return cb(new Error(body.message), false);
-                if (body.status !== 0) return cb(new Error(body.status), false);
-
-                cb(null, true);
-            });
-        });
+        console.log("request processing...", args);
+        let body = await request.get({
+            simple: false,
+            url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_reserve/`,
+            auth: { bearer: credentials.access_token },
+            json: true,
+            qs: {
+                theater_code: args.theater_code,
+                date_jouei: args.date_jouei,
+                title_code: args.title_code,
+                title_branch_num: args.title_branch_num,
+                time_begin: args.time_begin,
+                reserve_num: args.reserve_num,
+                tel_num: args.tel_num,
+                seat_section: args.list_seat.map((value) => { return value.seat_section; }),
+                seat_num: args.list_seat.map((value) => { return value.seat_num; }),
+            },
+            useQuerystring: true
+        }).then(throwIfNot200);
+        console.log("request processed.", body);
     }
 }
 
@@ -847,37 +778,31 @@ export namespace stateReserveInterface {
             ticket_count: number,
         }>
     }
-    export function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void {
-        console.log("stateReserve calling...", args);
-        publishAccessToken((err) => {
-            if (err) return cb(err, null);
+    export async function call(args: Args): Promise<Result> {
+        await publishAccessToken();
 
-            request.get({
-                url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve/`,
-                auth: { bearer: credentials.access_token },
-                json: true,
-                qs: {
-                    theater_code: args.theater_code,
-                    reserve_num: args.reserve_num,
-                    tel_num: args.tel_num,
-                },
-                useQuerystring: true
-            }, (error, response, body) => {
-                console.log("request processed.", error, (response) ? response.statusCode : undefined, body);
-                if (error) return cb(error, null);
-                if (typeof body === "string") return cb(new Error(body), null);
-                if (body.message) return cb(new Error(body.message), null);
-                if (body.status !== 0) return cb(new Error(body.status), null);
+        console.log("request processing...", args);
+        let body = await request.get({
+            simple: false,
+            url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve/`,
+            auth: { bearer: credentials.access_token },
+            json: true,
+            qs: {
+                theater_code: args.theater_code,
+                reserve_num: args.reserve_num,
+                tel_num: args.tel_num,
+            },
+            useQuerystring: true
+        }).then(throwIfNot200);
+        console.log("request processed.", body);
 
-                cb(null, {
-                    date_jouei: body.date_jouei,
-                    title_code: body.title_code,
-                    title_branch_num: body.title_branch_num,
-                    time_begin: body.time_begin,
-                    list_reserve_seat: body.list_reserve_seat,
-                    list_ticket: body.list_ticket,
-                });
-            });
-        });
+        return {
+            date_jouei: body.date_jouei,
+            title_code: body.title_code,
+            title_branch_num: body.title_branch_num,
+            time_begin: body.time_begin,
+            list_reserve_seat: body.list_reserve_seat,
+            list_ticket: body.list_ticket,
+        };
     }
 }

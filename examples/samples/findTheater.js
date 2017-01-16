@@ -6,6 +6,8 @@ COA.initialize({
 });
 COA.findTheaterInterface.call({
     theater_code: "001"
-}, (err, theater) => {
-    console.log('findTheaterInterface processed.', err, theater);
+}).then((theater) => {
+    console.log(theater);
+}).catch((err) => {
+    console.error(err.message);
 });

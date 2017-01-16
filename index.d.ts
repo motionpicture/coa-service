@@ -1,4 +1,3 @@
-/// <reference types="node" />
 export declare function initialize(args: {
     endpoint: string;
     refresh_token: string;
@@ -13,7 +12,7 @@ export declare namespace findTheaterInterface {
         theater_name_eng: string;
         theater_name_kana: string;
     }
-    function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void;
+    function call(args: Args): Promise<Result>;
 }
 export declare namespace findFilmsByTheaterCodeInterface {
     interface Args {
@@ -35,7 +34,7 @@ export declare namespace findFilmsByTheaterCodeInterface {
         date_begin: string;
         date_end: string;
     }
-    function call(args: Args, cb: (err: Error | null, results: Array<Result>) => void): void;
+    function call(args: Args): Promise<Result>;
 }
 export declare namespace findScreensByTheaterCodeInterface {
     interface Args {
@@ -55,7 +54,7 @@ export declare namespace findScreensByTheaterCodeInterface {
             flg_spare: string;
         }>;
     }
-    function call(args: Args, cb: (err: Error | null, results: Array<Result>) => void): void;
+    function call(args: Args): Promise<Array<Result>>;
 }
 export declare namespace findPerformancesByTheaterCodeInterface {
     interface Args {
@@ -75,7 +74,7 @@ export declare namespace findPerformancesByTheaterCodeInterface {
         kbn_acoustic: string;
         name_service_day: string;
     }
-    function call(args: Args, cb: (err: Error | null, results: Array<Result>) => void): void;
+    function call(args: Args): Promise<Array<Result>>;
 }
 export declare namespace reserveSeatsTemporarilyInterface {
     interface Args {
@@ -98,7 +97,7 @@ export declare namespace reserveSeatsTemporarilyInterface {
             sts_tmp_reserve: string;
         }>;
     }
-    function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void;
+    function call(args: Args): Promise<Result>;
 }
 export declare namespace deleteTmpReserveInterface {
     interface Args {
@@ -111,7 +110,7 @@ export declare namespace deleteTmpReserveInterface {
     }
     interface Result {
     }
-    function call(args: Args, cb: (err: Error | null, result: boolean) => void): void;
+    function call(args: Args): Promise<void>;
 }
 export declare namespace getStateReserveSeatInterface {
     interface Args {
@@ -132,7 +131,7 @@ export declare namespace getStateReserveSeatInterface {
             }>;
         }>;
     }
-    function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void;
+    function call(args: Args): Promise<Result>;
 }
 export declare namespace countFreeSeatInterface {
     interface Args {
@@ -155,7 +154,7 @@ export declare namespace countFreeSeatInterface {
             cnt_performance: number;
         }>;
     }
-    function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void;
+    function call(args: Args): Promise<Result>;
 }
 export declare namespace salesTicketInterface {
     interface Args {
@@ -179,7 +178,7 @@ export declare namespace salesTicketInterface {
             ticket_note: string;
         }>;
     }
-    function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void;
+    function call(args: Args): Promise<Result>;
 }
 export declare namespace ticketInterface {
     interface Args {
@@ -193,7 +192,7 @@ export declare namespace ticketInterface {
             ticket_name_eng: string;
         }>;
     }
-    function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void;
+    function call(args: Args): Promise<Result>;
 }
 export declare namespace updateReserveInterface {
     interface Args {
@@ -226,7 +225,7 @@ export declare namespace updateReserveInterface {
             seat_qrcode: string;
         }>;
     }
-    function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void;
+    function call(args: Args): Promise<Result>;
 }
 export declare namespace deleteReserveInterface {
     interface Args {
@@ -244,7 +243,7 @@ export declare namespace deleteReserveInterface {
     }
     interface Result {
     }
-    function call(args: Args, cb: (err: Error | null, result: boolean) => void): void;
+    function call(args: Args): Promise<void>;
 }
 export declare namespace stateReserveInterface {
     interface Args {
@@ -267,5 +266,5 @@ export declare namespace stateReserveInterface {
             ticket_count: number;
         }>;
     }
-    function call(args: Args, cb: (err: Error | null, result: Result | null) => void): void;
+    function call(args: Args): Promise<Result>;
 }
