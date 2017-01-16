@@ -34,7 +34,7 @@ export declare namespace findFilmsByTheaterCodeInterface {
         date_begin: string;
         date_end: string;
     }
-    function call(args: Args): Promise<Result>;
+    function call(args: Args): Promise<Array<Result>>;
 }
 export declare namespace findScreensByTheaterCodeInterface {
     interface Args {

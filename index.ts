@@ -124,7 +124,7 @@ export namespace findFilmsByTheaterCodeInterface {
         /** 公演終了予定日 */
         date_end: string
     };
-    export async function call(args: Args): Promise<Result> {
+    export async function call(args: Args): Promise<Array<Result>> {
         await publishAccessToken();
 
         console.log("request processing...", args);
