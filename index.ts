@@ -761,11 +761,6 @@ export namespace stateReserveInterface {
         title_branch_num: string,
         /** 上映時刻 */
         time_begin: string,
-        /** 予約座席リスト */
-        list_reserve_seat: Array<{
-            /** 座席番号 */
-            seat_num: string,
-        }>,
         /** 価格情報リスト */
         list_ticket: Array<{
             /** チケットコード */
@@ -776,6 +771,8 @@ export namespace stateReserveInterface {
             ticket_price: number,
             /** 枚数 */
             ticket_count: number,
+            /** 座席番号 */
+            seat_num: string,
         }>
     }
     export async function call(args: Args): Promise<Result> {
