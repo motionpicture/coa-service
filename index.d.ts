@@ -256,14 +256,12 @@ export declare namespace stateReserveInterface {
         title_code: string;
         title_branch_num: string;
         time_begin: string;
-        list_reserve_seat: Array<{
-            seat_num: string;
-        }>;
         list_ticket: Array<{
             ticket_code: string;
             ticket_name: string;
             ticket_price: number;
             ticket_count: number;
+            seat_num: string;
         }>;
     }
     function call(args: Args): Promise<Result>;
