@@ -388,7 +388,7 @@ var stateReserveInterface;
                 title_code: body.title_code,
                 title_branch_num: body.title_branch_num,
                 time_begin: body.time_begin,
-                list_reserve_seat: body.list_reserve_seat,
+                screen_code: body.screen_code,
                 list_ticket: body.list_ticket,
             };
         });

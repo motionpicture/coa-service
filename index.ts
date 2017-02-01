@@ -761,6 +761,8 @@ export namespace stateReserveInterface {
         title_branch_num: string,
         /** 上映時刻 */
         time_begin: string,
+        /** スクリーンコード */
+        screen_code: string,
         /** 価格情報リスト */
         list_ticket: Array<{
             /** チケットコード */
@@ -771,8 +773,12 @@ export namespace stateReserveInterface {
             ticket_price: number,
             /** 枚数 */
             ticket_count: number,
+            /** 座席セクション */
+            seat_section: string,
             /** 座席番号 */
             seat_num: string,
+            /** 座席入場QRコード */
+            seat_qrcode: string,
         }>
     }
     export async function call(args: Args): Promise<Result> {
@@ -798,7 +804,7 @@ export namespace stateReserveInterface {
             title_code: body.title_code,
             title_branch_num: body.title_branch_num,
             time_begin: body.time_begin,
-            list_reserve_seat: body.list_reserve_seat,
+            screen_code: body.screen_code,
             list_ticket: body.list_ticket,
         };
     }
