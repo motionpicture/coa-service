@@ -329,7 +329,7 @@ export namespace deleteTmpReserveInterface {
         /** 上映時刻 */
         time_begin: string,
         /** 座席チケット仮予約番号 */
-        tmp_reserve_num: string,
+        tmp_reserve_num: number,
     }
     export interface Result {
     }
@@ -603,7 +603,7 @@ export namespace updateReserveInterface {
         /** 上映時刻 */
         time_begin: string,
         /** 座席チケット仮予約番号 */
-        tmp_reserve_num: string,
+        tmp_reserve_num: number,
         /** 予約者名 */
         reserve_name: string,
         /** 予約者名（かな） */
@@ -634,7 +634,7 @@ export namespace updateReserveInterface {
     }
     export interface Result {
         /** 座席チケット購入番号 */
-        reserve_num: string,
+        reserve_num: number,
         /** 入場QRリスト */
         list_qr: Array<{
             /** 座席セクション */
@@ -701,7 +701,7 @@ export namespace deleteReserveInterface {
         /** 上映時刻 */
         time_begin: string,
         /** 座席チケット購入番号 */
-        reserve_num: string,
+        reserve_num: number,
         /** 電話番号 */
         tel_num: string,
         /** 座席単位削除リスト */
@@ -748,7 +748,7 @@ export namespace stateReserveInterface {
         /** 施設コード */
         theater_code: string,
         /** 座席チケット購入番号 */
-        reserve_num: string,
+        reserve_num: number,
         /** 電話番号 */
         tel_num: string,
     }

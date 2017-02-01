@@ -106,7 +106,7 @@ export declare namespace deleteTmpReserveInterface {
         title_code: string;
         title_branch_num: string;
         time_begin: string;
-        tmp_reserve_num: string;
+        tmp_reserve_num: number;
     }
     interface Result {
     }
@@ -201,7 +201,7 @@ export declare namespace updateReserveInterface {
         title_code: string;
         title_branch_num: string;
         time_begin: string;
-        tmp_reserve_num: string;
+        tmp_reserve_num: number;
         reserve_name: string;
         reserve_name_jkana: string;
         tel_num: string;
@@ -218,7 +218,7 @@ export declare namespace updateReserveInterface {
         }>;
     }
     interface Result {
-        reserve_num: string;
+        reserve_num: number;
         list_qr: Array<{
             seat_section: string;
             seat_num: string;
@@ -234,7 +234,7 @@ export declare namespace deleteReserveInterface {
         title_code: string;
         title_branch_num: string;
         time_begin: string;
-        reserve_num: string;
+        reserve_num: number;
         tel_num: string;
         list_seat: Array<{
             seat_section: string;
@@ -248,7 +248,7 @@ export declare namespace deleteReserveInterface {
 export declare namespace stateReserveInterface {
     interface Args {
         theater_code: string;
-        reserve_num: string;
+        reserve_num: number;
         tel_num: string;
     }
     interface Result {
