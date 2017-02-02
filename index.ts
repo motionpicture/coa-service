@@ -19,24 +19,27 @@ let credentials = {
 /**
  * アクセストークンを発行する
  */
-async function publishAccessToken(): Promise<void> {
+async function publishAccessToken() {
     if (!process.env.COA_ENDPOINT || !process.env.COA_REFRESH_TOKEN) throw new Error("coa-service requires initialization.");
 
     // アクセストークン有効期限チェック
-    if (credentials.access_token && Date.parse(credentials.expired_at) > Date.now()) return;
+    // ギリギリだと実際呼び出したサービス実行時に間に合わない可能性があるので、余裕を持ってチェック
+    if (!credentials.access_token || Date.parse(credentials.expired_at) < Date.now() - 60000) {
+        let body = await request.post({
+            simple: false,
+            url: `${process.env.COA_ENDPOINT}/token/access_token`,
+            form: {
+                refresh_token: process.env.COA_REFRESH_TOKEN
+            },
+            json: true
+        }).then(throwIfNot200);
+        console.log("request processed.", body);
 
-    let body = await request.post({
-        simple: false,
-        url: `${process.env.COA_ENDPOINT}/token/access_token`,
-        form: {
-            refresh_token: process.env.COA_REFRESH_TOKEN
-        },
-        json: true
-    }).then(throwIfNot200);
-    console.log("request processed.", body);
+        credentials = body;
+        console.log("credentials:", credentials);
+    }
 
-    credentials = body;
-    console.log("credentials:", credentials);
+    return credentials.access_token;
 }
 
 async function throwIfNot200(body: any): Promise<any> {
@@ -66,13 +69,11 @@ export namespace findTheaterInterface {
         theater_name_kana: string
     }
     export async function call(args: Args): Promise<Result> {
-        await publishAccessToken();
-
         console.log("request processing...", args);
         let body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/theater/`,
-            auth: { bearer: credentials.access_token },
+            auth: { bearer: await publishAccessToken() },
             json: true,
         }).then(throwIfNot200);
         console.log("request processed.", body);
@@ -125,13 +126,11 @@ export namespace findFilmsByTheaterCodeInterface {
         date_end: string
     };
     export async function call(args: Args): Promise<Array<Result>> {
-        await publishAccessToken();
-
         console.log("request processing...", args);
         let body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/title/`,
-            auth: { bearer: credentials.access_token },
+            auth: { bearer: await publishAccessToken() },
             json: true
         }).then(throwIfNot200);
         console.log("request processed.", body);
@@ -174,13 +173,11 @@ export namespace findScreensByTheaterCodeInterface {
         }>
     };
     export async function call(args: Args): Promise<Array<Result>> {
-        await publishAccessToken();
-
         console.log("request processing...", args);
         let body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/screen/`,
-            auth: { bearer: credentials.access_token },
+            auth: { bearer: await publishAccessToken() },
             json: true
         }).then(throwIfNot200);
         console.log("request processed.", body);
@@ -224,13 +221,11 @@ export namespace findPerformancesByTheaterCodeInterface {
         name_service_day: string,
     }
     export async function call(args: Args): Promise<Array<Result>> {
-        await publishAccessToken();
-
         console.log("request processing...", args);
         let body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/schedule/`,
-            auth: { bearer: credentials.access_token },
+            auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
                 begin: args.begin,
@@ -284,13 +279,11 @@ export namespace reserveSeatsTemporarilyInterface {
         }>
     }
     export async function call(args: Args): Promise<Result> {
-        await publishAccessToken();
-
         console.log("request processing...", args);
         let body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_tmp_reserve_seat/`,
-            auth: { bearer: credentials.access_token },
+            auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
                 date_jouei: args.date_jouei,
@@ -334,13 +327,11 @@ export namespace deleteTmpReserveInterface {
     export interface Result {
     }
     export async function call(args: Args): Promise<void> {
-        await publishAccessToken();
-
         console.log("request processing...", args);
         let body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_tmp_reserve/`,
-            auth: { bearer: credentials.access_token },
+            auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
                 date_jouei: args.date_jouei,
@@ -390,13 +381,11 @@ export namespace getStateReserveSeatInterface {
         }>
     }
     export async function call(args: Args): Promise<Result> {
-        await publishAccessToken();
-
         console.log("request processing...", args);
         let body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve_seat/`,
-            auth: { bearer: credentials.access_token },
+            auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
                 date_jouei: args.date_jouei,
@@ -456,13 +445,11 @@ export namespace countFreeSeatInterface {
         }>
     }
     export async function call(args: Args): Promise<Result> {
-        await publishAccessToken();
-
         console.log("request processing...", args);
         let body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/count_free_seat/`,
-            auth: { bearer: credentials.access_token },
+            auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
                 begin: args.begin,
@@ -521,13 +508,11 @@ export namespace salesTicketInterface {
         }>
     }
     export async function call(args: Args): Promise<Result> {
-        await publishAccessToken();
-
         console.log("request processing...", args);
         let body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/sales_ticket/`,
-            auth: { bearer: credentials.access_token },
+            auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
                 date_jouei: args.date_jouei,
@@ -567,13 +552,11 @@ export namespace ticketInterface {
         }>
     }
     export async function call(args: Args): Promise<Result> {
-        await publishAccessToken();
-
         console.log("request processing...", args);
         let body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/ticket/`,
-            auth: { bearer: credentials.access_token },
+            auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
             },
@@ -646,13 +629,11 @@ export namespace updateReserveInterface {
         }>
     }
     export async function call(args: Args): Promise<Result> {
-        await publishAccessToken();
-
         console.log("request processing...", args);
         let body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_reserve/`,
-            auth: { bearer: credentials.access_token },
+            auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
                 theater_code: args.theater_code,
@@ -715,13 +696,11 @@ export namespace deleteReserveInterface {
     export interface Result {
     }
     export async function call(args: Args): Promise<void> {
-        await publishAccessToken();
-
         console.log("request processing...", args);
         let body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_reserve/`,
-            auth: { bearer: credentials.access_token },
+            auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
                 theater_code: args.theater_code,
@@ -782,13 +761,11 @@ export namespace stateReserveInterface {
         }>
     }
     export async function call(args: Args): Promise<Result> {
-        await publishAccessToken();
-
         console.log("request processing...", args);
         let body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve/`,
-            auth: { bearer: credentials.access_token },
+            auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
                 theater_code: args.theater_code,

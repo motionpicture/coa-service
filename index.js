@@ -22,19 +22,20 @@ function publishAccessToken() {
     return __awaiter(this, void 0, void 0, function* () {
         if (!process.env.COA_ENDPOINT || !process.env.COA_REFRESH_TOKEN)
             throw new Error("coa-service requires initialization.");
-        if (credentials.access_token && Date.parse(credentials.expired_at) > Date.now())
-            return;
-        let body = yield request.post({
-            simple: false,
-            url: `${process.env.COA_ENDPOINT}/token/access_token`,
-            form: {
-                refresh_token: process.env.COA_REFRESH_TOKEN
-            },
-            json: true
-        }).then(throwIfNot200);
-        console.log("request processed.", body);
-        credentials = body;
-        console.log("credentials:", credentials);
+        if (!credentials.access_token || Date.parse(credentials.expired_at) < Date.now() - 60000) {
+            let body = yield request.post({
+                simple: false,
+                url: `${process.env.COA_ENDPOINT}/token/access_token`,
+                form: {
+                    refresh_token: process.env.COA_REFRESH_TOKEN
+                },
+                json: true
+            }).then(throwIfNot200);
+            console.log("request processed.", body);
+            credentials = body;
+            console.log("credentials:", credentials);
+        }
+        return credentials.access_token;
     });
 }
 function throwIfNot200(body) {
@@ -52,12 +53,11 @@ var findTheaterInterface;
 (function (findTheaterInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield publishAccessToken();
             console.log("request processing...", args);
             let body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/theater/`,
-                auth: { bearer: credentials.access_token },
+                auth: { bearer: yield publishAccessToken() },
                 json: true,
             }).then(throwIfNot200);
             console.log("request processed.", body);
@@ -76,12 +76,11 @@ var findFilmsByTheaterCodeInterface;
     ;
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield publishAccessToken();
             console.log("request processing...", args);
             let body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/title/`,
-                auth: { bearer: credentials.access_token },
+                auth: { bearer: yield publishAccessToken() },
                 json: true
             }).then(throwIfNot200);
             console.log("request processed.", body);
@@ -95,12 +94,11 @@ var findScreensByTheaterCodeInterface;
     ;
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield publishAccessToken();
             console.log("request processing...", args);
             let body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/screen/`,
-                auth: { bearer: credentials.access_token },
+                auth: { bearer: yield publishAccessToken() },
                 json: true
             }).then(throwIfNot200);
             console.log("request processed.", body);
@@ -113,12 +111,11 @@ var findPerformancesByTheaterCodeInterface;
 (function (findPerformancesByTheaterCodeInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield publishAccessToken();
             console.log("request processing...", args);
             let body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/schedule/`,
-                auth: { bearer: credentials.access_token },
+                auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
                     begin: args.begin,
@@ -135,12 +132,11 @@ var reserveSeatsTemporarilyInterface;
 (function (reserveSeatsTemporarilyInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield publishAccessToken();
             console.log("request processing...", args);
             let body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_tmp_reserve_seat/`,
-                auth: { bearer: credentials.access_token },
+                auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
                     date_jouei: args.date_jouei,
@@ -167,12 +163,11 @@ var deleteTmpReserveInterface;
 (function (deleteTmpReserveInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield publishAccessToken();
             console.log("request processing...", args);
             let body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_tmp_reserve/`,
-                auth: { bearer: credentials.access_token },
+                auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
                     date_jouei: args.date_jouei,
@@ -192,12 +187,11 @@ var getStateReserveSeatInterface;
 (function (getStateReserveSeatInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield publishAccessToken();
             console.log("request processing...", args);
             let body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve_seat/`,
-                auth: { bearer: credentials.access_token },
+                auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
                     date_jouei: args.date_jouei,
@@ -222,12 +216,11 @@ var countFreeSeatInterface;
 (function (countFreeSeatInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield publishAccessToken();
             console.log("request processing...", args);
             let body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/count_free_seat/`,
-                auth: { bearer: credentials.access_token },
+                auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
                     begin: args.begin,
@@ -248,12 +241,11 @@ var salesTicketInterface;
 (function (salesTicketInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield publishAccessToken();
             console.log("request processing...", args);
             let body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/sales_ticket/`,
-                auth: { bearer: credentials.access_token },
+                auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
                     date_jouei: args.date_jouei,
@@ -275,12 +267,11 @@ var ticketInterface;
 (function (ticketInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield publishAccessToken();
             console.log("request processing...", args);
             let body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/ticket/`,
-                auth: { bearer: credentials.access_token },
+                auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {},
                 useQuerystring: true
@@ -297,12 +288,11 @@ var updateReserveInterface;
 (function (updateReserveInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield publishAccessToken();
             console.log("request processing...", args);
             let body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_reserve/`,
-                auth: { bearer: credentials.access_token },
+                auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
                     theater_code: args.theater_code,
@@ -339,12 +329,11 @@ var deleteReserveInterface;
 (function (deleteReserveInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield publishAccessToken();
             console.log("request processing...", args);
             let body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_reserve/`,
-                auth: { bearer: credentials.access_token },
+                auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
                     theater_code: args.theater_code,
@@ -368,12 +357,11 @@ var stateReserveInterface;
 (function (stateReserveInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield publishAccessToken();
             console.log("request processing...", args);
             let body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve/`,
-                auth: { bearer: credentials.access_token },
+                auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
                     theater_code: args.theater_code,
