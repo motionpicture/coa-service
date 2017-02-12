@@ -13,17 +13,18 @@ function initialize(args) {
     process.env.COA_REFRESH_TOKEN = args.refresh_token;
 }
 exports.initialize = initialize;
-;
 let credentials = {
     access_token: "",
     expired_at: ""
 };
 function publishAccessToken() {
     return __awaiter(this, void 0, void 0, function* () {
-        if (!process.env.COA_ENDPOINT || !process.env.COA_REFRESH_TOKEN)
+        if (!process.env.COA_ENDPOINT || !process.env.COA_REFRESH_TOKEN) {
             throw new Error("coa-service requires initialization.");
-        if (!credentials.access_token || Date.parse(credentials.expired_at) < Date.now() - 60000) {
-            let body = yield request.post({
+        }
+        const SPARE_TIME = 60000;
+        if (!credentials.access_token || Date.parse(credentials.expired_at) < Date.now() - SPARE_TIME) {
+            const body = yield request.post({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/token/access_token`,
                 form: {
@@ -31,9 +32,7 @@ function publishAccessToken() {
                 },
                 json: true
             }).then(throwIfNot200);
-            console.log("request processed.", body);
             credentials = body;
-            console.log("credentials:", credentials);
         }
         return credentials.access_token;
     });
@@ -53,19 +52,17 @@ var findTheaterInterface;
 (function (findTheaterInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("request processing...", args);
-            let body = yield request.get({
+            const body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/theater/`,
                 auth: { bearer: yield publishAccessToken() },
-                json: true,
+                json: true
             }).then(throwIfNot200);
-            console.log("request processed.", body);
             return {
                 theater_code: body.theater_code,
                 theater_name: body.theater_name,
                 theater_name_eng: body.theater_name_eng,
-                theater_name_kana: body.theater_name_kana,
+                theater_name_kana: body.theater_name_kana
             };
         });
     }
@@ -73,17 +70,14 @@ var findTheaterInterface;
 })(findTheaterInterface = exports.findTheaterInterface || (exports.findTheaterInterface = {}));
 var findFilmsByTheaterCodeInterface;
 (function (findFilmsByTheaterCodeInterface) {
-    ;
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("request processing...", args);
-            let body = yield request.get({
+            const body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/title/`,
                 auth: { bearer: yield publishAccessToken() },
                 json: true
             }).then(throwIfNot200);
-            console.log("request processed.", body);
             return body.list_title;
         });
     }
@@ -91,17 +85,14 @@ var findFilmsByTheaterCodeInterface;
 })(findFilmsByTheaterCodeInterface = exports.findFilmsByTheaterCodeInterface || (exports.findFilmsByTheaterCodeInterface = {}));
 var findScreensByTheaterCodeInterface;
 (function (findScreensByTheaterCodeInterface) {
-    ;
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("request processing...", args);
-            let body = yield request.get({
+            const body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/screen/`,
                 auth: { bearer: yield publishAccessToken() },
                 json: true
             }).then(throwIfNot200);
-            console.log("request processed.", body);
             return body.list_screen;
         });
     }
@@ -111,8 +102,7 @@ var findPerformancesByTheaterCodeInterface;
 (function (findPerformancesByTheaterCodeInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("request processing...", args);
-            let body = yield request.get({
+            const body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/schedule/`,
                 auth: { bearer: yield publishAccessToken() },
@@ -122,7 +112,6 @@ var findPerformancesByTheaterCodeInterface;
                     end: args.end
                 }
             }).then(throwIfNot200);
-            console.log("request processed.", body);
             return body.list_schedule;
         });
     }
@@ -132,8 +121,7 @@ var reserveSeatsTemporarilyInterface;
 (function (reserveSeatsTemporarilyInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("request processing...", args);
-            let body = yield request.get({
+            const body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_tmp_reserve_seat/`,
                 auth: { bearer: yield publishAccessToken() },
@@ -144,13 +132,12 @@ var reserveSeatsTemporarilyInterface;
                     title_branch_num: args.title_branch_num,
                     time_begin: args.time_begin,
                     cnt_reserve_seat: args.list_seat.length,
-                    seat_section: args.list_seat.map((value) => { return value.seat_section; }),
-                    seat_num: args.list_seat.map((value) => { return value.seat_num; }),
-                    screen_code: args.screen_code,
+                    seat_section: args.list_seat.map((value) => value.seat_section),
+                    seat_num: args.list_seat.map((value) => value.seat_num),
+                    screen_code: args.screen_code
                 },
                 useQuerystring: true
             }).then(throwIfNot200);
-            console.log("request processed.", body);
             return {
                 tmp_reserve_num: body.tmp_reserve_num,
                 list_tmp_reserve: body.list_tmp_reserve
@@ -163,8 +150,7 @@ var deleteTmpReserveInterface;
 (function (deleteTmpReserveInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("request processing...", args);
-            let body = yield request.get({
+            yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_tmp_reserve/`,
                 auth: { bearer: yield publishAccessToken() },
@@ -174,11 +160,10 @@ var deleteTmpReserveInterface;
                     title_code: args.title_code,
                     title_branch_num: args.title_branch_num,
                     time_begin: args.time_begin,
-                    tmp_reserve_num: args.tmp_reserve_num,
+                    tmp_reserve_num: args.tmp_reserve_num
                 },
                 useQuerystring: true
             }).then(throwIfNot200);
-            console.log("request processed.", body);
         });
     }
     deleteTmpReserveInterface.call = call;
@@ -187,8 +172,7 @@ var getStateReserveSeatInterface;
 (function (getStateReserveSeatInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("request processing...", args);
-            let body = yield request.get({
+            const body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve_seat/`,
                 auth: { bearer: yield publishAccessToken() },
@@ -198,15 +182,14 @@ var getStateReserveSeatInterface;
                     title_code: args.title_code,
                     title_branch_num: args.title_branch_num,
                     time_begin: args.time_begin,
-                    screen_code: args.screen_code,
+                    screen_code: args.screen_code
                 },
                 useQuerystring: true
             }).then(throwIfNot200);
-            console.log("request processed.", body);
             return {
                 cnt_reserve_free: body.cnt_reserve_free,
                 cnt_seat_line: body.cnt_seat_line,
-                list_seat: body.list_seat,
+                list_seat: body.list_seat
             };
         });
     }
@@ -216,22 +199,20 @@ var countFreeSeatInterface;
 (function (countFreeSeatInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("request processing...", args);
-            let body = yield request.get({
+            const body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/count_free_seat/`,
                 auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
                     begin: args.begin,
-                    end: args.end,
+                    end: args.end
                 },
                 useQuerystring: true
             }).then(throwIfNot200);
-            console.log("request processed.", body);
             return {
                 theater_code: body.theater_code,
-                list_date: body.list_date,
+                list_date: body.list_date
             };
         });
     }
@@ -241,8 +222,7 @@ var salesTicketInterface;
 (function (salesTicketInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("request processing...", args);
-            let body = yield request.get({
+            const body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/sales_ticket/`,
                 auth: { bearer: yield publishAccessToken() },
@@ -251,13 +231,12 @@ var salesTicketInterface;
                     date_jouei: args.date_jouei,
                     title_code: args.title_code,
                     title_branch_num: args.title_branch_num,
-                    time_begin: args.time_begin,
+                    time_begin: args.time_begin
                 },
                 useQuerystring: true
             }).then(throwIfNot200);
-            console.log("request processed.", body);
             return {
-                list_ticket: body.list_ticket,
+                list_ticket: body.list_ticket
             };
         });
     }
@@ -267,8 +246,7 @@ var ticketInterface;
 (function (ticketInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("request processing...", args);
-            let body = yield request.get({
+            const body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/ticket/`,
                 auth: { bearer: yield publishAccessToken() },
@@ -276,9 +254,8 @@ var ticketInterface;
                 qs: {},
                 useQuerystring: true
             }).then(throwIfNot200);
-            console.log("request processed.", body);
             return {
-                list_ticket: body.list_ticket,
+                list_ticket: body.list_ticket
             };
         });
     }
@@ -288,8 +265,7 @@ var updateReserveInterface;
 (function (updateReserveInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("request processing...", args);
-            let body = yield request.get({
+            const body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_reserve/`,
                 auth: { bearer: yield publishAccessToken() },
@@ -306,20 +282,19 @@ var updateReserveInterface;
                     tel_num: args.tel_num,
                     mail_addr: args.mail_addr,
                     reserve_amount: args.reserve_amount,
-                    ticket_code: args.list_ticket.map((value) => { return value.ticket_code; }),
-                    std_price: args.list_ticket.map((value) => { return value.std_price; }),
-                    add_price: args.list_ticket.map((value) => { return value.add_price; }),
-                    dis_price: args.list_ticket.map((value) => { return value.dis_price; }),
-                    sale_price: args.list_ticket.map((value) => { return value.sale_price; }),
-                    ticket_count: args.list_ticket.map((value) => { return value.ticket_count; }),
-                    seat_num: args.list_ticket.map((value) => { return value.seat_num; }),
+                    ticket_code: args.list_ticket.map((value) => value.ticket_code),
+                    std_price: args.list_ticket.map((value) => value.std_price),
+                    add_price: args.list_ticket.map((value) => value.add_price),
+                    dis_price: args.list_ticket.map((value) => value.dis_price),
+                    sale_price: args.list_ticket.map((value) => value.sale_price),
+                    ticket_count: args.list_ticket.map((value) => value.ticket_count),
+                    seat_num: args.list_ticket.map((value) => value.seat_num)
                 },
                 useQuerystring: true
             }).then(throwIfNot200);
-            console.log("request processed.", body);
             return {
                 reserve_num: body.reserve_num,
-                list_qr: body.list_qr,
+                list_qr: body.list_qr
             };
         });
     }
@@ -329,8 +304,7 @@ var deleteReserveInterface;
 (function (deleteReserveInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("request processing...", args);
-            let body = yield request.get({
+            yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_reserve/`,
                 auth: { bearer: yield publishAccessToken() },
@@ -343,12 +317,11 @@ var deleteReserveInterface;
                     time_begin: args.time_begin,
                     reserve_num: args.reserve_num,
                     tel_num: args.tel_num,
-                    seat_section: args.list_seat.map((value) => { return value.seat_section; }),
-                    seat_num: args.list_seat.map((value) => { return value.seat_num; }),
+                    seat_section: args.list_seat.map((value) => value.seat_section),
+                    seat_num: args.list_seat.map((value) => value.seat_num)
                 },
                 useQuerystring: true
             }).then(throwIfNot200);
-            console.log("request processed.", body);
         });
     }
     deleteReserveInterface.call = call;
@@ -357,8 +330,7 @@ var stateReserveInterface;
 (function (stateReserveInterface) {
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("request processing...", args);
-            let body = yield request.get({
+            const body = yield request.get({
                 simple: false,
                 url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve/`,
                 auth: { bearer: yield publishAccessToken() },
@@ -366,18 +338,17 @@ var stateReserveInterface;
                 qs: {
                     theater_code: args.theater_code,
                     reserve_num: args.reserve_num,
-                    tel_num: args.tel_num,
+                    tel_num: args.tel_num
                 },
                 useQuerystring: true
             }).then(throwIfNot200);
-            console.log("request processed.", body);
             return {
                 date_jouei: body.date_jouei,
                 title_code: body.title_code,
                 title_branch_num: body.title_branch_num,
                 time_begin: body.time_begin,
                 screen_code: body.screen_code,
-                list_ticket: body.list_ticket,
+                list_ticket: body.list_ticket
             };
         });
     }

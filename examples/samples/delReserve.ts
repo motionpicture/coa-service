@@ -1,7 +1,9 @@
-import COA = require("../../index");
+import * as COA from "../../index";
 
 COA.initialize({
     endpoint: "http://coacinema.aa0.netvolante.jp",
+    // tslint:disable-next-line:max-line-length
+    // tslint:disable-next-line:ter-max-len
     refresh_token: "eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVkX2F0IjoxNDc5MjYwODQ4LCJhdXRoX2lkIjoiMzMxNSJ9.jx-w7D3YLP7UbY4mzJYC9xr368FiKWcpR2_L9mZfehQ"
 });
 
@@ -24,14 +26,15 @@ COA.deleteReserveInterface.call({
     list_seat: [
         {
             seat_section: "0",
-            seat_num: "Ｅ－１",
+            seat_num: "Ｅ－１"
         },
         {
             seat_section: "0",
-            seat_num: "Ｅ－２",
+            seat_num: "Ｅ－２"
         }
     ]
 }).then((result) => {
+    // tslint:disable-next-line:no-console
     console.log(result);
 }).catch((err) => {
     console.error(err.message);

@@ -1,5 +1,8 @@
-import request = require("request-promise-native");
+import * as request from "request-promise-native";
 
+/**
+ * COAAPIの設定値をセットする
+ */
 export function initialize(args: {
     /** APIエンドポイント */
     endpoint: string,
@@ -8,24 +11,27 @@ export function initialize(args: {
 }) {
     process.env.COA_ENDPOINT = args.endpoint;
     process.env.COA_REFRESH_TOKEN = args.refresh_token;
-};
+}
 
 /** API認証情報 */
 let credentials = {
     access_token: "",
     expired_at: ""
-}
+};
 
 /**
  * アクセストークンを発行する
  */
 async function publishAccessToken() {
-    if (!process.env.COA_ENDPOINT || !process.env.COA_REFRESH_TOKEN) throw new Error("coa-service requires initialization.");
+    if (!process.env.COA_ENDPOINT || !process.env.COA_REFRESH_TOKEN) {
+        throw new Error("coa-service requires initialization.");
+    }
 
     // アクセストークン有効期限チェック
     // ギリギリだと実際呼び出したサービス実行時に間に合わない可能性があるので、余裕を持ってチェック
-    if (!credentials.access_token || Date.parse(credentials.expired_at) < Date.now() - 60000) {
-        let body = await request.post({
+    const SPARE_TIME = 60000;
+    if (!credentials.access_token || Date.parse(credentials.expired_at) < Date.now() - SPARE_TIME) {
+        const body = await request.post({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/token/access_token`,
             form: {
@@ -33,10 +39,8 @@ async function publishAccessToken() {
             },
             json: true
         }).then(throwIfNot200);
-        console.log("request processed.", body);
 
         credentials = body;
-        console.log("credentials:", credentials);
     }
 
     return credentials.access_token;
@@ -56,33 +60,31 @@ async function throwIfNot200(body: any): Promise<any> {
 export namespace findTheaterInterface {
     export interface Args {
         /** 劇場コード */
-        theater_code: string
+        theater_code: string;
     }
     export interface Result {
         /** 施設コード */
-        theater_code: string,
+        theater_code: string;
         /** 施設名称 */
-        theater_name: string,
+        theater_name: string;
         /** 施設名称（カナ） */
-        theater_name_eng: string,
+        theater_name_eng: string;
         /** 施設名称（英） */
-        theater_name_kana: string
+        theater_name_kana: string;
     }
     export async function call(args: Args): Promise<Result> {
-        console.log("request processing...", args);
-        let body = await request.get({
+        const body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/theater/`,
             auth: { bearer: await publishAccessToken() },
-            json: true,
+            json: true
         }).then(throwIfNot200);
-        console.log("request processed.", body);
 
         return {
             theater_code: body.theater_code,
             theater_name: body.theater_name,
             theater_name_eng: body.theater_name_eng,
-            theater_name_kana: body.theater_name_kana,
+            theater_name_kana: body.theater_name_kana
         };
     }
 }
@@ -93,47 +95,45 @@ export namespace findTheaterInterface {
 export namespace findFilmsByTheaterCodeInterface {
     export interface Args {
         /** 劇場コード */
-        theater_code: string
+        theater_code: string;
     }
     export interface Result {
         /** 作品コード */
-        title_code: string,
+        title_code: string;
         /** 作品枝番 */
-        title_branch_num: string,
+        title_branch_num: string;
         /** 作品タイトル名 */
-        title_name: string,
+        title_name: string;
         /** 作品タイトル名（カナ） */
-        title_name_kana: string,
+        title_name_kana: string;
         /** 作品タイトル名（英） */
-        title_name_eng: string,
+        title_name_eng: string;
         /** 作品タイトル名省略 */
-        title_name_short: string,
+        title_name_short: string;
         /** 原題 */
-        title_name_orig: string,
+        title_name_orig: string;
         /** 映倫区分 */
-        kbn_eirin: string,
+        kbn_eirin: string;
         /** 映像区分 */
-        kbn_eizou: string,
+        kbn_eizou: string;
         /** 上映方式区分 */
-        kbn_joueihousiki: string,
+        kbn_joueihousiki: string;
         /** 字幕吹替区分 */
-        kbn_jimakufukikae: string,
+        kbn_jimakufukikae: string;
         /** 上映時間 */
-        show_time: number,
+        show_time: number;
         /** 公演開始予定日 */
-        date_begin: string,
+        date_begin: string;
         /** 公演終了予定日 */
-        date_end: string
-    };
+        date_end: string;
+    }
     export async function call(args: Args): Promise<Array<Result>> {
-        console.log("request processing...", args);
-        let body = await request.get({
+        const body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/title/`,
             auth: { bearer: await publishAccessToken() },
             json: true
         }).then(throwIfNot200);
-        console.log("request processed.", body);
 
         return body.list_title;
     }
@@ -145,15 +145,15 @@ export namespace findFilmsByTheaterCodeInterface {
 export namespace findScreensByTheaterCodeInterface {
     export interface Args {
         /** 劇場コード */
-        theater_code: string
+        theater_code: string;
     }
     export interface Result {
         /** スクリーンコード */
-        screen_code: string,
+        screen_code: string;
         /** スクリーン名 */
-        screen_name: string,
+        screen_name: string;
         /** スクリーン名（英） */
-        screen_name_eng: string,
+        screen_name_eng: string;
         /** 座席リスト */
         list_seat: Array<{
             /** 座席セクション */
@@ -170,17 +170,15 @@ export namespace findScreensByTheaterCodeInterface {
             flg_free: string,
             /** 予備席フラグ */
             flg_spare: string
-        }>
-    };
+        }>;
+    }
     export async function call(args: Args): Promise<Array<Result>> {
-        console.log("request processing...", args);
-        let body = await request.get({
+        const body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/screen/`,
             auth: { bearer: await publishAccessToken() },
             json: true
         }).then(throwIfNot200);
-        console.log("request processed.", body);
 
         return body.list_screen;
     }
@@ -192,37 +190,36 @@ export namespace findScreensByTheaterCodeInterface {
 export namespace findPerformancesByTheaterCodeInterface {
     export interface Args {
         /** 劇場コード */
-        theater_code: string,
-        /** スケジュールを抽出する上映日の開始日　　※日付は西暦8桁 "YYYYMMDD" */
-        begin: string,
-        /** スケジュールを抽出する上映日の終了日　　※日付は西暦8桁 "YYYYMMDD" */
-        end: string,
+        theater_code: string;
+        /** スケジュールを抽出する上映日の開始日 ※日付は西暦8桁 "YYYYMMDD" */
+        begin: string;
+        /** スケジュールを抽出する上映日の終了日 ※日付は西暦8桁 "YYYYMMDD" */
+        end: string;
     }
     export interface Result {
         /** 上映日 */
-        date_jouei: string,
+        date_jouei: string;
         /** 作品コード */
-        title_code: string,
+        title_code: string;
         /** 作品枝番 */
-        title_branch_num: string,
+        title_branch_num: string;
         /** 上映開始時刻 */
-        time_begin: string,
+        time_begin: string;
         /** 上映終了時刻 */
-        time_end: string,
+        time_end: string;
         /** スクリーンコード */
-        screen_code: string,
+        screen_code: string;
         /** トレーラー時間 */
-        trailer_time: number,
+        trailer_time: number;
         /** サービス区分 */
-        kbn_service: string,
+        kbn_service: string;
         /** 音響区分 */
-        kbn_acoustic: string,
+        kbn_acoustic: string;
         /** サービスデイ名称 */
-        name_service_day: string,
+        name_service_day: string;
     }
     export async function call(args: Args): Promise<Array<Result>> {
-        console.log("request processing...", args);
-        let body = await request.get({
+        const body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/schedule/`,
             auth: { bearer: await publishAccessToken() },
@@ -232,7 +229,6 @@ export namespace findPerformancesByTheaterCodeInterface {
                 end: args.end
             }
         }).then(throwIfNot200);
-        console.log("request processed.", body);
 
         return body.list_schedule;
     }
@@ -244,30 +240,30 @@ export namespace findPerformancesByTheaterCodeInterface {
 export namespace reserveSeatsTemporarilyInterface {
     export interface Args {
         /** 施設コード */
-        theater_code: string,
+        theater_code: string;
         /** 上映日 */
-        date_jouei: string,
+        date_jouei: string;
         /** 作品コード */
-        title_code: string,
+        title_code: string;
         /** 作品枝番 */
-        title_branch_num: string,
+        title_branch_num: string;
         /** 上映時刻 */
-        time_begin: string,
+        time_begin: string;
         /** 予約座席数 */
         // cnt_reserve_seat: number,
         /** スクリーンコード */
-        screen_code: string,
+        screen_code: string;
         /** 予約座席リスト */
         list_seat: Array<{
             /** 座席セクション */
             seat_section: string,
             /** 座席番号 */
-            seat_num: string,
-        }>
+            seat_num: string
+        }>;
     }
     export interface Result {
         /** 座席チケット仮予約番号 */
-        tmp_reserve_num: number,
+        tmp_reserve_num: number;
         /** 仮予約結果リスト(仮予約失敗時の座席毎の仮予約状況) */
         list_tmp_reserve: Array<{
             /** 座席セクション */
@@ -275,12 +271,11 @@ export namespace reserveSeatsTemporarilyInterface {
             /** 座席番号 */
             seat_num: string,
             /** 仮予約ステータス */
-            sts_tmp_reserve: string,
-        }>
+            sts_tmp_reserve: string
+        }>;
     }
     export async function call(args: Args): Promise<Result> {
-        console.log("request processing...", args);
-        let body = await request.get({
+        const body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_tmp_reserve_seat/`,
             auth: { bearer: await publishAccessToken() },
@@ -291,13 +286,12 @@ export namespace reserveSeatsTemporarilyInterface {
                 title_branch_num: args.title_branch_num,
                 time_begin: args.time_begin,
                 cnt_reserve_seat: args.list_seat.length,
-                seat_section: args.list_seat.map((value) => { return value.seat_section; }),
-                seat_num: args.list_seat.map((value) => { return value.seat_num; }),
-                screen_code: args.screen_code,
+                seat_section: args.list_seat.map((value) => value.seat_section),
+                seat_num: args.list_seat.map((value) => value.seat_num),
+                screen_code: args.screen_code
             },
             useQuerystring: true
         }).then(throwIfNot200);
-        console.log("request processed.", body);
 
         return {
             tmp_reserve_num: body.tmp_reserve_num,
@@ -312,23 +306,22 @@ export namespace reserveSeatsTemporarilyInterface {
 export namespace deleteTmpReserveInterface {
     export interface Args {
         /** 施設コード */
-        theater_code: string,
+        theater_code: string;
         /** 上映日 */
-        date_jouei: string,
+        date_jouei: string;
         /** 作品コード */
-        title_code: string,
+        title_code: string;
         /** 作品枝番 */
-        title_branch_num: string,
+        title_branch_num: string;
         /** 上映時刻 */
-        time_begin: string,
+        time_begin: string;
         /** 座席チケット仮予約番号 */
-        tmp_reserve_num: number,
+        tmp_reserve_num: number;
     }
-    export interface Result {
-    }
+    // export interface Result {
+    // }
     export async function call(args: Args): Promise<void> {
-        console.log("request processing...", args);
-        let body = await request.get({
+        await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_tmp_reserve/`,
             auth: { bearer: await publishAccessToken() },
@@ -338,11 +331,10 @@ export namespace deleteTmpReserveInterface {
                 title_code: args.title_code,
                 title_branch_num: args.title_branch_num,
                 time_begin: args.time_begin,
-                tmp_reserve_num: args.tmp_reserve_num,
+                tmp_reserve_num: args.tmp_reserve_num
             },
             useQuerystring: true
         }).then(throwIfNot200);
-        console.log("request processed.", body);
     }
 }
 
@@ -352,23 +344,23 @@ export namespace deleteTmpReserveInterface {
 export namespace getStateReserveSeatInterface {
     export interface Args {
         /** 施設コード */
-        theater_code: string,
+        theater_code: string;
         /** 上映日 */
-        date_jouei: string,
+        date_jouei: string;
         /** 作品コード */
-        title_code: string,
+        title_code: string;
         /** 作品枝番 */
-        title_branch_num: string,
+        title_branch_num: string;
         /** 上映時刻 */
-        time_begin: string,
+        time_begin: string;
         /** スクリーンコード */
-        screen_code: string,
+        screen_code: string;
     }
     export interface Result {
         /** 予約可能残席数 */
-        cnt_reserve_free: number,
+        cnt_reserve_free: number;
         /** 座席列数 */
-        cnt_seat_line: number,
+        cnt_seat_line: number;
         /** 座席リスト */
         list_seat: Array<{
             /** 座席セクション */
@@ -376,13 +368,12 @@ export namespace getStateReserveSeatInterface {
             /** 空席リスト */
             list_free_seat: Array<{
                 /** 座席番号 */
-                seat_num: string,
+                seat_num: string
             }>
-        }>
+        }>;
     }
     export async function call(args: Args): Promise<Result> {
-        console.log("request processing...", args);
-        let body = await request.get({
+        const body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve_seat/`,
             auth: { bearer: await publishAccessToken() },
@@ -392,16 +383,15 @@ export namespace getStateReserveSeatInterface {
                 title_code: args.title_code,
                 title_branch_num: args.title_branch_num,
                 time_begin: args.time_begin,
-                screen_code: args.screen_code,
+                screen_code: args.screen_code
             },
             useQuerystring: true
         }).then(throwIfNot200);
-        console.log("request processed.", body);
 
         return {
             cnt_reserve_free: body.cnt_reserve_free,
             cnt_seat_line: body.cnt_seat_line,
-            list_seat: body.list_seat,
+            list_seat: body.list_seat
         };
     }
 }
@@ -412,15 +402,15 @@ export namespace getStateReserveSeatInterface {
 export namespace countFreeSeatInterface {
     export interface Args {
         /** 劇場コード */
-        theater_code: string,
-        /** 空席情報を抽出する上映日の開始日　　※日付は西暦8桁 "YYYYMMDD" */
-        begin: string,
-        /** 空席情報を抽出する上映日の終了日　　※日付は西暦8桁 "YYYYMMDD" */
-        end: string,
+        theater_code: string;
+        /** 空席情報を抽出する上映日の開始日 ※日付は西暦8桁 "YYYYMMDD" */
+        begin: string;
+        /** 空席情報を抽出する上映日の終了日 ※日付は西暦8桁 "YYYYMMDD" */
+        end: string;
     }
     export interface Result {
         /** 施設コード */
-        theater_code: string,
+        theater_code: string;
         /** 日程リスト */
         list_date: Array<{
             /** 上映日(日付は西暦8桁 "YYYYMMDD") */
@@ -438,30 +428,28 @@ export namespace countFreeSeatInterface {
                 /** 予約可能数(パフォーマンスの予約可能座席数) */
                 cnt_reserve_max: number,
                 /** 予約可能残席数(予約可能座席数から仮予約を含む予約数を引いた残席数) */
-                cnt_reserve_free: number,
+                cnt_reserve_free: number
             }>,
             /** パフォーマンス数 */
-            cnt_performance: number,
-        }>
+            cnt_performance: number
+        }>;
     }
     export async function call(args: Args): Promise<Result> {
-        console.log("request processing...", args);
-        let body = await request.get({
+        const body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/count_free_seat/`,
             auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
                 begin: args.begin,
-                end: args.end,
+                end: args.end
             },
             useQuerystring: true
         }).then(throwIfNot200);
-        console.log("request processed.", body);
 
         return {
             theater_code: body.theater_code,
-            list_date: body.list_date,
+            list_date: body.list_date
         };
     }
 }
@@ -472,15 +460,15 @@ export namespace countFreeSeatInterface {
 export namespace salesTicketInterface {
     export interface Args {
         /** 施設コード */
-        theater_code: string,
+        theater_code: string;
         /** 上映日 */
-        date_jouei: string,
+        date_jouei: string;
         /** 作品コード */
-        title_code: string,
+        title_code: string;
         /** 作品枝番 */
-        title_branch_num: string,
+        title_branch_num: string;
         /** 上映時刻 */
-        time_begin: string,
+        time_begin: string;
     }
     export interface Result {
         /** 購入可能チケット情報リスト */
@@ -504,12 +492,11 @@ export namespace salesTicketInterface {
             /** 制限単位(１：ｎ人単位、２：ｎ人以上) */
             limit_unit: string,
             /** チケット備考(注意事項等) */
-            ticket_note: string,
-        }>
+            ticket_note: string
+        }>;
     }
     export async function call(args: Args): Promise<Result> {
-        console.log("request processing...", args);
-        let body = await request.get({
+        const body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/sales_ticket/`,
             auth: { bearer: await publishAccessToken() },
@@ -518,14 +505,13 @@ export namespace salesTicketInterface {
                 date_jouei: args.date_jouei,
                 title_code: args.title_code,
                 title_branch_num: args.title_branch_num,
-                time_begin: args.time_begin,
+                time_begin: args.time_begin
             },
             useQuerystring: true
         }).then(throwIfNot200);
-        console.log("request processed.", body);
 
         return {
-            list_ticket: body.list_ticket,
+            list_ticket: body.list_ticket
         };
     }
 }
@@ -536,7 +522,7 @@ export namespace salesTicketInterface {
 export namespace ticketInterface {
     export interface Args {
         /** 施設コード */
-        theater_code: string
+        theater_code: string;
     }
     export interface Result {
         /** 券種リスト */
@@ -548,12 +534,11 @@ export namespace ticketInterface {
             /** チケット名(カナ) */
             ticket_name_kana: string,
             /** チケット名(英) */
-            ticket_name_eng: string,
-        }>
+            ticket_name_eng: string
+        }>;
     }
     export async function call(args: Args): Promise<Result> {
-        console.log("request processing...", args);
-        let body = await request.get({
+        const body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/ticket/`,
             auth: { bearer: await publishAccessToken() },
@@ -562,10 +547,9 @@ export namespace ticketInterface {
             },
             useQuerystring: true
         }).then(throwIfNot200);
-        console.log("request processed.", body);
 
         return {
-            list_ticket: body.list_ticket,
+            list_ticket: body.list_ticket
         };
     }
 }
@@ -576,27 +560,27 @@ export namespace ticketInterface {
 export namespace updateReserveInterface {
     export interface Args {
         /** 施設コード */
-        theater_code: string,
+        theater_code: string;
         /** 上映日 */
-        date_jouei: string,
+        date_jouei: string;
         /** 作品コード */
-        title_code: string,
+        title_code: string;
         /** 作品枝番 */
-        title_branch_num: string,
+        title_branch_num: string;
         /** 上映時刻 */
-        time_begin: string,
+        time_begin: string;
         /** 座席チケット仮予約番号 */
-        tmp_reserve_num: number,
+        tmp_reserve_num: number;
         /** 予約者名 */
-        reserve_name: string,
+        reserve_name: string;
         /** 予約者名（かな） */
-        reserve_name_jkana: string,
+        reserve_name_jkana: string;
         /** 電話番号 */
-        tel_num: string,
+        tel_num: string;
         /** メールアドレス */
-        mail_addr: string,
+        mail_addr: string;
         /** 予約金額 */
-        reserve_amount: number,
+        reserve_amount: number;
         /** 価格情報リスト */
         list_ticket: Array<{
             /** チケットコード */
@@ -612,12 +596,12 @@ export namespace updateReserveInterface {
             /** 枚数 */
             ticket_count: number,
             /** 座席番号 */
-            seat_num: string,
-        }>
+            seat_num: string
+        }>;
     }
     export interface Result {
         /** 座席チケット購入番号 */
-        reserve_num: number,
+        reserve_num: number;
         /** 入場QRリスト */
         list_qr: Array<{
             /** 座席セクション */
@@ -625,12 +609,11 @@ export namespace updateReserveInterface {
             /** 座席番号 */
             seat_num: string,
             /** 座席入場QRコード */
-            seat_qrcode: string,
-        }>
+            seat_qrcode: string
+        }>;
     }
     export async function call(args: Args): Promise<Result> {
-        console.log("request processing...", args);
-        let body = await request.get({
+        const body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_reserve/`,
             auth: { bearer: await publishAccessToken() },
@@ -647,21 +630,20 @@ export namespace updateReserveInterface {
                 tel_num: args.tel_num,
                 mail_addr: args.mail_addr,
                 reserve_amount: args.reserve_amount,
-                ticket_code: args.list_ticket.map((value) => { return value.ticket_code; }),
-                std_price: args.list_ticket.map((value) => { return value.std_price; }),
-                add_price: args.list_ticket.map((value) => { return value.add_price; }),
-                dis_price: args.list_ticket.map((value) => { return value.dis_price; }),
-                sale_price: args.list_ticket.map((value) => { return value.sale_price; }),
-                ticket_count: args.list_ticket.map((value) => { return value.ticket_count; }),
-                seat_num: args.list_ticket.map((value) => { return value.seat_num; }),
+                ticket_code: args.list_ticket.map((value) => value.ticket_code),
+                std_price: args.list_ticket.map((value) => value.std_price),
+                add_price: args.list_ticket.map((value) => value.add_price),
+                dis_price: args.list_ticket.map((value) => value.dis_price),
+                sale_price: args.list_ticket.map((value) => value.sale_price),
+                ticket_count: args.list_ticket.map((value) => value.ticket_count),
+                seat_num: args.list_ticket.map((value) => value.seat_num)
             },
             useQuerystring: true
         }).then(throwIfNot200);
-        console.log("request processed.", body);
 
         return {
             reserve_num: body.reserve_num,
-            list_qr: body.list_qr,
+            list_qr: body.list_qr
         };
     }
 }
@@ -672,32 +654,31 @@ export namespace updateReserveInterface {
 export namespace deleteReserveInterface {
     export interface Args {
         /** 施設コード */
-        theater_code: string,
+        theater_code: string;
         /** 上映日 */
-        date_jouei: string,
+        date_jouei: string;
         /** 作品コード */
-        title_code: string,
+        title_code: string;
         /** 作品枝番 */
-        title_branch_num: string,
+        title_branch_num: string;
         /** 上映時刻 */
-        time_begin: string,
+        time_begin: string;
         /** 座席チケット購入番号 */
-        reserve_num: number,
+        reserve_num: number;
         /** 電話番号 */
-        tel_num: string,
+        tel_num: string;
         /** 座席単位削除リスト */
         list_seat: Array<{
             /** 座席セクション */
             seat_section: string,
             /** 座席番号 */
-            seat_num: string,
-        }>
+            seat_num: string
+        }>;
     }
-    export interface Result {
-    }
+    // export interface Result {
+    // }
     export async function call(args: Args): Promise<void> {
-        console.log("request processing...", args);
-        let body = await request.get({
+        await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_reserve/`,
             auth: { bearer: await publishAccessToken() },
@@ -710,12 +691,11 @@ export namespace deleteReserveInterface {
                 time_begin: args.time_begin,
                 reserve_num: args.reserve_num,
                 tel_num: args.tel_num,
-                seat_section: args.list_seat.map((value) => { return value.seat_section; }),
-                seat_num: args.list_seat.map((value) => { return value.seat_num; }),
+                seat_section: args.list_seat.map((value) => value.seat_section),
+                seat_num: args.list_seat.map((value) => value.seat_num)
             },
             useQuerystring: true
         }).then(throwIfNot200);
-        console.log("request processed.", body);
     }
 }
 
@@ -725,23 +705,23 @@ export namespace deleteReserveInterface {
 export namespace stateReserveInterface {
     export interface Args {
         /** 施設コード */
-        theater_code: string,
+        theater_code: string;
         /** 座席チケット購入番号 */
-        reserve_num: number,
+        reserve_num: number;
         /** 電話番号 */
-        tel_num: string,
+        tel_num: string;
     }
     export interface Result {
         /** 上映日 */
-        date_jouei: string,
+        date_jouei: string;
         /** 作品コード */
-        title_code: string,
+        title_code: string;
         /** 作品枝番 */
-        title_branch_num: string,
+        title_branch_num: string;
         /** 上映時刻 */
-        time_begin: string,
+        time_begin: string;
         /** スクリーンコード */
-        screen_code: string,
+        screen_code: string;
         /** 価格情報リスト */
         list_ticket: Array<{
             /** チケットコード */
@@ -757,12 +737,11 @@ export namespace stateReserveInterface {
             /** 座席番号 */
             seat_num: string,
             /** 座席入場QRコード */
-            seat_qrcode: string,
-        }>
+            seat_qrcode: string
+        }>;
     }
     export async function call(args: Args): Promise<Result> {
-        console.log("request processing...", args);
-        let body = await request.get({
+        const body = await request.get({
             simple: false,
             url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve/`,
             auth: { bearer: await publishAccessToken() },
@@ -770,11 +749,10 @@ export namespace stateReserveInterface {
             qs: {
                 theater_code: args.theater_code,
                 reserve_num: args.reserve_num,
-                tel_num: args.tel_num,
+                tel_num: args.tel_num
             },
             useQuerystring: true
         }).then(throwIfNot200);
-        console.log("request processed.", body);
 
         return {
             date_jouei: body.date_jouei,
@@ -782,7 +760,7 @@ export namespace stateReserveInterface {
             title_branch_num: body.title_branch_num,
             time_begin: body.time_begin,
             screen_code: body.screen_code,
-            list_ticket: body.list_ticket,
+            list_ticket: body.list_ticket
         };
     }
 }

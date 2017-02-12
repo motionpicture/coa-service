@@ -7,7 +7,7 @@ COA.initialize({
 COA.stateReserveInterface.call({
     theater_code: "001",
     reserve_num: 11586,
-    tel_num: "09012345678",
+    tel_num: "09012345678"
 }).then((result) => {
     console.log(result);
 }).catch((err) => {

@@ -15,11 +15,11 @@ COA.deleteReserveInterface.call({
     list_seat: [
         {
             seat_section: "0",
-            seat_num: "Ｅ－１",
+            seat_num: "Ｅ－１"
         },
         {
             seat_section: "0",
-            seat_num: "Ｅ－２",
+            seat_num: "Ｅ－２"
         }
     ]
 }).then((result) => {
