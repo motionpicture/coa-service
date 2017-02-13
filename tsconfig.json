@@ -28,7 +28,7 @@
         "noUnusedParameters": true,
         "preserveConstEnums": false,
         "pretty": false,
-        "removeComments": true,
+        "removeComments": false,
         "sourceMap": false,
         "strictNullChecks": true,
         "stripInternal": false,

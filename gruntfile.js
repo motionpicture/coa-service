@@ -19,12 +19,13 @@ module.exports = function (grunt) {
       options: {
         configuration: "tslint.json",
         force: false,
-        fix: true
+        fix: false,
+        project: "tsconfig.json",
+        "type-check": true
       },
       files: {
         src: [
-          "index.ts",
-          "examples/**/*.ts",
+          "index.ts"
         ]
       }
     },
