@@ -24,8 +24,8 @@ exports.initialize = initialize;
  * @ignore
  */
 let credentials = {
-    access_token: "",
-    expired_at: ""
+    access_token: '',
+    expired_at: ''
 };
 /**
  * アクセストークンを発行する
@@ -35,7 +35,7 @@ let credentials = {
 function publishAccessToken() {
     return __awaiter(this, void 0, void 0, function* () {
         if (!process.env.COA_ENDPOINT || !process.env.COA_REFRESH_TOKEN) {
-            throw new Error("coa-service requires initialization.");
+            throw new Error('coa-service requires initialization.');
         }
         // アクセストークン有効期限チェック
         // ギリギリだと実際呼び出したサービス実行時に間に合わない可能性があるので、余裕を持ってチェック
@@ -43,7 +43,7 @@ function publishAccessToken() {
         if (!credentials.access_token || Date.parse(credentials.expired_at) < Date.now() - SPARE_TIME) {
             const body = yield request.post({
                 simple: false,
-                url: process.env.COA_ENDPOINT + "/token/access_token",
+                url: process.env.COA_ENDPOINT + '/token/access_token',
                 form: {
                     refresh_token: process.env.COA_REFRESH_TOKEN
                 },
@@ -56,7 +56,7 @@ function publishAccessToken() {
 }
 function throwIfNot200(body) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (typeof body === "string")
+        if (typeof body === 'string')
             throw new Error(body);
         if (body.message)
             throw new Error(body.message);
@@ -72,11 +72,17 @@ function throwIfNot200(body) {
  */
 var findTheaterInterface;
 (function (findTheaterInterface) {
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf findTheaterInterface
+     */
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
             const body = yield request.get({
                 simple: false,
-                url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/theater/",
+                url: process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/theater/',
                 auth: { bearer: yield publishAccessToken() },
                 json: true
             }).then(throwIfNot200);
@@ -97,11 +103,17 @@ var findTheaterInterface;
  */
 var findFilmsByTheaterCodeInterface;
 (function (findFilmsByTheaterCodeInterface) {
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf findFilmsByTheaterCodeInterface
+     */
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
             const body = yield request.get({
                 simple: false,
-                url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/title/",
+                url: process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/title/',
                 auth: { bearer: yield publishAccessToken() },
                 json: true
             }).then(throwIfNot200);
@@ -117,11 +129,17 @@ var findFilmsByTheaterCodeInterface;
  */
 var findScreensByTheaterCodeInterface;
 (function (findScreensByTheaterCodeInterface) {
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf findScreensByTheaterCodeInterface
+     */
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
             const body = yield request.get({
                 simple: false,
-                url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/screen/",
+                url: process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/screen/',
                 auth: { bearer: yield publishAccessToken() },
                 json: true
             }).then(throwIfNot200);
@@ -137,11 +155,17 @@ var findScreensByTheaterCodeInterface;
  */
 var findPerformancesByTheaterCodeInterface;
 (function (findPerformancesByTheaterCodeInterface) {
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf findPerformancesByTheaterCodeInterface
+     */
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
             const body = yield request.get({
                 simple: false,
-                url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/schedule/",
+                url: process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/schedule/',
                 auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
@@ -161,11 +185,17 @@ var findPerformancesByTheaterCodeInterface;
  */
 var reserveSeatsTemporarilyInterface;
 (function (reserveSeatsTemporarilyInterface) {
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf reserveSeatsTemporarilyInterface
+     */
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
             const body = yield request.get({
                 simple: false,
-                url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/upd_tmp_reserve_seat/",
+                url: process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/upd_tmp_reserve_seat/',
                 auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
@@ -197,11 +227,17 @@ var deleteTmpReserveInterface;
 (function (deleteTmpReserveInterface) {
     // export interface Result {
     // }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf deleteTmpReserveInterface
+     */
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
             yield request.get({
                 simple: false,
-                url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/del_tmp_reserve/",
+                url: process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/del_tmp_reserve/',
                 auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
@@ -224,11 +260,17 @@ var deleteTmpReserveInterface;
  */
 var getStateReserveSeatInterface;
 (function (getStateReserveSeatInterface) {
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf getStateReserveSeatInterface
+     */
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
             const body = yield request.get({
                 simple: false,
-                url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/state_reserve_seat/",
+                url: process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/state_reserve_seat/',
                 auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
@@ -256,11 +298,17 @@ var getStateReserveSeatInterface;
  */
 var countFreeSeatInterface;
 (function (countFreeSeatInterface) {
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf countFreeSeatInterface
+     */
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
             const body = yield request.get({
                 simple: false,
-                url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/count_free_seat/",
+                url: process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/count_free_seat/',
                 auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
@@ -284,11 +332,17 @@ var countFreeSeatInterface;
  */
 var salesTicketInterface;
 (function (salesTicketInterface) {
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf salesTicketInterface
+     */
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
             const body = yield request.get({
                 simple: false,
-                url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/sales_ticket/",
+                url: process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/sales_ticket/',
                 auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
@@ -313,11 +367,17 @@ var salesTicketInterface;
  */
 var ticketInterface;
 (function (ticketInterface) {
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf ticketInterface
+     */
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
             const body = yield request.get({
                 simple: false,
-                url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/ticket/",
+                url: process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/ticket/',
                 auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {},
@@ -337,11 +397,17 @@ var ticketInterface;
  */
 var updateReserveInterface;
 (function (updateReserveInterface) {
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf updateReserveInterface
+     */
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
             const body = yield request.get({
                 simple: false,
-                url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/upd_reserve/",
+                url: process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/upd_reserve/',
                 auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
@@ -383,11 +449,17 @@ var deleteReserveInterface;
 (function (deleteReserveInterface) {
     // export interface Result {
     // }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf deleteReserveInterface
+     */
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
             yield request.get({
                 simple: false,
-                url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/del_reserve/",
+                url: process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/del_reserve/',
                 auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {
@@ -414,11 +486,17 @@ var deleteReserveInterface;
  */
 var stateReserveInterface;
 (function (stateReserveInterface) {
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf stateReserveInterface
+     */
     function call(args) {
         return __awaiter(this, void 0, void 0, function* () {
             const body = yield request.get({
                 simple: false,
-                url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/state_reserve/",
+                url: process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/state_reserve/',
                 auth: { bearer: yield publishAccessToken() },
                 json: true,
                 qs: {

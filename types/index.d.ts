@@ -43,6 +43,12 @@ export declare namespace findTheaterInterface {
          */
         theater_name_kana: string;
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf findTheaterInterface
+     */
     function call(args: Args): Promise<Result>;
 }
 /**
@@ -115,6 +121,12 @@ export declare namespace findFilmsByTheaterCodeInterface {
          */
         date_end: string;
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf findFilmsByTheaterCodeInterface
+     */
     function call(args: Args): Promise<Result[]>;
 }
 /**
@@ -177,6 +189,12 @@ export declare namespace findScreensByTheaterCodeInterface {
          */
         list_seat: Seat[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf findScreensByTheaterCodeInterface
+     */
     function call(args: Args): Promise<Result[]>;
 }
 /**
@@ -191,11 +209,11 @@ export declare namespace findPerformancesByTheaterCodeInterface {
          */
         theater_code: string;
         /**
-         * スケジュールを抽出する上映日の開始日 ※日付は西暦8桁 "YYYYMMDD"
+         * スケジュールを抽出する上映日の開始日 ※日付は西暦8桁 'YYYYMMDD'
          */
         begin: string;
         /**
-         * スケジュールを抽出する上映日の終了日 ※日付は西暦8桁 "YYYYMMDD"
+         * スケジュールを抽出する上映日の終了日 ※日付は西暦8桁 'YYYYMMDD'
          */
         end: string;
     }
@@ -241,6 +259,12 @@ export declare namespace findPerformancesByTheaterCodeInterface {
          */
         name_service_day: string;
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf findPerformancesByTheaterCodeInterface
+     */
     function call(args: Args): Promise<Result[]>;
 }
 /**
@@ -316,6 +340,12 @@ export declare namespace reserveSeatsTemporarilyInterface {
          */
         list_tmp_reserve: TmpReserve[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf reserveSeatsTemporarilyInterface
+     */
     function call(args: Args): Promise<Result>;
 }
 /**
@@ -350,6 +380,12 @@ export declare namespace deleteTmpReserveInterface {
          */
         tmp_reserve_num: number;
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf deleteTmpReserveInterface
+     */
     function call(args: Args): Promise<void>;
 }
 /**
@@ -414,6 +450,12 @@ export declare namespace getStateReserveSeatInterface {
          */
         list_seat: Seat[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf getStateReserveSeatInterface
+     */
     function call(args: Args): Promise<Result>;
 }
 /**
@@ -428,11 +470,11 @@ export declare namespace countFreeSeatInterface {
          */
         theater_code: string;
         /**
-         * 空席情報を抽出する上映日の開始日 ※日付は西暦8桁 "YYYYMMDD"
+         * 空席情報を抽出する上映日の開始日 ※日付は西暦8桁 'YYYYMMDD'
          */
         begin: string;
         /**
-         * 空席情報を抽出する上映日の終了日 ※日付は西暦8桁 "YYYYMMDD"
+         * 空席情報を抽出する上映日の終了日 ※日付は西暦8桁 'YYYYMMDD'
          */
         end: string;
     }
@@ -446,7 +488,7 @@ export declare namespace countFreeSeatInterface {
          */
         title_branch_num: string;
         /**
-         * 上映開始時刻(4桁 "HHMM")
+         * 上映開始時刻(4桁 'HHMM')
          */
         time_begin: string;
         /**
@@ -464,7 +506,7 @@ export declare namespace countFreeSeatInterface {
     }
     interface Date {
         /**
-         * 上映日(日付は西暦8桁 "YYYYMMDD")
+         * 上映日(日付は西暦8桁 'YYYYMMDD')
          */
         date_jouei: string;
         /**
@@ -486,6 +528,12 @@ export declare namespace countFreeSeatInterface {
          */
         list_date: Date[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf countFreeSeatInterface
+     */
     function call(args: Args): Promise<Result>;
 }
 /**
@@ -564,6 +612,12 @@ export declare namespace salesTicketInterface {
          */
         list_ticket: Ticket[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf salesTicketInterface
+     */
     function call(args: Args): Promise<Result>;
 }
 /**
@@ -602,6 +656,12 @@ export declare namespace ticketInterface {
          */
         list_ticket: Ticket[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf ticketInterface
+     */
     function call(args: Args): Promise<Result>;
 }
 /**
@@ -714,6 +774,12 @@ export declare namespace updateReserveInterface {
          */
         list_qr: QR[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf updateReserveInterface
+     */
     function call(args: Args): Promise<Result>;
 }
 /**
@@ -766,6 +832,12 @@ export declare namespace deleteReserveInterface {
          */
         list_seat: Seat[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf deleteReserveInterface
+     */
     function call(args: Args): Promise<void>;
 }
 /**
@@ -844,5 +916,11 @@ export declare namespace stateReserveInterface {
          */
         list_ticket: Ticket[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf stateReserveInterface
+     */
     function call(args: Args): Promise<Result>;
 }

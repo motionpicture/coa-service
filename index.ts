@@ -96,6 +96,12 @@ export namespace findTheaterInterface {
          */
         theater_name_kana: string;
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf findTheaterInterface
+     */
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
@@ -183,6 +189,12 @@ export namespace findFilmsByTheaterCodeInterface {
          */
         date_end: string;
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf findFilmsByTheaterCodeInterface
+     */
     export async function call(args: Args): Promise<Result[]> {
         const body = await request.get({
             simple: false,
@@ -255,6 +267,12 @@ export namespace findScreensByTheaterCodeInterface {
          */
         list_seat: Seat[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf findScreensByTheaterCodeInterface
+     */
     export async function call(args: Args): Promise<Result[]> {
         const body = await request.get({
             simple: false,
@@ -329,6 +347,12 @@ export namespace findPerformancesByTheaterCodeInterface {
          */
         name_service_day: string;
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf findPerformancesByTheaterCodeInterface
+     */
     export async function call(args: Args): Promise<Result[]> {
         const body = await request.get({
             simple: false,
@@ -419,6 +443,12 @@ export namespace reserveSeatsTemporarilyInterface {
          */
         list_tmp_reserve: TmpReserve[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf reserveSeatsTemporarilyInterface
+     */
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
@@ -479,6 +509,12 @@ export namespace deleteTmpReserveInterface {
     }
     // export interface Result {
     // }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf deleteTmpReserveInterface
+     */
     export async function call(args: Args): Promise<void> {
         await request.get({
             simple: false,
@@ -559,6 +595,12 @@ export namespace getStateReserveSeatInterface {
          */
         list_seat: Seat[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf getStateReserveSeatInterface
+     */
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
@@ -654,6 +696,12 @@ export namespace countFreeSeatInterface {
          */
         list_date: Date[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf countFreeSeatInterface
+     */
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
@@ -750,6 +798,12 @@ export namespace salesTicketInterface {
          */
         list_ticket: Ticket[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf salesTicketInterface
+     */
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
@@ -807,6 +861,12 @@ export namespace ticketInterface {
          */
         list_ticket: Ticket[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf ticketInterface
+     */
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
@@ -935,6 +995,12 @@ export namespace updateReserveInterface {
          */
         list_qr: QR[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf updateReserveInterface
+     */
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
@@ -1023,6 +1089,12 @@ export namespace deleteReserveInterface {
     }
     // export interface Result {
     // }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf deleteReserveInterface
+     */
     export async function call(args: Args): Promise<void> {
         await request.get({
             simple: false,
@@ -1121,6 +1193,12 @@ export namespace stateReserveInterface {
          */
         list_ticket: Ticket[];
     }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf stateReserveInterface
+     */
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
