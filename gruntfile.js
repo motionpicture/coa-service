@@ -15,44 +15,10 @@ module.exports = function (grunt) {
       }
     },
 
-    tslint: {
-      options: {
-        configuration: "tslint.json",
-        force: false,
-        fix: false,
-        project: "tsconfig.json",
-        "type-check": true
-      },
-      files: {
-        src: [
-          "index.ts"
-        ]
-      }
-    },
-
-    ts: {
-      default: {
-        // specifying tsconfig as a boolean will use the "tsconfig.json" in same folder as Gruntfile.js
-        tsconfig: true
-      }
-    },
-
     watch: {
-      ts: {
-        files: [
-          "index.ts",
-          "examples/**/*.ts",
-          "gruntfile.js",
-          "tsconfig.json",
-          "tslint.json"
-        ], // 監視するファイル
-        tasks: ["tslint", "ts"] // 実行するタスク
-      }
     }
   });
 
   grunt.loadNpmTasks("grunt-jsdoc");
-  grunt.loadNpmTasks("grunt-tslint");
-  grunt.loadNpmTasks("grunt-ts");
   grunt.loadNpmTasks("grunt-contrib-watch");
 };

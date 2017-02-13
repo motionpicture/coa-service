@@ -1,4 +1,4 @@
-import * as request from "request-promise-native";
+import * as request from 'request-promise-native';
 
 /**
  * COAAPIの設定値をセットする
@@ -25,8 +25,8 @@ export function initialize(args: {
  * @ignore
  */
 let credentials = {
-    access_token: "",
-    expired_at: ""
+    access_token: '',
+    expired_at: ''
 };
 
 /**
@@ -36,7 +36,7 @@ let credentials = {
  */
 async function publishAccessToken() {
     if (!process.env.COA_ENDPOINT || !process.env.COA_REFRESH_TOKEN) {
-        throw new Error("coa-service requires initialization.");
+        throw new Error('coa-service requires initialization.');
     }
 
     // アクセストークン有効期限チェック
@@ -45,7 +45,7 @@ async function publishAccessToken() {
     if (!credentials.access_token || Date.parse(credentials.expired_at) < Date.now() - SPARE_TIME) {
         const body = await request.post({
             simple: false,
-            url: process.env.COA_ENDPOINT + "/token/access_token",
+            url: <string>process.env.COA_ENDPOINT + '/token/access_token',
             form: {
                 refresh_token: process.env.COA_REFRESH_TOKEN
             },
@@ -59,7 +59,7 @@ async function publishAccessToken() {
 }
 
 async function throwIfNot200(body: any): Promise<any> {
-    if (typeof body === "string") throw new Error(body);
+    if (typeof body === 'string') throw new Error(body);
     if (body.message) throw new Error(body.message);
     if (body.status !== undefined && body.status !== 0) throw new Error(body.status);
 
@@ -99,7 +99,7 @@ export namespace findTheaterInterface {
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
-            url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/theater/",
+            url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/theater/',
             auth: { bearer: await publishAccessToken() },
             json: true
         }).then(throwIfNot200);
@@ -186,7 +186,7 @@ export namespace findFilmsByTheaterCodeInterface {
     export async function call(args: Args): Promise<Result[]> {
         const body = await request.get({
             simple: false,
-            url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/title/",
+            url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/title/',
             auth: { bearer: await publishAccessToken() },
             json: true
         }).then(throwIfNot200);
@@ -258,7 +258,7 @@ export namespace findScreensByTheaterCodeInterface {
     export async function call(args: Args): Promise<Result[]> {
         const body = await request.get({
             simple: false,
-            url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/screen/",
+            url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/screen/',
             auth: { bearer: await publishAccessToken() },
             json: true
         }).then(throwIfNot200);
@@ -279,11 +279,11 @@ export namespace findPerformancesByTheaterCodeInterface {
          */
         theater_code: string;
         /**
-         * スケジュールを抽出する上映日の開始日 ※日付は西暦8桁 "YYYYMMDD"
+         * スケジュールを抽出する上映日の開始日 ※日付は西暦8桁 'YYYYMMDD'
          */
         begin: string;
         /**
-         * スケジュールを抽出する上映日の終了日 ※日付は西暦8桁 "YYYYMMDD"
+         * スケジュールを抽出する上映日の終了日 ※日付は西暦8桁 'YYYYMMDD'
          */
         end: string;
     }
@@ -332,7 +332,7 @@ export namespace findPerformancesByTheaterCodeInterface {
     export async function call(args: Args): Promise<Result[]> {
         const body = await request.get({
             simple: false,
-            url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/schedule/",
+            url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/schedule/',
             auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
@@ -422,7 +422,7 @@ export namespace reserveSeatsTemporarilyInterface {
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
-            url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/upd_tmp_reserve_seat/",
+            url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/upd_tmp_reserve_seat/',
             auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
@@ -482,7 +482,7 @@ export namespace deleteTmpReserveInterface {
     export async function call(args: Args): Promise<void> {
         await request.get({
             simple: false,
-            url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/del_tmp_reserve/",
+            url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/del_tmp_reserve/',
             auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
@@ -562,7 +562,7 @@ export namespace getStateReserveSeatInterface {
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
-            url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/state_reserve_seat/",
+            url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/state_reserve_seat/',
             auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
@@ -595,11 +595,11 @@ export namespace countFreeSeatInterface {
          */
         theater_code: string;
         /**
-         * 空席情報を抽出する上映日の開始日 ※日付は西暦8桁 "YYYYMMDD"
+         * 空席情報を抽出する上映日の開始日 ※日付は西暦8桁 'YYYYMMDD'
          */
         begin: string;
         /**
-         * 空席情報を抽出する上映日の終了日 ※日付は西暦8桁 "YYYYMMDD"
+         * 空席情報を抽出する上映日の終了日 ※日付は西暦8桁 'YYYYMMDD'
          */
         end: string;
     }
@@ -613,7 +613,7 @@ export namespace countFreeSeatInterface {
          */
         title_branch_num: string;
         /**
-         * 上映開始時刻(4桁 "HHMM")
+         * 上映開始時刻(4桁 'HHMM')
          */
         time_begin: string;
         /**
@@ -632,7 +632,7 @@ export namespace countFreeSeatInterface {
     }
     export interface Date {
         /**
-         * 上映日(日付は西暦8桁 "YYYYMMDD")
+         * 上映日(日付は西暦8桁 'YYYYMMDD')
          */
         date_jouei: string;
         /**
@@ -657,7 +657,7 @@ export namespace countFreeSeatInterface {
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
-            url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/count_free_seat/",
+            url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/count_free_seat/',
             auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
@@ -753,7 +753,7 @@ export namespace salesTicketInterface {
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
-            url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/sales_ticket/",
+            url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/sales_ticket/',
             auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
@@ -810,7 +810,7 @@ export namespace ticketInterface {
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
-            url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/ticket/",
+            url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/ticket/',
             auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
@@ -938,7 +938,7 @@ export namespace updateReserveInterface {
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
-            url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/upd_reserve/",
+            url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/upd_reserve/',
             auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
@@ -1026,7 +1026,7 @@ export namespace deleteReserveInterface {
     export async function call(args: Args): Promise<void> {
         await request.get({
             simple: false,
-            url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/del_reserve/",
+            url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/del_reserve/',
             auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
@@ -1124,7 +1124,7 @@ export namespace stateReserveInterface {
     export async function call(args: Args): Promise<Result> {
         const body = await request.get({
             simple: false,
-            url: process.env.COA_ENDPOINT + "/api/v1/theater/" + args.theater_code + "/state_reserve/",
+            url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/state_reserve/',
             auth: { bearer: await publishAccessToken() },
             json: true,
             qs: {
