@@ -43,8 +43,8 @@
   "repository": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tslint": "tslint -c tslint.json index.ts --type-check --project tsconfig.json",
-    "tslint-fix": "tslint -c tslint.json index.ts --type-check --project tsconfig.json --fix"
+    "tslint": "tslint -c tslint.json index.ts",
+    "tslint-fix": "tslint -c tslint.json index.ts --fix"
   },
   "types": "./types/index.d.ts",
   "version": "1.2.0"

@@ -1,6 +1,6 @@
 # COA Client Library for Node.js
 
-This project provides a Node.js package that makes it easy to use COA Services.
+node.jsでCOAサービスを使うためのパッケージです。
 
 # Features
 
@@ -31,6 +31,10 @@ set COA_REFRESH_TOKEN=*****
 
 ## Code Samples
 
-Some samples are available.
+コードサンプルは以下にあります。
 
-* [How to use the findTheater Service from Node.js](/examples/samples/findTheater.js)
+* [node.jsで劇場情報を取得する](https://m-p.backlog.jp/git/SSKTS/src_coa_service/tree/master/examples/samples/findTheater.js)
+
+# JsDoc
+
+`grunt jsdoc`でjsdocを作成できます。./docsに出力されます。
