@@ -2,7 +2,9 @@
 
 node.jsでCOAサービスを使うためのパッケージです。
 
+
 # Features
+
 
 # Getting Started
 
@@ -28,12 +30,21 @@ set COA_ENDPOINT=*****
 set COA_REFRESH_TOKEN=*****
 ```
 
-
 ## Code Samples
 
-コードサンプルは以下にあります。
+コードサンプルは./examplesにあります。
 
-* [node.jsで劇場情報を取得する](https://m-p.backlog.jp/git/SSKTS/src_coa_service/tree/master/examples/samples/findTheater.js)
+* [node.jsで劇場情報を取得する](https://m-p.backlog.jp/git/SSKTS/src_coa_service/blob/master/examples/samples/findTheater.js)
+
+
+# Tests
+
+単体テストは以下で実行できます。
+
+```shell
+npm test
+```
+
 
 # JsDoc
 
