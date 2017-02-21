@@ -427,6 +427,7 @@ var updateReserveInterface;
                     add_price: args.list_ticket.map((value) => value.add_price),
                     dis_price: args.list_ticket.map((value) => value.dis_price),
                     sale_price: args.list_ticket.map((value) => value.sale_price),
+                    mvtk_app_price: args.list_ticket.map((value) => value.mvtk_app_price),
                     ticket_count: args.list_ticket.map((value) => value.ticket_count),
                     seat_num: args.list_ticket.map((value) => value.seat_num)
                 },

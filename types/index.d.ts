@@ -692,6 +692,10 @@ export declare namespace updateReserveInterface {
          */
         sale_price: number;
         /**
+         * ムビチケ計上単価
+         */
+        mvtk_app_price: number;
+        /**
          * 枚数
          */
         ticket_count: number;
