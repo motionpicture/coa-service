@@ -1,14 +1,16 @@
 "use strict";
-// tslint:disable-next-line:missing-jsdoc
-const assert = require("assert");
-const COA = require("../../index");
-// tslint:disable-next-line:no-http-string
+/**
+ * テスト
+ */
+// todo 環境変数
 process.env.COA_ENDPOINT = 'http://coacinema.aa0.netvolante.jp';
 // tslint:disable-next-line:max-line-length
 process.env.COA_REFRESH_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVkX2F0IjoxNDc5MjYwODQ4LCJhdXRoX2lkIjoiMzMxNSJ9.jx-w7D3YLP7UbY4mzJYC9xr368FiKWcpR2_L9mZfehQ';
+const assert = require("assert");
+const COA = require("../../lib/coa-service");
 describe('マスター抽出サービス', () => {
     it('存在しない劇場抽出', (done) => {
-        COA.findTheaterInterface.call({
+        COA.MasterService.findTheater({
             theater_code: '000'
         }).then(() => {
             done(new Error('劇場は存在しないはず'));
@@ -18,7 +20,7 @@ describe('マスター抽出サービス', () => {
     });
     it('存在する劇場抽出', (done) => {
         const theaterCode = '118';
-        COA.findTheaterInterface.call({
+        COA.MasterService.findTheater({
             theater_code: theaterCode
         }).then((result) => {
             assert.equal(result.theater_code, theaterCode);
@@ -30,7 +32,7 @@ describe('マスター抽出サービス', () => {
 });
 describe('座席本予約', () => {
     it('存在しない座席本予約', (done) => {
-        COA.updateReserveInterface.call({
+        COA.ReserveService.updateReserve({
             theater_code: '',
             date_jouei: '',
             title_code: '',

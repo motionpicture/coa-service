@@ -928,3 +928,42 @@ export declare namespace stateReserveInterface {
      */
     function call(args: Args): Promise<Result>;
 }
+/**
+ * ムビチケチケットコード取得
+ * @namespace mvtkTicketcodeInterface
+ */
+export declare namespace mvtkTicketcodeInterface {
+    interface Args {
+        /**
+         * 施設コード
+         */
+        theater_code: string;
+        /**
+         * 電子券区分
+         */
+        kbn_denshiken: number;
+        /**
+         * 前売券区分
+         */
+        kbn_maeuriken: string;
+        /**
+         * 券種区分
+         */
+        kbn_kensyu: string;
+        /**
+         * 販売単価
+         */
+        sales_price: number;
+        /**
+         * 計上単価
+         */
+        app_price: string;
+    }
+    /**
+     * 呼出
+     *
+     * @param {Args} args
+     * @memberOf stateReserveInterface
+     */
+    function call(args: Args): Promise<string>;
+}
