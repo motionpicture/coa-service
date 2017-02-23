@@ -46,6 +46,6 @@
     "tslint-fix": "tslint -c tslint.json index.ts --fix",
     "tsc": "tsc -p ./ -w"
   },
-  "types": "./types/index.d.ts",
-  "version": "1.4.0"
+  "types": "./types/lib/coa-service.d.ts",
+  "version": "1.4.1"
 }
