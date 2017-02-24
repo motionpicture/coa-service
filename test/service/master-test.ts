@@ -11,7 +11,7 @@ import * as COA from '../../lib/coa-service';
 
 describe('マスター抽出サービス', () => {
     it('存在しない劇場抽出', (done) => {
-        COA.MasterService.findTheater({
+        COA.MasterService.theater({
             theater_code: '000'
         }).then(() => {
             done(new Error('劇場は存在しないはず'));
@@ -22,7 +22,7 @@ describe('マスター抽出サービス', () => {
 
     it('存在する劇場抽出', (done) => {
         const theaterCode = '118';
-        COA.MasterService.findTheater({
+        COA.MasterService.theater({
             theater_code: theaterCode
         }).then((result) => {
             assert.equal(result.theater_code, theaterCode);
@@ -36,7 +36,7 @@ describe('マスター抽出サービス', () => {
 
 describe('座席本予約', () => {
     it('存在しない座席本予約', (done) => {
-        COA.ReserveService.updateReserve({
+        COA.ReserveService.updReserve({
             theater_code: '',
             date_jouei: '',
             title_code: '',

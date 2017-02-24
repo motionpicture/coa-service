@@ -47,5 +47,5 @@
     "tsc": "tsc -p ./ -w"
   },
   "types": "./types/lib/coa-service.d.ts",
-  "version": "1.4.1"
+  "version": "1.4.2"
 }

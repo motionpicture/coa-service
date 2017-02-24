@@ -1,8 +1,8 @@
 /**
  * 施設マスター抽出in
- * @interface FindTheaterArgs
+ * @interface TheaterArgs
  */
-export interface FindTheaterArgs {
+export interface TheaterArgs {
     /**
      * 劇場コード
      */
@@ -10,9 +10,9 @@ export interface FindTheaterArgs {
 }
 /**
  * 施設マスター抽出out
- * @interface FindTheaterResult
+ * @interface TheaterResult
  */
-export interface FindTheaterResult {
+export interface TheaterResult {
     /**
      * 施設コード
      */
@@ -33,17 +33,17 @@ export interface FindTheaterResult {
 /**
  * 施設マスター抽出
  * @memberOf services.master
- * @function findTheater
- * @param {FindTheaterArgs} args
+ * @function theater
+ * @param {TheaterArgs} args
  * @param {string} args.theater_code 劇場コード
- * @returns {Promise<FindTheaterResult>}
+ * @returns {Promise<TheaterResult>}
  */
-export declare function findTheater(args: FindTheaterArgs): Promise<FindTheaterResult>;
+export declare function theater(args: TheaterArgs): Promise<TheaterResult>;
 /**
  * 作品マスター抽出in
- * @interface FindFilmsByTheaterCodeArgs
+ * @interface TitleArgs
  */
-export interface FindFilmsByTheaterCodeArgs {
+export interface TitleArgs {
     /**
      * 劇場コード
      */
@@ -51,9 +51,9 @@ export interface FindFilmsByTheaterCodeArgs {
 }
 /**
  * 作品マスター抽出out
- * @interface FindFilmsByTheaterCodeResult
+ * @interface TitleResult
  */
-export interface FindFilmsByTheaterCodeResult {
+export interface TitleResult {
     /**
      * 作品コード
      */
@@ -114,17 +114,17 @@ export interface FindFilmsByTheaterCodeResult {
 /**
  * 作品マスター抽出
  * @memberOf services.master
- * @function findFilmsByTheaterCode
- * @param {FindFilmsByTheaterCodeArgs} args
+ * @function title
+ * @param {TitleArgs} args
  * @param {string} args.theater_code 劇場コード
- * @returns {Promise<FindFilmsByTheaterCodeResult[]>}
+ * @returns {Promise<TitleResult[]>}
  */
-export declare function findFilmsByTheaterCode(args: FindFilmsByTheaterCodeArgs): Promise<FindFilmsByTheaterCodeResult[]>;
+export declare function title(args: TitleArgs): Promise<TitleResult[]>;
 /**
  * スクリーンマスター抽出in
- * @interface FindScreensByTheaterCodeArgs
+ * @interface ScreenArgs
  */
-export interface FindScreensByTheaterCodeArgs {
+export interface ScreenArgs {
     /**
      * 劇場コード
      */
@@ -132,9 +132,9 @@ export interface FindScreensByTheaterCodeArgs {
 }
 /**
  * 座席
- * @interface FindScreensByTheaterCodeSeat
+ * @interface ScreenSeat
  */
-export interface FindScreensByTheaterCodeSeat {
+export interface ScreenSeat {
     /**
      * 座席セクション
      */
@@ -166,9 +166,9 @@ export interface FindScreensByTheaterCodeSeat {
 }
 /**
  * スクリーンマスター抽出out
- * @interface FindScreensByTheaterCodeResult
+ * @interface ScreenResult
  */
-export interface FindScreensByTheaterCodeResult {
+export interface ScreenResult {
     /**
      * スクリーンコード
      */
@@ -184,22 +184,22 @@ export interface FindScreensByTheaterCodeResult {
     /**
      * 座席リスト
      */
-    list_seat: FindScreensByTheaterCodeSeat[];
+    list_seat: ScreenSeat[];
 }
 /**
  * スクリーンマスター抽出
  * @memberOf services.master
- * @function findScreensByTheaterCode
- * @param {FindScreensByTheaterCodeArgs} args
+ * @function screen
+ * @param {ScreenArgs} args
  * @param {string} args.theater_code 劇場コード
- * @returns {Promise<FindScreensByTheaterCodeResult[]>}
+ * @returns {Promise<ScreenResult[]>}
  */
-export declare function findScreensByTheaterCode(args: FindScreensByTheaterCodeArgs): Promise<FindScreensByTheaterCodeResult[]>;
+export declare function screen(args: ScreenArgs): Promise<ScreenResult[]>;
 /**
  * スケジュールマスター抽出in
- * @interface FindPerformancesByTheaterCodeArgs
+ * @interface ScheduleArgs
  */
-export interface FindPerformancesByTheaterCodeArgs {
+export interface ScheduleArgs {
     /**
      * 劇場コード
      */
@@ -215,9 +215,9 @@ export interface FindPerformancesByTheaterCodeArgs {
 }
 /**
  * スケジュールマスター抽出out
- * @interface FindPerformancesByTheaterCodeResult
+ * @interface ScheduleResult
  */
-export interface FindPerformancesByTheaterCodeResult {
+export interface ScheduleResult {
     /**
      * 上映日
      */
@@ -262,17 +262,17 @@ export interface FindPerformancesByTheaterCodeResult {
 /**
  * スケジュールマスター抽出
  * @memberOf services.master
- * @function findPerformancesByTheaterCode
- * @param {FindPerformancesByTheaterCodeArgs} args
+ * @function schedule
+ * @param {ScheduleArgs} args
  * @param {string} args.theater_code 劇場コード
- * @returns {Promise<FindPerformancesByTheaterCodeResult[]>}
+ * @returns {Promise<ScheduleResult[]>}
  */
-export declare function findPerformancesByTheaterCode(args: FindPerformancesByTheaterCodeArgs): Promise<FindPerformancesByTheaterCodeResult[]>;
+export declare function schedule(args: ScheduleArgs): Promise<ScheduleResult[]>;
 /**
  * 券種マスター抽出in
- * @interface FindTicketsByTheaterCodeArgs
+ * @interface TicketArgs
  */
-export interface FindTicketsByTheaterCodeArgs {
+export interface TicketArgs {
     /**
      * 施設コード
      */
@@ -280,9 +280,9 @@ export interface FindTicketsByTheaterCodeArgs {
 }
 /**
  * 券種マスター抽出out
- * @interface FindTicketsByTheaterCodeResult
+ * @interface TicketResult
  */
-export interface FindTicketsByTheaterCodeResult {
+export interface TicketResult {
     /**
      * チケットコード
      */
@@ -303,12 +303,12 @@ export interface FindTicketsByTheaterCodeResult {
 /**
  * 券種マスター抽出
  * @memberOf services.master
- * @function findTicketsByTheaterCode
- * @param {FindTicketsByTheaterCodeArgs} args
+ * @function ticket
+ * @param {TicketArgs} args
  * @param {string} args.theater_code 劇場コード
- * @returns {Promise<FindTicketsByTheaterCodeResult[]>}
+ * @returns {Promise<TicketResult[]>}
  */
-export declare function findTicketsByTheaterCode(args: FindTicketsByTheaterCodeArgs): Promise<FindTicketsByTheaterCodeResult[]>;
+export declare function ticket(args: TicketArgs): Promise<TicketResult[]>;
 /**
  * ムビチケチケットコード取得in
  * @interface MvtkTicketcodeArgs

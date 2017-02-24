@@ -1,7 +1,7 @@
 // tslint:disable-next-line:missing-jsdoc
 import * as COA from '../../lib/coa-service';
 
-COA.ReserveService.deleteReserve({
+COA.ReserveService.delReserve({
     theater_code: '001',
     date_jouei: '20170210',
     title_code: '8513',

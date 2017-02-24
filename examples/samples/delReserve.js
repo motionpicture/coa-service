@@ -1,7 +1,7 @@
 "use strict";
 // tslint:disable-next-line:missing-jsdoc
 const COA = require("../../lib/coa-service");
-COA.ReserveService.deleteReserve({
+COA.ReserveService.delReserve({
     theater_code: '001',
     date_jouei: '20170210',
     title_code: '8513',

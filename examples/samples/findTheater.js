@@ -1,7 +1,7 @@
 "use strict";
 // tslint:disable-next-line:missing-jsdoc
 const COA = require("../../lib/coa-service");
-COA.MasterService.findTheater({
+COA.MasterService.theater({
     theater_code: '118'
 }).then((result) => {
     // tslint:disable-next-line:no-console

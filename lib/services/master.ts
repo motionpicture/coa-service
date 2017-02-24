@@ -7,9 +7,9 @@ import * as Util from '../utils/util';
 
 /**
  * 施設マスター抽出in
- * @interface FindTheaterArgs
+ * @interface TheaterArgs
  */
-export interface FindTheaterArgs {
+export interface TheaterArgs {
     /**
      * 劇場コード
      */
@@ -17,9 +17,9 @@ export interface FindTheaterArgs {
 }
 /**
  * 施設マスター抽出out
- * @interface FindTheaterResult
+ * @interface TheaterResult
  */
-export interface FindTheaterResult {
+export interface TheaterResult {
     /**
      * 施設コード
      */
@@ -40,12 +40,12 @@ export interface FindTheaterResult {
 /**
  * 施設マスター抽出
  * @memberOf services.master
- * @function findTheater
- * @param {FindTheaterArgs} args
+ * @function theater
+ * @param {TheaterArgs} args
  * @param {string} args.theater_code 劇場コード
- * @returns {Promise<FindTheaterResult>}
+ * @returns {Promise<TheaterResult>}
  */
-export async function findTheater(args: FindTheaterArgs): Promise<FindTheaterResult> {
+export async function theater(args: TheaterArgs): Promise<TheaterResult> {
     const body = await request.get({
         simple: false,
         url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/theater/',
@@ -63,9 +63,9 @@ export async function findTheater(args: FindTheaterArgs): Promise<FindTheaterRes
 
 /**
  * 作品マスター抽出in
- * @interface FindFilmsByTheaterCodeArgs
+ * @interface TitleArgs
  */
-export interface FindFilmsByTheaterCodeArgs {
+export interface TitleArgs {
     /**
      * 劇場コード
      */
@@ -73,9 +73,9 @@ export interface FindFilmsByTheaterCodeArgs {
 }
 /**
  * 作品マスター抽出out
- * @interface FindFilmsByTheaterCodeResult
+ * @interface TitleResult
  */
-export interface FindFilmsByTheaterCodeResult {
+export interface TitleResult {
     /**
      * 作品コード
      */
@@ -136,12 +136,12 @@ export interface FindFilmsByTheaterCodeResult {
 /**
  * 作品マスター抽出
  * @memberOf services.master
- * @function findFilmsByTheaterCode
- * @param {FindFilmsByTheaterCodeArgs} args
+ * @function title
+ * @param {TitleArgs} args
  * @param {string} args.theater_code 劇場コード
- * @returns {Promise<FindFilmsByTheaterCodeResult[]>}
+ * @returns {Promise<TitleResult[]>}
  */
-export async function findFilmsByTheaterCode(args: FindFilmsByTheaterCodeArgs): Promise<FindFilmsByTheaterCodeResult[]> {
+export async function title(args: TitleArgs): Promise<TitleResult[]> {
     const body = await request.get({
         simple: false,
         url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/title/',
@@ -154,9 +154,9 @@ export async function findFilmsByTheaterCode(args: FindFilmsByTheaterCodeArgs): 
 
 /**
  * スクリーンマスター抽出in
- * @interface FindScreensByTheaterCodeArgs
+ * @interface ScreenArgs
  */
-export interface FindScreensByTheaterCodeArgs {
+export interface ScreenArgs {
     /**
      * 劇場コード
      */
@@ -164,9 +164,9 @@ export interface FindScreensByTheaterCodeArgs {
 }
 /**
  * 座席
- * @interface FindScreensByTheaterCodeSeat
+ * @interface ScreenSeat
  */
-export interface FindScreensByTheaterCodeSeat {
+export interface ScreenSeat {
     /**
      * 座席セクション
      */
@@ -198,9 +198,9 @@ export interface FindScreensByTheaterCodeSeat {
 }
 /**
  * スクリーンマスター抽出out
- * @interface FindScreensByTheaterCodeResult
+ * @interface ScreenResult
  */
-export interface FindScreensByTheaterCodeResult {
+export interface ScreenResult {
     /**
      * スクリーンコード
      */
@@ -216,17 +216,17 @@ export interface FindScreensByTheaterCodeResult {
     /**
      * 座席リスト
      */
-    list_seat: FindScreensByTheaterCodeSeat[];
+    list_seat: ScreenSeat[];
 }
 /**
  * スクリーンマスター抽出
  * @memberOf services.master
- * @function findScreensByTheaterCode
- * @param {FindScreensByTheaterCodeArgs} args
+ * @function screen
+ * @param {ScreenArgs} args
  * @param {string} args.theater_code 劇場コード
- * @returns {Promise<FindScreensByTheaterCodeResult[]>}
+ * @returns {Promise<ScreenResult[]>}
  */
-export async function findScreensByTheaterCode(args: FindScreensByTheaterCodeArgs): Promise<FindScreensByTheaterCodeResult[]> {
+export async function screen(args: ScreenArgs): Promise<ScreenResult[]> {
     const body = await request.get({
         simple: false,
         url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/screen/',
@@ -239,9 +239,9 @@ export async function findScreensByTheaterCode(args: FindScreensByTheaterCodeArg
 
 /**
  * スケジュールマスター抽出in
- * @interface FindPerformancesByTheaterCodeArgs
+ * @interface ScheduleArgs
  */
-export interface FindPerformancesByTheaterCodeArgs {
+export interface ScheduleArgs {
     /**
      * 劇場コード
      */
@@ -257,9 +257,9 @@ export interface FindPerformancesByTheaterCodeArgs {
 }
 /**
  * スケジュールマスター抽出out
- * @interface FindPerformancesByTheaterCodeResult
+ * @interface ScheduleResult
  */
-export interface FindPerformancesByTheaterCodeResult {
+export interface ScheduleResult {
     /**
      * 上映日
      */
@@ -304,14 +304,14 @@ export interface FindPerformancesByTheaterCodeResult {
 /**
  * スケジュールマスター抽出
  * @memberOf services.master
- * @function findPerformancesByTheaterCode
- * @param {FindPerformancesByTheaterCodeArgs} args
+ * @function schedule
+ * @param {ScheduleArgs} args
  * @param {string} args.theater_code 劇場コード
- * @returns {Promise<FindPerformancesByTheaterCodeResult[]>}
+ * @returns {Promise<ScheduleResult[]>}
  */
-export async function findPerformancesByTheaterCode(
-    args: FindPerformancesByTheaterCodeArgs
-): Promise<FindPerformancesByTheaterCodeResult[]> {
+export async function schedule(
+    args: ScheduleArgs
+): Promise<ScheduleResult[]> {
     const body = await request.get({
         simple: false,
         url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/schedule/',
@@ -328,9 +328,9 @@ export async function findPerformancesByTheaterCode(
 
 /**
  * 券種マスター抽出in
- * @interface FindTicketsByTheaterCodeArgs
+ * @interface TicketArgs
  */
-export interface FindTicketsByTheaterCodeArgs {
+export interface TicketArgs {
     /**
      * 施設コード
      */
@@ -338,9 +338,9 @@ export interface FindTicketsByTheaterCodeArgs {
 }
 /**
  * 券種マスター抽出out
- * @interface FindTicketsByTheaterCodeResult
+ * @interface TicketResult
  */
-export interface FindTicketsByTheaterCodeResult {
+export interface TicketResult {
     /**
      * チケットコード
      */
@@ -361,12 +361,12 @@ export interface FindTicketsByTheaterCodeResult {
 /**
  * 券種マスター抽出
  * @memberOf services.master
- * @function findTicketsByTheaterCode
- * @param {FindTicketsByTheaterCodeArgs} args
+ * @function ticket
+ * @param {TicketArgs} args
  * @param {string} args.theater_code 劇場コード
- * @returns {Promise<FindTicketsByTheaterCodeResult[]>}
+ * @returns {Promise<TicketResult[]>}
  */
-export async function findTicketsByTheaterCode(args: FindTicketsByTheaterCodeArgs): Promise<FindTicketsByTheaterCodeResult[]> {
+export async function ticket(args: TicketArgs): Promise<TicketResult[]> {
     const body = await request.get({
         simple: false,
         url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/ticket/',
@@ -426,7 +426,7 @@ export interface MvtkTicketcodeArgs {
 export async function mvtkTicketcode(args: MvtkTicketcodeArgs): Promise<string> {
     const body = await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/state_reserve/',
+        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/mvtk_ticketcode/',
         auth: { bearer: await Util.publishAccessToken() },
         json: true,
         qs: {
