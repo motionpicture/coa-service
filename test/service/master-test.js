@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * テスト
  */
@@ -7,7 +8,7 @@ process.env.COA_ENDPOINT = 'http://coacinema.aa0.netvolante.jp';
 // tslint:disable-next-line:max-line-length
 process.env.COA_REFRESH_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVkX2F0IjoxNDc5MjYwODQ4LCJhdXRoX2lkIjoiMzMxNSJ9.jx-w7D3YLP7UbY4mzJYC9xr368FiKWcpR2_L9mZfehQ';
 const assert = require("assert");
-const COA = require("../../lib/coa-service");
+const COA = require("../../lib/index");
 describe('マスター抽出サービス', () => {
     it('存在しない劇場抽出', (done) => {
         COA.MasterService.theater({

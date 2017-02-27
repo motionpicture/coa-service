@@ -115,7 +115,6 @@ export async function countFreeSeat(args: CountFreeSeatArgs): Promise<CountFreeS
     };
 }
 
-
 /**
  * 座席予約状態抽出in
  * @interface StateReserveSeatArgs

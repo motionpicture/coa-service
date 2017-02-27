@@ -1,6 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // tslint:disable-next-line:missing-jsdoc
-const COA = require("../../lib/coa-service");
+const COA = require("../../lib/index");
 COA.MasterService.theater({
     theater_code: '118'
 }).then((result) => {

@@ -7,7 +7,7 @@ process.env.COA_ENDPOINT = 'http://coacinema.aa0.netvolante.jp';
 process.env.COA_REFRESH_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVkX2F0IjoxNDc5MjYwODQ4LCJhdXRoX2lkIjoiMzMxNSJ9.jx-w7D3YLP7UbY4mzJYC9xr368FiKWcpR2_L9mZfehQ';
 
 import * as assert from 'assert';
-import * as COA from '../../lib/coa-service';
+import * as COA from '../../lib/index';
 
 describe('マスター抽出サービス', () => {
     it('存在しない劇場抽出', (done) => {

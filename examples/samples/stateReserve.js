@@ -1,6 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // tslint:disable-next-line:missing-jsdoc
-const COA = require("../../lib/coa-service");
+const COA = require("../../lib/index");
 COA.ReserveService.stateReserve({
     theater_code: '001',
     reserve_num: 11586,

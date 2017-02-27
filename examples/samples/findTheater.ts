@@ -1,5 +1,5 @@
 // tslint:disable-next-line:missing-jsdoc
-import * as COA from '../../lib/coa-service';
+import * as COA from '../../lib/index';
 
 COA.MasterService.theater({
     theater_code: '118'
