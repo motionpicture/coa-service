@@ -321,7 +321,7 @@ export interface MvtkTicketcodeArgs {
     /**
      * 電子券区分
      */
-    kbn_denshiken: number;
+    kbn_denshiken: string;
     /**
      * 前売券区分
      */
@@ -337,7 +337,7 @@ export interface MvtkTicketcodeArgs {
     /**
      * 計上単価
      */
-    app_price: string;
+    app_price: number;
 }
 /**
  * ムビチケチケットコード取得
@@ -348,8 +348,8 @@ export interface MvtkTicketcodeArgs {
  * @param {string} args.kbn_denshiken 電子券区分
  * @param {string} args.kbn_maeuriken 前売券区分
  * @param {string} args.kbn_kensyu 券種区分
- * @param {string} args.sales_price 販売単価
- * @param {string} args.app_price 計上単価
+ * @param {number} args.sales_price 販売単価
+ * @param {number} args.app_price 計上単価
  * @returns {Promise<string>}
  */
 export declare function mvtkTicketcode(args: MvtkTicketcodeArgs): Promise<string>;

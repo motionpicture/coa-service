@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 // tslint:disable-next-line:missing-jsdoc
 const COA = require("../../lib/index");
 COA.ReserveService.delReserve({

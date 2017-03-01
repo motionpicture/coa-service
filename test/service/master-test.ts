@@ -67,3 +67,20 @@ describe('座席本予約', () => {
         });
     });
 });
+
+describe('ムビチケチケットコード取得', () => {
+    it('存在しないムビチケチケットコード取得', (done) => {
+        COA.MasterService.mvtkTicketcode({
+            theater_code: '118',
+            kbn_denshiken: '01',
+            kbn_maeuriken: '01',
+            kbn_kensyu: '01',
+            sales_price: 1400,
+            app_price: 1200
+        }).then(() => {
+            done(new Error('存在しないムビチケチケットコードのはず'));
+        }).catch(() => {
+            done();
+        });
+    });
+});
