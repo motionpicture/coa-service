@@ -356,6 +356,36 @@ export interface MvtkTicketcodeArgs {
     title_branch_num: string;
 }
 /**
+ * ムビチケチケットコード取得out
+ * @interface MvtkTicketcodeResult
+ */
+export interface MvtkTicketcodeResult {
+    /**
+     * チケットコード
+     */
+    ticket_code: string;
+    /**
+     * チケット名
+     */
+    ticket_name: string;
+    /**
+     * チケット名(カナ)
+     */
+    ticket_name_kana: string;
+    /**
+     * チケット名(英)
+     */
+    ticket_name_eng: string;
+    /**
+     * 加算単価 ※３Ｄ、ＩＭＡＸ、４ＤＸ等の加算料金（メガネ抜き）
+     */
+    add_price: number;
+    /**
+     * メガネ単価 ※３Ｄメガネの加算料金
+     */
+    add_price_glasses: number;
+}
+/**
  * ムビチケチケットコード取得
  * @memberOf services.master
  * @function mvtkTicketcode
@@ -369,6 +399,6 @@ export interface MvtkTicketcodeArgs {
  * @param {number} args.kbn_eisya 映写方式区分
  * @param {number} args.title_code 作品コード
  * @param {number} args.title_branch_num 作品枝番
- * @returns {Promise<string>}
+ * @returns {Promise<MvtkTicketcodeResult>}
  */
-export declare function mvtkTicketcode(args: MvtkTicketcodeArgs): Promise<string>;
+export declare function mvtkTicketcode(args: MvtkTicketcodeArgs): Promise<MvtkTicketcodeResult>;
