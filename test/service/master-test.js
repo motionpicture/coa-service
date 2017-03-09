@@ -53,7 +53,8 @@ describe('座席本予約', () => {
                     sale_price: 0,
                     mvtk_app_price: 0,
                     ticket_count: 1,
-                    seat_num: ''
+                    seat_num: '',
+                    add_glasses: 0
                 }
             ]
         }).then(() => {
@@ -71,7 +72,10 @@ describe('ムビチケチケットコード取得', () => {
             kbn_maeuriken: '01',
             kbn_kensyu: '01',
             sales_price: 1400,
-            app_price: 1200
+            app_price: 1200,
+            kbn_eisya: '01',
+            title_code: '00000',
+            title_branch_num: '00'
         }).then(() => {
             done(new Error('存在しないムビチケチケットコードのはず'));
         }).catch(() => {

@@ -300,6 +300,10 @@ export interface ScheduleResult {
      * サービスデイ名称
      */
     name_service_day: string;
+    /**
+     * 購入可能枚数
+     */
+    available_num: number;
 }
 /**
  * スケジュールマスター抽出
@@ -409,6 +413,18 @@ export interface MvtkTicketcodeArgs {
      * 計上単価
      */
     app_price: number;
+    /**
+     * 映写方式区分
+     */
+     kbn_eisya: string;
+    /**
+     * 作品コード
+     */
+     title_code: string;
+    /**
+     * 作品枝番
+     */
+    title_branch_num: string;
 }
 /**
  * ムビチケチケットコード取得
@@ -421,6 +437,9 @@ export interface MvtkTicketcodeArgs {
  * @param {string} args.kbn_kensyu 券種区分
  * @param {number} args.sales_price 販売単価
  * @param {number} args.app_price 計上単価
+ * @param {number} args.kbn_eisya 映写方式区分
+ * @param {number} args.title_code 作品コード
+ * @param {number} args.title_branch_num 作品枝番
  * @returns {Promise<string>}
  */
 export async function mvtkTicketcode(args: MvtkTicketcodeArgs): Promise<string> {
@@ -435,7 +454,10 @@ export async function mvtkTicketcode(args: MvtkTicketcodeArgs): Promise<string> 
             kbn_maeuriken: args.kbn_maeuriken,
             kbn_kensyu: args.kbn_kensyu,
             sales_price: args.sales_price,
-            app_price: args.app_price
+            app_price: args.app_price,
+            kbn_eisya: args.kbn_eisya,
+            title_code: args.title_code,
+            title_branch_num: args.title_branch_num
         },
         useQuerystring: true
     }).then(Util.throwIfNot200);

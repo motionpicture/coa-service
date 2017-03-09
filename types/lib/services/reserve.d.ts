@@ -410,6 +410,10 @@ export interface UpdReserveTicket {
      * 座席番号
      */
     seat_num: string;
+    /**
+     * メガネ単価
+     */
+    add_glasses: number;
 }
 /**
  * 座席本予約out
@@ -456,7 +460,7 @@ export interface UpdReserveQR {
  * @param {string} args.screen_code 座席チケット仮予約番号
  * @param {number} args.tmp_reserve_num スクリーンコード
  * @param {string} args.reserve_name 予約者名
- * @param {string} args.reserve_name_jkana 予約者名（かな）
+ * @param {string} args.reserve_name_jkana 予約者名（かな）※予約者名（かな）：（かな姓）+空白+（かな名）
  * @param {string} args.tel_num 電話番号
  * @param {string} args.mail_addr メールアドレス
  * @param {string} args.reserve_amount 予約金額
@@ -465,10 +469,11 @@ export interface UpdReserveQR {
  * @param {number} args.list_ticket.std_price 標準単価
  * @param {number} args.list_ticket.add_price 加算単価
  * @param {number} args.list_ticket.dis_price 割引額
- * @param {number} args.list_ticket.sale_price 金額
- * @param {number} args.list_ticket.mvtk_app_price ムビチケ計上単価
+ * @param {number} args.list_ticket.sale_price 金額 ※価格情報毎の１枚当たりの金額（ムビチケの場合も金額をセット）　※標準単価+加算単価-割引額
+ * @param {number} args.list_ticket.mvtk_app_price ムビチケ計上単価 ※ムビチケの場合、計上単価（興収報告単価）をセット（ムビチケ以外は0をセット）
  * @param {number} args.list_ticket.ticket_count 枚数
  * @param {string} args.list_ticket.seat_num 座席番号
+ * @param {string} args.list_ticket.add_glasses メガネ単価 ※メガネ代が別途発生した場合は、メガネ代をセット。それ以外は０をセット（ムビチケの場合も同様）
  * @returns {Promise<UpdReserveResult>}
  */
 export declare function updReserve(args: UpdReserveArgs): Promise<UpdReserveResult>;
