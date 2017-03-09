@@ -73,7 +73,7 @@ describe('ムビチケチケットコード取得', () => {
             kbn_kensyu: '01',
             sales_price: 1400,
             app_price: 1200,
-            kbn_eisya: '01',
+            kbn_eisyahousiki: '01',
             title_code: '00000',
             title_branch_num: '00'
         }).then(() => {

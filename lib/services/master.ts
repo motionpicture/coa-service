@@ -416,7 +416,7 @@ export interface MvtkTicketcodeArgs {
     /**
      * 映写方式区分
      */
-    kbn_eisya: string;
+    kbn_eisyahousiki: string;
     /**
      * 作品コード
      */
@@ -468,7 +468,7 @@ export interface MvtkTicketcodeResult {
  * @param {string} args.kbn_kensyu 券種区分
  * @param {number} args.sales_price 販売単価
  * @param {number} args.app_price 計上単価
- * @param {number} args.kbn_eisya 映写方式区分
+ * @param {number} args.kbn_eisyahousiki 映写方式区分
  * @param {number} args.title_code 作品コード
  * @param {number} args.title_branch_num 作品枝番
  * @returns {Promise<MvtkTicketcodeResult>}
@@ -486,7 +486,7 @@ export async function mvtkTicketcode(args: MvtkTicketcodeArgs): Promise<MvtkTick
             kbn_kensyu: args.kbn_kensyu,
             sales_price: args.sales_price,
             app_price: args.app_price,
-            kbn_eisya: args.kbn_eisya,
+            kbn_eisyahousiki: args.kbn_eisyahousiki,
             title_code: args.title_code,
             title_branch_num: args.title_branch_num
         },
