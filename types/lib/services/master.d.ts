@@ -262,6 +262,10 @@ export interface ScheduleResult {
      * 購入可能枚数
      */
     available_num: number;
+    /**
+     * 予約開始日
+     */
+    rsv_start_date: string;
 }
 /**
  * スケジュールマスター抽出
