@@ -10,6 +10,8 @@ export declare function publishAccessToken(spareTimeInMilliseconds?: number): Pr
  * アクセストークンをリセットする
  * この関数はテストコードのために作成
  * おそらく運用中は使われないと思われる
+ *
+ * @ignore
  */
 export declare function resetAccessToken(): void;
 /**

@@ -17,6 +17,11 @@ let credentials = {
     expired_at: ''
 };
 
+/**
+ * アクセストークンの有効期限までの猶予時間初期値
+ *
+ * @ignore
+ */
 const DEFAULT_SPARE_TIME_IN_MILLISECONDS = 60000;
 
 /**
@@ -54,6 +59,8 @@ export async function publishAccessToken(spareTimeInMilliseconds?: number) {
  * アクセストークンをリセットする
  * この関数はテストコードのために作成
  * おそらく運用中は使われないと思われる
+ *
+ * @ignore
  */
 export function resetAccessToken() {
     credentials = {
