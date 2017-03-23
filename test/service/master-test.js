@@ -13,7 +13,8 @@ describe('マスター抽出サービス', () => {
             theater_code: '000'
         }).then(() => {
             done(new Error('劇場は存在しないはず'));
-        }).catch(() => {
+        }).catch((err) => {
+            assert(err instanceof Error);
             done();
         });
     });
@@ -58,7 +59,8 @@ describe('座席本予約', () => {
             ]
         }).then(() => {
             done(new Error('存在しない座席本予約のはず'));
-        }).catch(() => {
+        }).catch((err) => {
+            assert(err instanceof Error);
             done();
         });
     });
