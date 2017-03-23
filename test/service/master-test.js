@@ -1,11 +1,10 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * テスト
+ * マスターサービステスト
+ *
+ * @ignore
  */
-// todo 環境変数
-process.env.COA_ENDPOINT = 'http://coacinema.aa0.netvolante.jp';
-// tslint:disable-next-line:max-line-length
-process.env.COA_REFRESH_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVkX2F0IjoxNDc5MjYwODQ4LCJhdXRoX2lkIjoiMzMxNSJ9.jx-w7D3YLP7UbY4mzJYC9xr368FiKWcpR2_L9mZfehQ';
 const assert = require("assert");
 const COA = require("../../lib/index");
 describe('マスター抽出サービス', () => {
@@ -74,8 +73,8 @@ describe('ムビチケチケットコード取得', () => {
             sales_price: 1400,
             app_price: 1200,
             kbn_eisyahousiki: '01',
-            title_code: '00000',
-            title_branch_num: '00'
+            title_code: 'xxxxx',
+            title_branch_num: 'xx'
         }).then(() => {
             done(new Error('存在しないムビチケチケットコードのはず'));
         }).catch(() => {

@@ -1,8 +1,8 @@
 /**
  * 空席状況in
- * @interface CountFreeSeatArgs
+ * @interface ICountFreeSeatArgs
  */
-export interface CountFreeSeatArgs {
+export interface ICountFreeSeatArgs {
     /**
      * 劇場コード
      */
@@ -18,9 +18,9 @@ export interface CountFreeSeatArgs {
 }
 /**
  * パフォーマンス
- * @interface CountFreeSeatPerformance
+ * @interface ICountFreeSeatPerformance
  */
-export interface CountFreeSeatPerformance {
+export interface ICountFreeSeatPerformance {
     /**
      * 作品コード(5桁)
      */
@@ -48,9 +48,9 @@ export interface CountFreeSeatPerformance {
 }
 /**
  * 日程
- * @interface CountFreeSeatDate
+ * @interface ICountFreeSeatDate
  */
-export interface CountFreeSeatDate {
+export interface ICountFreeSeatDate {
     /**
      * 上映日(日付は西暦8桁 'YYYYMMDD')
      */
@@ -58,7 +58,7 @@ export interface CountFreeSeatDate {
     /**
      * パフォーマンスリスト
      */
-    list_performance: CountFreeSeatPerformance[];
+    list_performance: ICountFreeSeatPerformance[];
     /**
      * パフォーマンス数
      */
@@ -66,9 +66,9 @@ export interface CountFreeSeatDate {
 }
 /**
  * 空席状況out
- * @interface CountFreeSeatResult
+ * @interface ICountFreeSeatResult
  */
-export interface CountFreeSeatResult {
+export interface ICountFreeSeatResult {
     /**
      * 施設コード
      */
@@ -76,7 +76,7 @@ export interface CountFreeSeatResult {
     /**
      * 日程リスト
      */
-    list_date: CountFreeSeatDate[];
+    list_date: ICountFreeSeatDate[];
 }
 /**
  * 空席状況
@@ -88,12 +88,12 @@ export interface CountFreeSeatResult {
  * @param {string} args.end 空席情報を抽出する上映日の終了日 ※日付は西暦8桁 'YYYYMMDD'
  * @returns {Promise<CountFreeSeatResult>}
  */
-export declare function countFreeSeat(args: CountFreeSeatArgs): Promise<CountFreeSeatResult>;
+export declare function countFreeSeat(args: ICountFreeSeatArgs): Promise<ICountFreeSeatResult>;
 /**
  * 座席予約状態抽出in
- * @interface StateReserveSeatArgs
+ * @interface IStateReserveSeatArgs
  */
-export interface StateReserveSeatArgs {
+export interface IStateReserveSeatArgs {
     /**
      * 施設コード
      */
@@ -121,9 +121,9 @@ export interface StateReserveSeatArgs {
 }
 /**
  * 空席リスト
- * @interface StateReserveSeatFreeSeat
+ * @interface IStateReserveSeatFreeSeat
  */
-export interface StateReserveSeatFreeSeat {
+export interface IStateReserveSeatFreeSeat {
     /**
      * 座席番号
      */
@@ -131,9 +131,9 @@ export interface StateReserveSeatFreeSeat {
 }
 /**
  * 座席リスト
- * @interface StateReserveSeatSeat
+ * @interface IStateReserveSeatSeat
  */
-export interface StateReserveSeatSeat {
+export interface IStateReserveSeatSeat {
     /**
      * 座席セクション
      */
@@ -141,13 +141,13 @@ export interface StateReserveSeatSeat {
     /**
      * 空席リスト
      */
-    list_free_seat: StateReserveSeatFreeSeat[];
+    list_free_seat: IStateReserveSeatFreeSeat[];
 }
 /**
  * 座席予約状態抽出out
- * @interface StateReserveSeatResult
+ * @interface IStateReserveSeatResult
  */
-export interface StateReserveSeatResult {
+export interface IStateReserveSeatResult {
     /**
      * 予約可能残席数
      */
@@ -159,7 +159,7 @@ export interface StateReserveSeatResult {
     /**
      * 座席リスト
      */
-    list_seat: StateReserveSeatSeat[];
+    list_seat: IStateReserveSeatSeat[];
 }
 /**
  * 座席予約状態抽出
@@ -174,12 +174,12 @@ export interface StateReserveSeatResult {
  * @param {string} args.screen_code スクリーンコード
  * @returns {Promise<StateReserveSeatResult>}
  */
-export declare function stateReserveSeat(args: StateReserveSeatArgs): Promise<StateReserveSeatResult>;
+export declare function stateReserveSeat(args: IStateReserveSeatArgs): Promise<IStateReserveSeatResult>;
 /**
  * 予約座席
- * @interface Seat
+ * @interface ISeat
  */
-export interface UpdTmpReserveSeatSeat {
+export interface IUpdTmpReserveSeatSeat {
     /**
      * 座席セクション
      */
@@ -191,9 +191,9 @@ export interface UpdTmpReserveSeatSeat {
 }
 /**
  * 仮予約結果リスト
- * @interface TmpReserve
+ * @interface ITmpReserve
  */
-export interface UpdTmpReserveSeatTmpReserve {
+export interface IUpdTmpReserveSeatTmpReserve {
     /**
      * 座席セクション
      */
@@ -209,9 +209,9 @@ export interface UpdTmpReserveSeatTmpReserve {
 }
 /**
  * 座席仮予約in
- * @interface UpdTmpReserveSeatArgs
+ * @interface IUpdTmpReserveSeatArgs
  */
-export interface UpdTmpReserveSeatArgs {
+export interface IUpdTmpReserveSeatArgs {
     /**
      * 施設コード
      */
@@ -242,13 +242,13 @@ export interface UpdTmpReserveSeatArgs {
     /**
      * 予約座席リスト
      */
-    list_seat: UpdTmpReserveSeatSeat[];
+    list_seat: IUpdTmpReserveSeatSeat[];
 }
 /**
  * 座席仮予約out
- * @interface UpdTmpReserveSeatResult
+ * @interface IUpdTmpReserveSeatResult
  */
-export interface UpdTmpReserveSeatResult {
+export interface IUpdTmpReserveSeatResult {
     /**
      * 座席チケット仮予約番号
      */
@@ -256,7 +256,7 @@ export interface UpdTmpReserveSeatResult {
     /**
      * 仮予約結果リスト(仮予約失敗時の座席毎の仮予約状況)
      */
-    list_tmp_reserve: UpdTmpReserveSeatTmpReserve[];
+    list_tmp_reserve: IUpdTmpReserveSeatTmpReserve[];
 }
 /**
  * 座席仮予約
@@ -274,12 +274,12 @@ export interface UpdTmpReserveSeatResult {
  * @param {string} args.screen_code.seat_num 座席番号
  * @returns {Promise<UpdTmpReserveSeatResult>}
  */
-export declare function updTmpReserveSeat(args: UpdTmpReserveSeatArgs): Promise<UpdTmpReserveSeatResult>;
+export declare function updTmpReserveSeat(args: IUpdTmpReserveSeatArgs): Promise<IUpdTmpReserveSeatResult>;
 /**
  * 座席仮予約削除in
- * @interface DelTmpReserveArgs
+ * @interface IDelTmpReserveArgs
  */
-export interface DelTmpReserveArgs {
+export interface IDelTmpReserveArgs {
     /**
      * 施設コード
      */
@@ -318,12 +318,12 @@ export interface DelTmpReserveArgs {
  * @param {number} args.tmp_reserve_num 座席チケット仮予約番号
  * @returns {Promise<void>}
  */
-export declare function delTmpReserve(args: DelTmpReserveArgs): Promise<void>;
+export declare function delTmpReserve(args: IDelTmpReserveArgs): Promise<void>;
 /**
  * 座席本予約in
- * @interface UpdReserveArgs
+ * @interface IUpdReserveArgs
  */
-export interface UpdReserveArgs {
+export interface IUpdReserveArgs {
     /**
      * 施設コード
      */
@@ -371,13 +371,13 @@ export interface UpdReserveArgs {
     /**
      * 価格情報リスト
      */
-    list_ticket: UpdReserveTicket[];
+    list_ticket: IUpdReserveTicket[];
 }
 /**
  * 価格情報
- * @interface UpdReserveTicket
+ * @interface IUpdReserveTicket
  */
-export interface UpdReserveTicket {
+export interface IUpdReserveTicket {
     /**
      * チケットコード
      */
@@ -417,9 +417,9 @@ export interface UpdReserveTicket {
 }
 /**
  * 座席本予約out
- * @interface UpdReserveResult
+ * @interface IUpdReserveResult
  */
-export interface UpdReserveResult {
+export interface IUpdReserveResult {
     /**
      * 座席チケット購入番号
      */
@@ -427,13 +427,13 @@ export interface UpdReserveResult {
     /**
      * 入場QRリスト
      */
-    list_qr: UpdReserveQR[];
+    list_qr: IUpdReserveQR[];
 }
 /**
  * 入場QR
- * @interface UpdReserveQR
+ * @interface IUpdReserveQR
  */
-export interface UpdReserveQR {
+export interface IUpdReserveQR {
     /**
      * 座席セクション
      */
@@ -476,12 +476,12 @@ export interface UpdReserveQR {
  * @param {string} args.list_ticket.add_glasses メガネ単価 ※メガネ代が別途発生した場合は、メガネ代をセット。それ以外は０をセット（ムビチケの場合も同様）
  * @returns {Promise<UpdReserveResult>}
  */
-export declare function updReserve(args: UpdReserveArgs): Promise<UpdReserveResult>;
+export declare function updReserve(args: IUpdReserveArgs): Promise<IUpdReserveResult>;
 /**
  * 購入チケット取り消しin
- * @interface DelReserveArgs
+ * @interface IDelReserveArgs
  */
-export interface DelReserveArgs {
+export interface IDelReserveArgs {
     /**
      * 施設コード
      */
@@ -513,13 +513,13 @@ export interface DelReserveArgs {
     /**
      * 座席単位削除リスト
      */
-    list_seat: DelReserveSeat[];
+    list_seat: IDelReserveSeat[];
 }
 /**
  * 座席単位削除
- * @interface DelReserveSeat
+ * @interface IDelReserveSeat
  */
-export interface DelReserveSeat {
+export interface IDelReserveSeat {
     /**
      * 座席セクション
      */
@@ -547,11 +547,11 @@ export interface DelReserveSeat {
  * @param {string} args.screen_code.seat_num 座席番号
  * @returns {Promise<void>}
  */
-export declare function delReserve(args: DelReserveArgs): Promise<void>;
+export declare function delReserve(args: IDelReserveArgs): Promise<void>;
 /**
  * 購入チケット内容抽出in
  */
-export interface StateReserveArgs {
+export interface IStateReserveArgs {
     /**
      * 施設コード
      */
@@ -565,7 +565,7 @@ export interface StateReserveArgs {
      */
     tel_num: string;
 }
-export interface StateReserveTicket {
+export interface IStateReserveTicket {
     /**
      * チケットコード
      */
@@ -598,7 +598,7 @@ export interface StateReserveTicket {
 /**
  * 購入チケット内容抽出out
  */
-export interface StateReserveResult {
+export interface IStateReserveResult {
     /**
      * 上映日
      */
@@ -622,7 +622,7 @@ export interface StateReserveResult {
     /**
      * 価格情報リスト
      */
-    list_ticket: StateReserveTicket[];
+    list_ticket: IStateReserveTicket[];
 }
 /**
  * 購入チケット内容抽出
@@ -634,12 +634,12 @@ export interface StateReserveResult {
  * @param {string} args.tel_num 電話番号
  * @returns {Promise<StateReserveResult>}
  */
-export declare function stateReserve(args: StateReserveArgs): Promise<StateReserveResult>;
+export declare function stateReserve(args: IStateReserveArgs): Promise<IStateReserveResult>;
 /**
  * 販売可能チケット情報in
- * @interface SalesTicketArgs
+ * @interface ISalesTicketArgs
  */
-export interface SalesTicketArgs {
+export interface ISalesTicketArgs {
     /**
      * 施設コード
      */
@@ -663,9 +663,9 @@ export interface SalesTicketArgs {
 }
 /**
  * 販売可能チケット情報out
- * @interface salesTicketResult
+ * @interface IsalesTicketResult
  */
-export interface SalesTicketResult {
+export interface ISalesTicketResult {
     /**
      * チケットコード
      */
@@ -719,4 +719,4 @@ export interface SalesTicketResult {
  * @param {string} args.time_begin 上映時刻
  * @memberOf salesTicket
  */
-export declare function salesTicket(args: SalesTicketArgs): Promise<SalesTicketResult[]>;
+export declare function salesTicket(args: ISalesTicketArgs): Promise<ISalesTicketResult[]>;

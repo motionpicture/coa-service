@@ -9,7 +9,7 @@ import * as Util from '../utils/util';
  * 施設マスター抽出in
  * @interface TheaterArgs
  */
-export interface TheaterArgs {
+export interface ITheaterArgs {
     /**
      * 劇場コード
      */
@@ -19,7 +19,7 @@ export interface TheaterArgs {
  * 施設マスター抽出out
  * @interface TheaterResult
  */
-export interface TheaterResult {
+export interface ITheaterResult {
     /**
      * 施設コード
      */
@@ -45,7 +45,7 @@ export interface TheaterResult {
  * @param {string} args.theater_code 劇場コード
  * @returns {Promise<TheaterResult>}
  */
-export async function theater(args: TheaterArgs): Promise<TheaterResult> {
+export async function theater(args: ITheaterArgs): Promise<ITheaterResult> {
     const body = await request.get({
         simple: false,
         url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/theater/',
@@ -65,7 +65,7 @@ export async function theater(args: TheaterArgs): Promise<TheaterResult> {
  * 作品マスター抽出in
  * @interface TitleArgs
  */
-export interface TitleArgs {
+export interface ITitleArgs {
     /**
      * 劇場コード
      */
@@ -75,7 +75,7 @@ export interface TitleArgs {
  * 作品マスター抽出out
  * @interface TitleResult
  */
-export interface TitleResult {
+export interface ITitleResult {
     /**
      * 作品コード
      */
@@ -141,7 +141,7 @@ export interface TitleResult {
  * @param {string} args.theater_code 劇場コード
  * @returns {Promise<TitleResult[]>}
  */
-export async function title(args: TitleArgs): Promise<TitleResult[]> {
+export async function title(args: ITitleArgs): Promise<ITitleResult[]> {
     const body = await request.get({
         simple: false,
         url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/title/',
@@ -156,7 +156,7 @@ export async function title(args: TitleArgs): Promise<TitleResult[]> {
  * スクリーンマスター抽出in
  * @interface ScreenArgs
  */
-export interface ScreenArgs {
+export interface IScreenArgs {
     /**
      * 劇場コード
      */
@@ -166,7 +166,7 @@ export interface ScreenArgs {
  * 座席
  * @interface ScreenSeat
  */
-export interface ScreenSeat {
+export interface IScreenSeat {
     /**
      * 座席セクション
      */
@@ -200,7 +200,7 @@ export interface ScreenSeat {
  * スクリーンマスター抽出out
  * @interface ScreenResult
  */
-export interface ScreenResult {
+export interface IScreenResult {
     /**
      * スクリーンコード
      */
@@ -216,7 +216,7 @@ export interface ScreenResult {
     /**
      * 座席リスト
      */
-    list_seat: ScreenSeat[];
+    list_seat: IScreenSeat[];
 }
 /**
  * スクリーンマスター抽出
@@ -226,7 +226,7 @@ export interface ScreenResult {
  * @param {string} args.theater_code 劇場コード
  * @returns {Promise<ScreenResult[]>}
  */
-export async function screen(args: ScreenArgs): Promise<ScreenResult[]> {
+export async function screen(args: IScreenArgs): Promise<IScreenResult[]> {
     const body = await request.get({
         simple: false,
         url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/screen/',
@@ -241,7 +241,7 @@ export async function screen(args: ScreenArgs): Promise<ScreenResult[]> {
  * スケジュールマスター抽出in
  * @interface ScheduleArgs
  */
-export interface ScheduleArgs {
+export interface IScheduleArgs {
     /**
      * 劇場コード
      */
@@ -259,7 +259,7 @@ export interface ScheduleArgs {
  * スケジュールマスター抽出out
  * @interface ScheduleResult
  */
-export interface ScheduleResult {
+export interface IScheduleResult {
     /**
      * 上映日
      */
@@ -318,8 +318,8 @@ export interface ScheduleResult {
  * @returns {Promise<ScheduleResult[]>}
  */
 export async function schedule(
-    args: ScheduleArgs
-): Promise<ScheduleResult[]> {
+    args: IScheduleArgs
+): Promise<IScheduleResult[]> {
     const body = await request.get({
         simple: false,
         url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/schedule/',
@@ -338,7 +338,7 @@ export async function schedule(
  * 券種マスター抽出in
  * @interface TicketArgs
  */
-export interface TicketArgs {
+export interface ITicketArgs {
     /**
      * 施設コード
      */
@@ -348,7 +348,7 @@ export interface TicketArgs {
  * 券種マスター抽出out
  * @interface TicketResult
  */
-export interface TicketResult {
+export interface ITicketResult {
     /**
      * チケットコード
      */
@@ -370,11 +370,11 @@ export interface TicketResult {
  * 券種マスター抽出
  * @memberOf services.master
  * @function ticket
- * @param {TicketArgs} args
+ * @param {ITicketArgs} args
  * @param {string} args.theater_code 劇場コード
  * @returns {Promise<TicketResult[]>}
  */
-export async function ticket(args: TicketArgs): Promise<TicketResult[]> {
+export async function ticket(args: ITicketArgs): Promise<ITicketResult[]> {
     const body = await request.get({
         simple: false,
         url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/ticket/',
@@ -392,7 +392,7 @@ export async function ticket(args: TicketArgs): Promise<TicketResult[]> {
  * ムビチケチケットコード取得in
  * @interface MvtkTicketcodeArgs
  */
-export interface MvtkTicketcodeArgs {
+export interface IMvtkTicketcodeArgs {
     /**
      * 施設コード
      */
@@ -435,7 +435,7 @@ export interface MvtkTicketcodeArgs {
  * ムビチケチケットコード取得out
  * @interface MvtkTicketcodeResult
  */
-export interface MvtkTicketcodeResult {
+export interface IMvtkTicketcodeResult {
     /**
      * チケットコード
      */
@@ -465,7 +465,7 @@ export interface MvtkTicketcodeResult {
  * ムビチケチケットコード取得
  * @memberOf services.master
  * @function mvtkTicketcode
- * @param {MvtkTicketcodeArgs} args
+ * @param {IMvtkTicketcodeArgs} args
  * @param {string} args.theater_code 劇場コード
  * @param {string} args.kbn_denshiken 電子券区分
  * @param {string} args.kbn_maeuriken 前売券区分
@@ -475,9 +475,9 @@ export interface MvtkTicketcodeResult {
  * @param {number} args.kbn_eisyahousiki 映写方式区分
  * @param {number} args.title_code 作品コード
  * @param {number} args.title_branch_num 作品枝番
- * @returns {Promise<MvtkTicketcodeResult>}
+ * @returns {Promise<IMvtkTicketcodeResult>}
  */
-export async function mvtkTicketcode(args: MvtkTicketcodeArgs): Promise<MvtkTicketcodeResult> {
+export async function mvtkTicketcode(args: IMvtkTicketcodeArgs): Promise<IMvtkTicketcodeResult> {
     const body = await request.get({
         simple: false,
         url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/mvtk_ticketcode/',

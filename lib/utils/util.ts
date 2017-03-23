@@ -20,15 +20,11 @@ let credentials = {
  * @function publishAccessToken
  * @returns {Promise<string>}
  */
-export async function publishAccessToken(): Promise<string> {
-    if (!process.env.COA_ENDPOINT || !process.env.COA_REFRESH_TOKEN) {
-        throw new Error('coa-service requires initialization.');
-    }
-
+export async function publishAccessToken() {
     // アクセストークン有効期限チェック
     // ギリギリだと実際呼び出したサービス実行時に間に合わない可能性があるので、余裕を持ってチェック
     const SPARE_TIME = 60000;
-    if (!credentials.access_token || Date.parse(credentials.expired_at) < Date.now() - SPARE_TIME) {
+    if (credentials.access_token === '' || Date.parse(credentials.expired_at) < Date.now() - SPARE_TIME) {
         const body = await request.post({
             simple: false,
             url: <string>process.env.COA_ENDPOINT + '/token/access_token',
@@ -53,7 +49,7 @@ export async function publishAccessToken(): Promise<string> {
  */
 export async function throwIfNot200(body: any): Promise<any> {
     if (typeof body === 'string') throw new Error(body);
-    if (body.message) throw new Error(body.message);
+    if (body.message instanceof String) throw new Error(body.message);
     if (body.status !== undefined && body.status !== 0) throw new Error(body.status);
 
     return body;
