@@ -25,6 +25,13 @@ let credentials = {
 const DEFAULT_SPARE_TIME_IN_MILLISECONDS = 60000;
 
 /**
+ * 認証エラーの場合のレスポンスボディ文字列
+ *
+ * @ignore
+ */
+export const RESPONSE_BODY_BAD_CREDENTIALS = 'Bad credentials';
+
+/**
  * アクセストークンを発行
  * @memberOf utils.util
  * @function publishAccessToken
@@ -57,8 +64,6 @@ export async function publishAccessToken(spareTimeInMilliseconds?: number) {
 
 /**
  * アクセストークンをリセットする
- * この関数はテストコードのために作成
- * おそらく運用中は使われないと思われる
  *
  * @ignore
  */
@@ -77,7 +82,14 @@ export function resetAccessToken() {
  * @returns {Promise<any>}
  */
 export async function throwIfNot200(body: any): Promise<any> {
-    if (typeof body === 'string') throw new Error(body);
+    if (typeof body === 'string') {
+        // 本来認証エラーは出ないはずだが、原因不明で出ることがあるので、その場合に備えて
+        if (body === RESPONSE_BODY_BAD_CREDENTIALS) {
+            resetAccessToken();
+        }
+
+        throw new Error(body);
+    }
     if (typeof body.message === 'string' && (<string>body.message).length > 0) throw new Error(body.message);
     if (body.status !== undefined && body.status !== 0) throw new Error(body.status);
 

@@ -1,4 +1,10 @@
 /**
+ * 認証エラーの場合のレスポンスボディ文字列
+ *
+ * @ignore
+ */
+export declare const RESPONSE_BODY_BAD_CREDENTIALS = "Bad credentials";
+/**
  * アクセストークンを発行
  * @memberOf utils.util
  * @function publishAccessToken
@@ -8,8 +14,6 @@
 export declare function publishAccessToken(spareTimeInMilliseconds?: number): Promise<string>;
 /**
  * アクセストークンをリセットする
- * この関数はテストコードのために作成
- * おそらく運用中は使われないと思われる
  *
  * @ignore
  */

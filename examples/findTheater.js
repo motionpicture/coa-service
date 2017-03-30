@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  *
  * @ignore
  */
-const COA = require("../../lib/index");
+const COA = require("../lib/index");
 COA.MasterService.theater({
     theater_code: '118'
 }).then((result) => {

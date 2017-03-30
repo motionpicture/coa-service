@@ -1,5 +1,5 @@
 // tslint:disable-next-line:missing-jsdoc
-import * as COA from '../../lib/index';
+import * as COA from '../lib/index';
 
 COA.ReserveService.delReserve({
     theater_code: '001',

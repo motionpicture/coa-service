@@ -3,7 +3,7 @@
  *
  * @ignore
  */
-import * as COA from '../../lib/index';
+import * as COA from '../lib/index';
 
 COA.MasterService.theater({
     theater_code: '118'

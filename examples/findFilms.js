@@ -1,14 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // tslint:disable-next-line:missing-jsdoc
-const COA = require("../../lib/index");
-COA.ReserveService.stateReserve({
-    theater_code: '001',
-    reserve_num: 11586,
-    tel_num: '09012345678'
-}).then((result) => {
+const COA = require("../lib/index");
+COA.MasterService.title({
+    theater_code: '118'
+}).then((films) => {
     // tslint:disable-next-line:no-console
-    console.log(result);
+    console.log(films);
 }).catch((err) => {
     console.error(err.message);
 });
