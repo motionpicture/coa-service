@@ -30,41 +30,6 @@ describe('マスター抽出サービス', () => {
         });
     });
 });
-describe('座席本予約', () => {
-    it('存在しない座席本予約', (done) => {
-        COA.ReserveService.updReserve({
-            theater_code: '',
-            date_jouei: '',
-            title_code: '',
-            title_branch_num: '',
-            time_begin: '',
-            tmp_reserve_num: 0,
-            reserve_name: '',
-            reserve_name_jkana: '',
-            tel_num: '',
-            mail_addr: '',
-            reserve_amount: 0,
-            list_ticket: [
-                {
-                    ticket_code: '',
-                    std_price: 0,
-                    add_price: 0,
-                    dis_price: 0,
-                    sale_price: 0,
-                    mvtk_app_price: 0,
-                    ticket_count: 1,
-                    seat_num: '',
-                    add_glasses: 0
-                }
-            ]
-        }).then(() => {
-            done(new Error('存在しない座席本予約のはず'));
-        }).catch((err) => {
-            assert(err instanceof Error);
-            done();
-        });
-    });
-});
 describe('ムビチケチケットコード取得', () => {
     it('存在しないムビチケチケットコード取得', (done) => {
         COA.MasterService.mvtkTicketcode({

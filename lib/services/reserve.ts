@@ -783,7 +783,7 @@ export interface IStateReserveResult {
  * @param {string} args.tel_num 電話番号
  * @returns {Promise<StateReserveResult>}
  */
-export async function stateReserve(args: IStateReserveArgs): Promise<IStateReserveResult> {
+export async function stateReserve(args: IStateReserveArgs): Promise<IStateReserveResult | null> {
     const body = await request.get({
         simple: false,
         url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/state_reserve/',
@@ -796,6 +796,11 @@ export async function stateReserve(args: IStateReserveArgs): Promise<IStateReser
         },
         useQuerystring: true
     }).then(Util.throwIfNot200);
+
+    // 該当予約がなくてもステータス0が返ってくる
+    if ((<IStateReserveTicket[]>body.list_ticket).length === 0) {
+        return null;
+    }
 
     return {
         date_jouei: body.date_jouei,

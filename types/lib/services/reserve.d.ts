@@ -634,7 +634,7 @@ export interface IStateReserveResult {
  * @param {string} args.tel_num 電話番号
  * @returns {Promise<StateReserveResult>}
  */
-export declare function stateReserve(args: IStateReserveArgs): Promise<IStateReserveResult>;
+export declare function stateReserve(args: IStateReserveArgs): Promise<IStateReserveResult | null>;
 /**
  * 販売可能チケット情報in
  * @interface ISalesTicketArgs
