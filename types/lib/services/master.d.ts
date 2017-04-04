@@ -110,6 +110,14 @@ export interface ITitleResult {
      * 公演終了予定日
      */
     date_end: string;
+    /**
+     * ムビチケ使用フラグ
+     */
+    flg_mvtk_use: string;
+    /**
+     * ムビチケ利用開始日
+     */
+    date_mvtk_begin: string;
 }
 /**
  * 作品マスター抽出
@@ -264,8 +272,19 @@ export interface IScheduleResult {
     available_num: number;
     /**
      * 予約開始日
+     * 予約可能になる日付(YYYYMMDD)
      */
     rsv_start_date: string;
+    /**
+     * 予約終了日
+     * 予約終了になる日付(YYYYMMDD)　通常は上映日、先行販売の場合は販売終了日
+     */
+    rsv_end_date: string;
+    /**
+     * 先行予約フラグ
+     * 先行予約の場合は'1'、それ以外は'0'
+     */
+    flg_early_booking: string;
 }
 /**
  * スケジュールマスター抽出

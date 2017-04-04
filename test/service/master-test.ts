@@ -4,36 +4,87 @@
  * @ignore
  */
 import * as assert from 'assert';
-import * as COA from '../../lib/index';
+import * as _ from 'underscore';
 
-describe('マスター抽出サービス', () => {
-    it('存在しない劇場抽出', (done) => {
-        COA.MasterService.theater({
-            theater_code: '000'
-        }).then(() => {
-            done(new Error('劇場は存在しないはず'));
-        }).catch((err) => {
-            assert(err instanceof Error);
-            done();
-        });
+import * as MasterService from '../../lib/services/master';
+
+describe('劇場抽出', () => {
+    it('存在しない劇場', async () => {
+        try {
+            await MasterService.theater({
+                theater_code: '000'
+            });
+        } catch (error) {
+            assert(error instanceof Error);
+            return;
+        }
+
+        throw new Error('劇場は存在しないはず');
     });
 
-    it('存在する劇場抽出', (done) => {
+    it('存在する劇場', async () => {
         const theaterCode = '118';
-        COA.MasterService.theater({
+        const result = await MasterService.theater({
             theater_code: theaterCode
-        }).then((result) => {
-            assert.equal(result.theater_code, theaterCode);
-            done();
-        }).catch((err) => {
-            done(err);
         });
+
+        assert.equal(result.theater_code, theaterCode);
+    });
+});
+
+describe('作品抽出', () => {
+    it('存在しない', async () => {
+        try {
+            await MasterService.title({
+                theater_code: '000'
+            });
+        } catch (error) {
+            assert(error instanceof Error);
+            return;
+        }
+
+        throw new Error('作品は存在しないはず');
+    });
+
+    it('存在する', async () => {
+        const result = await MasterService.title({
+            theater_code: '118'
+        });
+
+        assert(!_.isEmpty(result[0].title_code));
+    });
+});
+
+describe('スケジュール抽出', () => {
+    it('存在しない', async () => {
+        try {
+            await MasterService.schedule({
+                theater_code: '000',
+                begin: '20170401',
+                end: '20170401'
+            });
+        } catch (error) {
+            assert(error instanceof Error);
+            return;
+        }
+
+        throw new Error('スケジュールは存在しないはず');
+    });
+
+    it('存在する', async () => {
+        const result = await MasterService.schedule({
+            theater_code: '118',
+            begin: '20170401',
+            end: '20170401'
+        });
+
+        assert(!_.isEmpty(result[0].title_code));
     });
 });
 
 describe('ムビチケチケットコード取得', () => {
     it('存在しないムビチケチケットコード取得', (done) => {
-        COA.MasterService.mvtkTicketcode({
+        MasterService.mvtkTicketcode({
             theater_code: '118',
             kbn_denshiken: '01',
             kbn_maeuriken: '01',
