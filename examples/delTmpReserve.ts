@@ -1,4 +1,8 @@
-// tslint:disable-next-line:missing-jsdoc
+/**
+ * 座席仮予約削除の例
+ *
+ * @ignore
+ */
 import * as COA from '../lib/index';
 
 COA.ReserveService.delTmpReserve({

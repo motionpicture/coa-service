@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * 劇場抽出コード
+ * 劇場抽出の例
  *
  * @ignore
  */

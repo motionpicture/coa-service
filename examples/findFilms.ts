@@ -1,4 +1,8 @@
-// tslint:disable-next-line:missing-jsdoc
+/**
+ * 作品マスター抽出の例
+ *
+ * @ignore
+ */
 import * as COA from '../lib/index';
 
 COA.MasterService.title({

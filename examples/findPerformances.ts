@@ -1,17 +1,17 @@
 /**
- * 購入チケット内容取得の例
+ * パフォーマンス抽出の例
  *
  * @ignore
  */
 import * as COA from '../lib/index';
 
-COA.ReserveService.stateReserve({
+COA.MasterService.schedule({
     theater_code: '118',
-    reserve_num: 1339,
-    tel_num: '09012345678'
-}).then((result) => {
+    begin: '20170411',
+    end: '20170411'
+}).then((performances) => {
     // tslint:disable-next-line:no-console
-    console.log(result);
+    console.log(performances);
 }).catch((err) => {
     console.error(err.message);
 });

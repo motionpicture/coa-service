@@ -1,21 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * 座席仮予約削除の例
+ * 販売可能チケット抽出の例
  *
  * @ignore
  */
 const COA = require("../lib/index");
-COA.ReserveService.delTmpReserve({
-    tmp_reserve_num: 985,
+COA.ReserveService.salesTicket({
     theater_code: '118',
-    date_jouei: '20170403',
-    title_code: '16344',
+    date_jouei: '20170411',
+    title_code: '99600',
     title_branch_num: '0',
-    time_begin: '1000'
-}).then((result) => {
+    time_begin: '2130'
+}).then((results) => {
     // tslint:disable-next-line:no-console
-    console.log(result);
+    console.log(results);
 }).catch((err) => {
     console.error(err.message);
 });

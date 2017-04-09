@@ -1,16 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * 作品マスター抽出の例
+ * パフォーマンス抽出の例
  *
  * @ignore
  */
 const COA = require("../lib/index");
-COA.MasterService.title({
-    theater_code: '118'
-}).then((films) => {
+COA.MasterService.schedule({
+    theater_code: '118',
+    begin: '20170411',
+    end: '20170411'
+}).then((performances) => {
     // tslint:disable-next-line:no-console
-    console.log(films);
+    console.log(performances);
 }).catch((err) => {
     console.error(err.message);
 });

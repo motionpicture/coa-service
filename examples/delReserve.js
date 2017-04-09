@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// tslint:disable-next-line:missing-jsdoc
+/**
+ * 購入チケット取消の例
+ *
+ * @ignore
+ */
 const COA = require("../lib/index");
 COA.ReserveService.delReserve({
     reserve_num: 985,

@@ -1,4 +1,8 @@
-// tslint:disable-next-line:missing-jsdoc
+/**
+ * 購入チケット取消の例
+ *
+ * @ignore
+ */
 import * as COA from '../lib/index';
 
 COA.ReserveService.delReserve({
