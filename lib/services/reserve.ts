@@ -883,6 +883,10 @@ export interface ISalesTicketResult {
      * チケット備考(注意事項等)
      */
     ticket_note: string;
+    /**
+     * メガネ単価
+     */
+    add_glasses: number;
 }
 
 /**
