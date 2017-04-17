@@ -44,7 +44,8 @@ describe('座席本予約', () => {
                         mvtk_app_price: 0,
                         ticket_count: 1,
                         seat_num: '',
-                        add_glasses: 0
+                        add_glasses: 0,
+                        kbn_eisyahousiki: '00'
                     }
                 ]
             });

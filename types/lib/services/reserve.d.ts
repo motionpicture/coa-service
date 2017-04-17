@@ -414,6 +414,10 @@ export interface IUpdReserveTicket {
      * メガネ単価
      */
     add_glasses: number;
+    /**
+     * ムビチケ映写方式区分
+     */
+    kbn_eisyahousiki: string;
 }
 /**
  * 座席本予約out
@@ -594,6 +598,10 @@ export interface IStateReserveTicket {
      * 座席入場QRコード
      */
     seat_qrcode: string;
+    /**
+     * メガネ単価
+     */
+    add_glasses: number;
 }
 /**
  * 購入チケット内容抽出out

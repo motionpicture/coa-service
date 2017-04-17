@@ -505,6 +505,10 @@ export interface IUpdReserveTicket {
      * メガネ単価
      */
     add_glasses: number;
+    /**
+     * ムビチケ映写方式区分
+     */
+    kbn_eisyahousiki: string;
 }
 /**
  * 座席本予約out
@@ -595,7 +599,8 @@ export async function updReserve(args: IUpdReserveArgs): Promise<IUpdReserveResu
             mvtk_app_price: args.list_ticket.map((value) => value.mvtk_app_price),
             ticket_count: args.list_ticket.map((value) => value.ticket_count),
             seat_num: args.list_ticket.map((value) => value.seat_num),
-            add_glasses: args.list_ticket.map((value) => value.add_glasses)
+            add_glasses: args.list_ticket.map((value) => value.add_glasses),
+            kbn_eisyahousiki: args.list_ticket.map((value) => value.kbn_eisyahousiki)
         },
         useQuerystring: true
     }).then(Util.throwIfNot200);
@@ -743,6 +748,10 @@ export interface IStateReserveTicket {
      * 座席入場QRコード
      */
     seat_qrcode: string;
+    /**
+     * メガネ単価
+     */
+    add_glasses: number;
 }
 /**
  * 購入チケット内容抽出out
