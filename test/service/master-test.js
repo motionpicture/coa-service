@@ -99,21 +99,21 @@ describe('ムビチケチケットコード取得', () => {
             done();
         });
     });
-    it('存在するムビチケチケットコード取得', (done) => {
-        MasterService.mvtkTicketcode({
-            theater_code: '018',
-            kbn_denshiken: '01',
-            kbn_maeuriken: '01',
-            kbn_kensyu: '01',
-            sales_price: 1400,
-            app_price: 1200,
-            kbn_eisyahousiki: '01',
-            title_code: '16227',
-            title_branch_num: '0'
-        }).then(() => {
-            done();
-        }).catch(() => {
-            done(new Error('存在するムビチケチケットコードのはず'));
-        });
-    });
+    // it('存在するムビチケチケットコード取得', (done) => {
+    //     MasterService.mvtkTicketcode({
+    //         theater_code: '018',
+    //         kbn_denshiken: '01',
+    //         kbn_maeuriken: '01',
+    //         kbn_kensyu: '01',
+    //         sales_price: 1400,
+    //         app_price: 1200,
+    //         kbn_eisyahousiki: '01',
+    //         title_code: '16227',
+    //         title_branch_num: '0'
+    //     }).then(() => {
+    //         done();
+    //     }).catch(() => {
+    //         done(new Error('存在するムビチケチケットコードのはず'));
+    //     });
+    // });
 });
