@@ -635,7 +635,12 @@ export async function updReserve(args: IUpdReserveArgs): Promise<IUpdReserveResu
             ticket_count: args.list_ticket.map((value) => value.ticket_count),
             seat_num: args.list_ticket.map((value) => value.seat_num),
             add_glasses: args.list_ticket.map((value) => value.add_glasses),
-            kbn_eisyahousiki: args.list_ticket.map((value) => value.kbn_eisyahousiki)
+            kbn_eisyahousiki: args.list_ticket.map((value) => value.kbn_eisyahousiki),
+            mvtk_num: args.list_ticket.map((value) => value.mvtk_num),
+            mvtk_kbn_denshiken: args.list_ticket.map((value) => value.mvtk_kbn_denshiken),
+            mvtk_kbn_maeuriken: args.list_ticket.map((value) => value.mvtk_kbn_maeuriken),
+            mvtk_kbn_kensyu: args.list_ticket.map((value) => value.mvtk_kbn_kensyu),
+            mvtk_sales_price: args.list_ticket.map((value) => value.mvtk_sales_price)
         },
         useQuerystring: true
     }).then(Util.throwIfNot200);
