@@ -45,7 +45,12 @@ describe('座席本予約', () => {
                         ticket_count: 1,
                         seat_num: '',
                         add_glasses: 0,
-                        kbn_eisyahousiki: '00'
+                        kbn_eisyahousiki: '00',
+                        mvtk_num: '',
+                        mvtk_kbn_denshiken: '00',
+                        mvtk_kbn_maeuriken: '00',
+                        mvtk_kbn_kensyu: '00',
+                        mvtk_sales_price: 0
                     }
                 ]
             });

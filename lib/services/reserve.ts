@@ -487,10 +487,12 @@ export interface IUpdReserveTicket {
     dis_price: number;
     /**
      * 金額
+     * 価格情報毎の１枚当たりの金額（ムビチケの場合も金額をセット）　※標準単価+加算単価-割引額
      */
     sale_price: number;
     /**
      * ムビチケ計上単価
+     * ムビチケの場合、計上単価（興収報告単価）をセット（ムビチケ以外は0をセット）
      */
     mvtk_app_price: number;
     /**
@@ -503,12 +505,39 @@ export interface IUpdReserveTicket {
     seat_num: string;
     /**
      * メガネ単価
+     * メガネ代が別途発生した場合は、メガネ代をセット。それ以外は０をセット（ムビチケの場合も同様）
      */
     add_glasses: number;
     /**
      * ムビチケ映写方式区分
+     * ムビチケ連携情報より
      */
     kbn_eisyahousiki: string;
+    /**
+     * ムビチケ購入管理番号
+     * ムビチケ連携情報より（ムビチケ以外は""）
+     */
+    mvtk_num: string;
+    /**
+     * ムビチケ電子券区分
+     * ムビチケ連携情報より（01：電子、02：紙　※ムビチケ以外は"00"をセット）
+     */
+    mvtk_kbn_denshiken: string;
+    /**
+     * ムビチケ前売券区分
+     * ムビチケ連携情報より（01：全国券、02：劇場券　※ムビチケ以外は"00"をセット）
+     */
+    mvtk_kbn_maeuriken: string;
+    /**
+     * ムビチケ券種区分
+     * ムビチケ連携情報より（01：一般2Ｄ、02：小人2Ｄ、03：一般3Ｄ、…　※ムビチケ以外は"00"をセット）
+     */
+    mvtk_kbn_kensyu: string;
+    /**
+     * ムビチケ販売単価
+     * ムビチケ連携情報より（ムビチケ以外は0をセット）
+     */
+    mvtk_sales_price: number;
 }
 /**
  * 座席本予約out
@@ -570,7 +599,13 @@ export interface IUpdReserveQR {
  * @param {number} args.list_ticket.mvtk_app_price ムビチケ計上単価 ※ムビチケの場合、計上単価（興収報告単価）をセット（ムビチケ以外は0をセット）
  * @param {number} args.list_ticket.ticket_count 枚数
  * @param {string} args.list_ticket.seat_num 座席番号
- * @param {string} args.list_ticket.add_glasses メガネ単価 ※メガネ代が別途発生した場合は、メガネ代をセット。それ以外は０をセット（ムビチケの場合も同様）
+ * @param {number} args.list_ticket.add_glasses メガネ単価 ※メガネ代が別途発生した場合は、メガネ代をセット。それ以外は０をセット（ムビチケの場合も同様）
+ * @param {string} args.list_ticket.kbn_eisyahousiki ムビチケ連携情報より
+ * @param {string} args.list_ticket.mvtk_num ムビチケ連携情報より（ムビチケ以外は""）
+ * @param {string} args.list_ticket.mvtk_kbn_denshiken ムビチケ連携情報より（01：電子、02：紙　※ムビチケ以外は"00"をセット）
+ * @param {string} args.list_ticket.mvtk_kbn_maeuriken ムビチケ連携情報より（01：全国券、02：劇場券　※ムビチケ以外は"00"をセット）
+ * @param {string} args.list_ticket.mvtk_kbn_kensyu ムビチケ連携情報より（01：一般2Ｄ、02：小人2Ｄ、03：一般3Ｄ、…　※ムビチケ以外は"00"をセット）
+ * @param {number} args.list_ticket.mvtk_sales_price ムビチケ連携情報より（ムビチケ以外は0をセット）
  * @returns {Promise<UpdReserveResult>}
  */
 export async function updReserve(args: IUpdReserveArgs): Promise<IUpdReserveResult> {
@@ -600,7 +635,12 @@ export async function updReserve(args: IUpdReserveArgs): Promise<IUpdReserveResu
             ticket_count: args.list_ticket.map((value) => value.ticket_count),
             seat_num: args.list_ticket.map((value) => value.seat_num),
             add_glasses: args.list_ticket.map((value) => value.add_glasses),
-            kbn_eisyahousiki: args.list_ticket.map((value) => value.kbn_eisyahousiki)
+            kbn_eisyahousiki: args.list_ticket.map((value) => value.kbn_eisyahousiki),
+            mvtk_num: args.list_ticket.map((value) => value.mvtk_num),
+            mvtk_kbn_denshiken: args.list_ticket.map((value) => value.mvtk_kbn_denshiken),
+            mvtk_kbn_maeuriken: args.list_ticket.map((value) => value.mvtk_kbn_maeuriken),
+            mvtk_kbn_kensyu: args.list_ticket.map((value) => value.mvtk_kbn_kensyu),
+            mvtk_sales_price: args.list_ticket.map((value) => value.mvtk_sales_price)
         },
         useQuerystring: true
     }).then(Util.throwIfNot200);
