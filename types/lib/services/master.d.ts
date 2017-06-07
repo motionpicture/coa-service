@@ -29,6 +29,10 @@ export interface ITheaterResult {
      * 施設名称（英）
      */
     theater_name_kana: string;
+    /**
+     * 電話番号
+     */
+    theater_tel_num: string;
 }
 /**
  * 施設マスター抽出
