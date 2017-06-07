@@ -36,6 +36,10 @@ export interface ITheaterResult {
      * 施設名称（英）
      */
     theater_name_kana: string;
+    /**
+     * 電話番号
+     */
+    theater_tel_num: string;
 }
 /**
  * 施設マスター抽出
@@ -57,7 +61,8 @@ export async function theater(args: ITheaterArgs): Promise<ITheaterResult> {
         theater_code: body.theater_code,
         theater_name: body.theater_name,
         theater_name_eng: body.theater_name_eng,
-        theater_name_kana: body.theater_name_kana
+        theater_name_kana: body.theater_name_kana,
+        theater_tel_num: body.theater_tel_num
     };
 }
 
