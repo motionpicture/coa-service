@@ -48,7 +48,7 @@ export interface ITheaterResult {
 export async function theater(args: ITheaterArgs): Promise<ITheaterResult> {
     const body = await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/theater/',
+        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/theater/`,
         auth: { bearer: await Util.publishAccessToken() },
         json: true
     }).then(Util.throwIfNot200);
@@ -152,7 +152,7 @@ export interface ITitleResult {
 export async function title(args: ITitleArgs): Promise<ITitleResult[]> {
     const body = await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/title/',
+        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/title/`,
         auth: { bearer: await Util.publishAccessToken() },
         json: true
     }).then(Util.throwIfNot200);
@@ -237,7 +237,7 @@ export interface IScreenResult {
 export async function screen(args: IScreenArgs): Promise<IScreenResult[]> {
     const body = await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/screen/',
+        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/screen/`,
         auth: { bearer: await Util.publishAccessToken() },
         json: true
     }).then(Util.throwIfNot200);
@@ -341,7 +341,7 @@ export async function schedule(
 ): Promise<IScheduleResult[]> {
     const body = await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/schedule/',
+        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/schedule/`,
         auth: { bearer: await Util.publishAccessToken() },
         json: true,
         qs: {
@@ -396,7 +396,7 @@ export interface ITicketResult {
 export async function ticket(args: ITicketArgs): Promise<ITicketResult[]> {
     const body = await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/ticket/',
+        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/ticket/`,
         auth: { bearer: await Util.publishAccessToken() },
         json: true,
         qs: {
@@ -499,7 +499,7 @@ export interface IMvtkTicketcodeResult {
 export async function mvtkTicketcode(args: IMvtkTicketcodeArgs): Promise<IMvtkTicketcodeResult> {
     const body = await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/mvtk_ticketcode/',
+        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/mvtk_ticketcode/`,
         auth: { bearer: await Util.publishAccessToken() },
         json: true,
         qs: {

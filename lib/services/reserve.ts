@@ -99,7 +99,7 @@ export interface ICountFreeSeatResult {
 export async function countFreeSeat(args: ICountFreeSeatArgs): Promise<ICountFreeSeatResult> {
     const body = await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/count_free_seat/',
+        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/count_free_seat/`,
         auth: { bearer: await Util.publishAccessToken() },
         json: true,
         qs: {
@@ -203,7 +203,7 @@ export interface IStateReserveSeatResult {
 export async function stateReserveSeat(args: IStateReserveSeatArgs): Promise<IStateReserveSeatResult> {
     const body = await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/state_reserve_seat/',
+        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve_seat/`,
         auth: { bearer: await Util.publishAccessToken() },
         json: true,
         qs: {
@@ -327,7 +327,7 @@ export interface IUpdTmpReserveSeatResult {
 export async function updTmpReserveSeat(args: IUpdTmpReserveSeatArgs): Promise<IUpdTmpReserveSeatResult> {
     const body = await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/upd_tmp_reserve_seat/',
+        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_tmp_reserve_seat/`,
         auth: { bearer: await Util.publishAccessToken() },
         json: true,
         qs: {
@@ -396,7 +396,7 @@ export interface IDelTmpReserveArgs {
 export async function delTmpReserve(args: IDelTmpReserveArgs): Promise<void> {
     await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/del_tmp_reserve/',
+        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_tmp_reserve/`,
         auth: { bearer: await Util.publishAccessToken() },
         json: true,
         qs: {
@@ -611,7 +611,7 @@ export interface IUpdReserveQR {
 export async function updReserve(args: IUpdReserveArgs): Promise<IUpdReserveResult> {
     const body = await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/upd_reserve/',
+        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/upd_reserve/`,
         auth: { bearer: await Util.publishAccessToken() },
         json: true,
         qs: {
@@ -724,7 +724,7 @@ export interface IDelReserveSeat {
 export async function delReserve(args: IDelReserveArgs): Promise<void> {
     await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/del_reserve/',
+        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/del_reserve/`,
         auth: { bearer: await Util.publishAccessToken() },
         json: true,
         qs: {
@@ -835,7 +835,7 @@ export interface IStateReserveResult {
 export async function stateReserve(args: IStateReserveArgs): Promise<IStateReserveResult | null> {
     const body = await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/state_reserve/',
+        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/state_reserve/`,
         auth: { bearer: await Util.publishAccessToken() },
         json: true,
         qs: {
@@ -953,7 +953,7 @@ export interface ISalesTicketResult {
 export async function salesTicket(args: ISalesTicketArgs): Promise<ISalesTicketResult[]> {
     const body = await request.get({
         simple: false,
-        url: <string>process.env.COA_ENDPOINT + '/api/v1/theater/' + args.theater_code + '/sales_ticket/',
+        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theater_code}/sales_ticket/`,
         auth: { bearer: await Util.publishAccessToken() },
         json: true,
         qs: {

@@ -50,7 +50,7 @@ export async function publishAccessToken(spareTimeInMilliseconds?: number) {
         debug('refreshing access_token...');
         credentials = await request.post({
             simple: false,
-            url: <string>process.env.COA_ENDPOINT + '/token/access_token',
+            url: `${process.env.COA_ENDPOINT}/token/access_token`,
             form: {
                 refresh_token: process.env.COA_REFRESH_TOKEN
             },
