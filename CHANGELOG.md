@@ -13,6 +13,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Removed
 
 ### Fixed
+
+### Security
+
+## v3.1.2 - 2017-06-19
+
+### Fixed
+- 変更履歴調整。
+
+## v3.1.1 - 2017-06-19
+### Fixed
 - アクセストークンの有効期限バリデーションを調整。
 
 ### Security
