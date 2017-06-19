@@ -34,7 +34,7 @@ let credentials: ICredentials = {
  *
  * @ignore
  */
-const DEFAULT_SPARE_TIME_IN_MILLISECONDS = 1750000;
+const DEFAULT_SPARE_TIME_IN_MILLISECONDS = 60000;
 
 /**
  * 認証エラーの場合のレスポンスボディ文字列
