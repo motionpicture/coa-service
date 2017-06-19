@@ -2,17 +2,29 @@
  * 共通
  * @namespace utils.util
  */
+
 import * as createDebug from 'debug';
+import * as moment from 'moment';
 import * as request from 'request-promise-native';
 
 const debug = createDebug('coa-service:utils:util');
+
+/**
+ * 認証情報インターフェース
+ *
+ * @interface ICredentials
+ */
+export interface ICredentials {
+    access_token: string;
+    expired_at: string;
+}
 
 /**
  * API認証情報
  *
  * @ignore
  */
-let credentials = {
+let credentials: ICredentials = {
     access_token: '',
     expired_at: ''
 };
@@ -33,31 +45,38 @@ export const RESPONSE_BODY_BAD_CREDENTIALS = 'Bad credentials';
 
 /**
  * アクセストークンを発行
- * @memberOf utils.util
+ * @memberof utils.util
  * @function publishAccessToken
  * @param {number} [spareTimeInMilliseconds] アクセストークンの有効期限までの猶予時間
  * @returns {Promise<string>}
  */
-export async function publishAccessToken(spareTimeInMilliseconds?: number) {
+export async function publishAccessToken(spareTimeInMilliseconds?: number): Promise<string> {
     // アクセストークン有効期限チェック
     // ギリギリだと実際呼び出したサービス実行時に間に合わない可能性があるので、余裕を持ってチェック
     if (spareTimeInMilliseconds === undefined) {
         spareTimeInMilliseconds = DEFAULT_SPARE_TIME_IN_MILLISECONDS;
     }
 
-    debug('credentials is', credentials);
-    if (credentials.access_token === '' || Date.parse(credentials.expired_at) < Date.now() - spareTimeInMilliseconds) {
-        debug('refreshing access_token...');
-        credentials = await request.post({
-            simple: false,
-            url: `${process.env.COA_ENDPOINT}/token/access_token`,
-            form: {
-                refresh_token: process.env.COA_REFRESH_TOKEN
-            },
-            json: true
-        }).then(throwIfNot200);
+    if (credentials.access_token !== '' && credentials.expired_at !== '') {
+        // 認証情報があれば期限をチェック
+        debug('validating existing credentials...', credentials, spareTimeInMilliseconds);
+        const dateExpiredAtOfCredentials = moment(credentials.expired_at, 'YYYY-MM-DD HH:mm:ss', 'ja');
+        const dateExpiredAtActually = moment().add(spareTimeInMilliseconds, 'milliseconds');
+        if (dateExpiredAtOfCredentials.valueOf() > dateExpiredAtActually.valueOf()) {
+            return credentials.access_token;
+        }
     }
-    debug('credentials is', credentials);
+
+    debug('refreshing access_token...');
+    credentials = await request.post({
+        simple: false,
+        url: `${process.env.COA_ENDPOINT}/token/access_token`,
+        form: {
+            refresh_token: process.env.COA_REFRESH_TOKEN
+        },
+        json: true
+    }).then(throwIfNot200);
+    debug('credentials refreshed', credentials);
 
     return credentials.access_token;
 }
@@ -67,7 +86,7 @@ export async function publishAccessToken(spareTimeInMilliseconds?: number) {
  *
  * @ignore
  */
-export function resetAccessToken() {
+export function resetCredentials() {
     credentials = {
         access_token: '',
         expired_at: ''
@@ -76,7 +95,7 @@ export function resetAccessToken() {
 
 /**
  * レスポンスステータス200チェック
- * @memberOf utils.util
+ * @memberof utils.util
  * @function throwIfNot200
  * @param {any} body
  * @returns {Promise<any>}
@@ -85,13 +104,23 @@ export async function throwIfNot200(body: any): Promise<any> {
     if (typeof body === 'string') {
         // 本来認証エラーは出ないはずだが、原因不明で出ることがあるので、その場合に備えて
         if (body === RESPONSE_BODY_BAD_CREDENTIALS) {
-            resetAccessToken();
+            console.error(body, 'now:', moment(), 'credentials:', credentials);
+            debug('reseting credentials...');
+            resetCredentials();
         }
 
         throw new Error(body);
     }
-    if (typeof body.message === 'string' && (<string>body.message).length > 0) throw new Error(body.message);
-    if (body.status !== undefined && body.status !== 0) throw new Error(body.status);
+
+    // エラーレスポンスにメッセージがあった場合
+    if (typeof body.message === 'string' && (<string>body.message).length > 0) {
+        throw new Error(body.message);
+    }
+
+    // エラーレスポンスにステータスがあった場合
+    if (body.status !== undefined && body.status !== 0) {
+        throw new Error(body.status);
+    }
 
     return body;
 }
