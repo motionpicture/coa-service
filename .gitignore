@@ -1,10 +1,13 @@
-docs/
+*.log
+logs
 .env*
 npm-debug.log*
 
 node_modules/
 .vscode/
 docs/
+coverage/
+.nyc_output/
 
 !.gitignore
 !.gitkeep
