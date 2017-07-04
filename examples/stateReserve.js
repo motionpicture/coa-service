@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @ignore
  */
 const COA = require("../lib/index");
-COA.ReserveService.stateReserve({
+COA.services.reserve.stateReserve({
     theater_code: '118',
     reserve_num: 1339,
     tel_num: '09012345678'

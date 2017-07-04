@@ -5,7 +5,7 @@
  */
 import * as COA from '../lib/index';
 
-COA.ReserveService.delTmpReserve({
+COA.services.reserve.delTmpReserve({
     tmp_reserve_num: 985,
     theater_code: '118',
     date_jouei: '20170403',

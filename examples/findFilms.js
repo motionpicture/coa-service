@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @ignore
  */
 const COA = require("../lib/index");
-COA.MasterService.title({
+COA.services.master.title({
     theater_code: '118'
 }).then((films) => {
     // tslint:disable-next-line:no-console

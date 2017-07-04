@@ -23,7 +23,7 @@ setInterval(() => __awaiter(this, void 0, void 0, function* () {
     }
     countRetry += 1;
     try {
-        yield COA.MasterService.theater({
+        yield COA.services.master.theater({
             theater_code: '118'
         });
     }

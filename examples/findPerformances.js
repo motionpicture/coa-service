@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @ignore
  */
 const COA = require("../lib/index");
-COA.MasterService.schedule({
+COA.services.master.schedule({
     theater_code: '118',
     begin: '20170411',
     end: '20170411'

@@ -5,10 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
+- servicesネームスペースを追加。
+- utilsネームスペースを追加。
 
 ### Changed
 
 ### Deprecated
+- ルートオブジェクトのUtil,MasterService,ReserveServiceを非推奨に変更。
 
 ### Removed
 

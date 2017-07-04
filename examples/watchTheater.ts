@@ -19,7 +19,7 @@ setInterval(
         countRetry += 1;
 
         try {
-            await COA.MasterService.theater({
+            await COA.services.master.theater({
                 theater_code: '118'
             });
         } catch (error) {
