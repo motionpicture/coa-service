@@ -5,7 +5,7 @@
  */
 import * as COA from '../lib/index';
 
-COA.MasterService.title({
+COA.services.master.title({
     theater_code: '118'
 }).then((films) => {
     // tslint:disable-next-line:no-console

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @ignore
  */
 const COA = require("../lib/index");
-COA.ReserveService.salesTicket({
+COA.services.reserve.salesTicket({
     theater_code: '118',
     date_jouei: '20170411',
     title_code: '99600',

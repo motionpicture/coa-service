@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @ignore
  */
 const COA = require("../lib/index");
-COA.ReserveService.delReserve({
+COA.services.reserve.delReserve({
     reserve_num: 985,
     theater_code: '118',
     date_jouei: '20170403',

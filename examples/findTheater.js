@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @ignore
  */
 const COA = require("../lib/index");
-COA.MasterService.theater({
+COA.services.master.theater({
     theater_code: '118'
 }).then((result) => {
     console.log(result); // tslint:disable-line:no-console

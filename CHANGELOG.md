@@ -16,6 +16,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## v3.2.0 - 2017-07-04
+### Added
+- servicesネームスペースを追加。
+- utilsネームスペースを追加。
+
+### Deprecated
+- ルートオブジェクトのUtil,MasterService,ReserveServiceを非推奨に変更。
+
 ## v3.1.2 - 2017-06-19
 
 ### Fixed
