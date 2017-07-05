@@ -862,6 +862,19 @@ export async function stateReserve(args: IStateReserveArgs): Promise<IStateReser
 }
 
 /**
+ * 非会員
+ * @memberof services.reserve
+ * @const {string} NON_MEMBER
+ */
+export const NON_MEMBER = '0';
+/**
+ * 会員
+ * @memberof services.reserve
+ * @const {string} MEMBER
+ */
+export const MEMBER = '1';
+
+/**
  * 販売可能チケット情報in
  * @interface ISalesTicketArgs
  */
@@ -965,22 +978,10 @@ export async function salesTicket(args: ISalesTicketArgs): Promise<ISalesTicketR
             title_code: args.title_code,
             title_branch_num: args.title_branch_num,
             time_begin: args.time_begin,
-            flg_member: args.flg_member
+            flg_member: (args.flg_member === undefined) ? NON_MEMBER : args.flg_member // 念のため互換性を保つ次期アップデートでデフォルト値削除
         },
         useQuerystring: true
     }).then(Util.throwIfNot200);
 
     return body.list_ticket;
 }
-/**
- * 非会員
- * @memberof services.reserve
- * @const {string} NON_MEMBER
- */
-export const NON_MEMBER = '0';
-/**
- * 会員
- * @memberof services.reserve
- * @const {string} MEMBER
- */
-export const MEMBER = '1';

@@ -679,6 +679,18 @@ export interface IStateReserveResult {
  */
 export declare function stateReserve(args: IStateReserveArgs): Promise<IStateReserveResult | null>;
 /**
+ * 非会員
+ * @memberof services.reserve
+ * @const {string} NON_MEMBER
+ */
+export declare const NON_MEMBER = "0";
+/**
+ * 会員
+ * @memberof services.reserve
+ * @const {string} MEMBER
+ */
+export declare const MEMBER = "1";
+/**
  * 販売可能チケット情報in
  * @interface ISalesTicketArgs
  */
@@ -771,15 +783,3 @@ export interface ISalesTicketResult {
  * @param {string} args.flg_member 会員用フラグ
  */
 export declare function salesTicket(args: ISalesTicketArgs): Promise<ISalesTicketResult[]>;
-/**
- * 非会員
- * @memberof services.reserve
- * @const {string} NON_MEMBER
- */
-export declare const NON_MEMBER = "0";
-/**
- * 会員
- * @memberof services.reserve
- * @const {string} MEMBER
- */
-export declare const MEMBER = "1";
