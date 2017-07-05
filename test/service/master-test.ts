@@ -16,6 +16,7 @@ describe('劇場抽出', () => {
             });
         } catch (error) {
             assert(error instanceof Error);
+
             return;
         }
 
@@ -40,6 +41,7 @@ describe('作品抽出', () => {
             });
         } catch (error) {
             assert(error instanceof Error);
+
             return;
         }
 
@@ -65,6 +67,7 @@ describe('スケジュール抽出', () => {
             });
         } catch (error) {
             assert(error instanceof Error);
+
             return;
         }
 
@@ -98,6 +101,29 @@ describe('ムビチケチケットコード取得', () => {
             done(new Error('存在しないムビチケチケットコードのはず'));
         }).catch(() => {
             done();
+        });
+    });
+});
+
+describe('各種区分マスター抽出', () => {
+    it('存在しない', (done) => {
+        MasterService.kubunName({
+            theater_code: '118',
+            kubun_class: '0'
+        }).then(() => {
+            done(new Error('存在しない区分'));
+        }).catch(() => {
+            done();
+        });
+    });
+    it('存在する', (done) => {
+        MasterService.kubunName({
+            theater_code: '118',
+            kubun_class: '001'
+        }).then(() => {
+            done();
+        }).catch((err) => {
+            done(err);
         });
     });
 });
