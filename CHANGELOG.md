@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added
 
 ### Changed
+ - 販売可能チケット情報へ会員フラグ追加
 
 ### Deprecated
 
