@@ -10,7 +10,8 @@ COA.services.reserve.salesTicket({
     date_jouei: '20170411',
     title_code: '99600',
     title_branch_num: '0',
-    time_begin: '2130'
+    time_begin: '2130',
+    flg_member: COA.services.reserve.NON_MEMBER
 }).then((results) => {
     // tslint:disable-next-line:no-console
     console.log(results);

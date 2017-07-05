@@ -80,7 +80,7 @@ export interface ICountFreeSeatResult {
 }
 /**
  * 空席状況
- * @memberOf services.reserve
+ * @memberof services.reserve
  * @function countFreeSeat
  * @param {CountFreeSeatArgs} args
  * @param {string} args.theater_code 施設コード
@@ -163,7 +163,7 @@ export interface IStateReserveSeatResult {
 }
 /**
  * 座席予約状態抽出
- * @memberOf services.reserve
+ * @memberof services.reserve
  * @function stateReserveSeat
  * @param {StateReserveSeatArgs} args
  * @param {string} args.theater_code 施設コード
@@ -260,7 +260,7 @@ export interface IUpdTmpReserveSeatResult {
 }
 /**
  * 座席仮予約
- * @memberOf services.reserve
+ * @memberof services.reserve
  * @function updTmpReserveSeat
  * @param {UpdTmpReserveSeatArgs} args
  * @param {string} args.theater_code 劇場コード
@@ -307,7 +307,7 @@ export interface IDelTmpReserveArgs {
 }
 /**
  * 座席仮予約削除
- * @memberOf services.reserve
+ * @memberof services.reserve
  * @function delTmpReserve
  * @param {DelTmpReserveArgs} args
  * @param {string} args.theater_code 施設コード
@@ -482,7 +482,7 @@ export interface IUpdReserveQR {
 }
 /**
  * 座席本予約
- * @memberOf services.reserve
+ * @memberof services.reserve
  * @function updReserve
  * @param {UpdReserveArgs} args
  * @param {string} args.theater_code 施設コード
@@ -570,7 +570,7 @@ export interface IDelReserveSeat {
 }
 /**
  * 購入チケット取り消し
- * @memberOf services.reserve
+ * @memberof services.reserve
  * @function delReserve
  * @param {DelReserveArgs} args
  * @param {string} args.theater_code 施設コード
@@ -669,7 +669,7 @@ export interface IStateReserveResult {
 }
 /**
  * 購入チケット内容抽出
- * @memberOf services.reserve
+ * @memberof services.reserve
  * @function stateReserve
  * @param {StateReserveArgs} args
  * @param {string} args.theater_code 施設コード
@@ -678,6 +678,18 @@ export interface IStateReserveResult {
  * @returns {Promise<StateReserveResult>}
  */
 export declare function stateReserve(args: IStateReserveArgs): Promise<IStateReserveResult | null>;
+/**
+ * 非会員
+ * @memberof services.reserve
+ * @const {string} NON_MEMBER
+ */
+export declare const NON_MEMBER = "0";
+/**
+ * 会員
+ * @memberof services.reserve
+ * @const {string} MEMBER
+ */
+export declare const MEMBER = "1";
 /**
  * 販売可能チケット情報in
  * @interface ISalesTicketArgs
@@ -703,6 +715,10 @@ export interface ISalesTicketArgs {
      * 上映時刻
      */
     time_begin: string;
+    /**
+     * 会員用フラグ（1：会員専用チケットも表示する。会員以外の場合は0をセット）
+     */
+    flg_member: string;
 }
 /**
  * 販売可能チケット情報out
@@ -756,7 +772,7 @@ export interface ISalesTicketResult {
 }
 /**
  * 販売可能チケット情報
- * @memberOf services.reserve
+ * @memberof services.reserve
  * @function salesTicket
  * @param {SalesTicketArgs} args
  * @param {string} args.theater_code 施設コード
@@ -764,6 +780,6 @@ export interface ISalesTicketResult {
  * @param {string} args.title_code 作品コード
  * @param {string} args.title_branch_num 作品枝番
  * @param {string} args.time_begin 上映時刻
- * @memberOf salesTicket
+ * @param {string} args.flg_member 会員用フラグ
  */
 export declare function salesTicket(args: ISalesTicketArgs): Promise<ISalesTicketResult[]>;

@@ -16,6 +16,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## v3.3.0 - 2017-07-05
+### Changed
+ - 販売可能チケット情報（services.reserve.salesTicket）へ会員フラグ追加
+
 ## v3.2.0 - 2017-07-04
 ### Added
 - servicesネームスペースを追加。

@@ -68,3 +68,38 @@ describe('座席本予約', () => {
         throw new Error('存在しない座席本予約のはず');
     }));
 });
+describe('販売可能チケット情報', () => {
+    it('存在しない', () => __awaiter(this, void 0, void 0, function* () {
+        const salesTicketResults = yield ReserveService.salesTicket({
+            theater_code: '118',
+            date_jouei: '20170706',
+            title_code: '00000',
+            title_branch_num: '0',
+            time_begin: '1750',
+            flg_member: ReserveService.NON_MEMBER
+        });
+        assert(salesTicketResults.length === 0);
+    }));
+    it('存在する 非会員', () => __awaiter(this, void 0, void 0, function* () {
+        const salesTicketResults = yield ReserveService.salesTicket({
+            theater_code: '118',
+            date_jouei: '20170706',
+            title_code: '99500',
+            title_branch_num: '0',
+            time_begin: '1750',
+            flg_member: ReserveService.NON_MEMBER
+        });
+        assert(salesTicketResults.length > 0);
+    }));
+    it('存在する 会員', () => __awaiter(this, void 0, void 0, function* () {
+        const salesTicketResults = yield ReserveService.salesTicket({
+            theater_code: '118',
+            date_jouei: '20170706',
+            title_code: '99500',
+            title_branch_num: '0',
+            time_begin: '1750',
+            flg_member: ReserveService.MEMBER
+        });
+        assert(salesTicketResults.length > 0);
+    }));
+});
