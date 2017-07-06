@@ -902,7 +902,7 @@ export interface ISalesTicketArgs {
     /**
      * 会員用フラグ（1：会員専用チケットも表示する。会員以外の場合は0をセット）
      */
-    flg_member: string;
+    flg_member?: string;
 }
 /**
  * 販売可能チケット情報out
