@@ -679,17 +679,19 @@ export interface IStateReserveResult {
  */
 export declare function stateReserve(args: IStateReserveArgs): Promise<IStateReserveResult | null>;
 /**
- * 非会員
- * @memberof services.reserve
- * @const {string} NON_MEMBER
+ * 会員用フラグ
+ * @enum FlgMember
  */
-export declare const NON_MEMBER = "0";
-/**
- * 会員
- * @memberof services.reserve
- * @const {string} MEMBER
- */
-export declare const MEMBER = "1";
+export declare enum FlgMember {
+    /**
+     * 非会員
+     */
+    NonMember = "0",
+    /**
+     * 会員
+     */
+    Member = "1",
+}
 /**
  * 販売可能チケット情報in
  * @interface ISalesTicketArgs
