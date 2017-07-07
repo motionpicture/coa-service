@@ -1,6 +1,6 @@
 import * as masterService from './services/master';
 import * as reserveService from './services/reserve';
-import * as coaUtil from './utils/util';
+import * as utilsUtil from './utils/util';
 /**
  * サービスモジュール群
  *
@@ -16,12 +16,12 @@ export declare namespace services {
  * @namespace
  */
 export declare namespace utils {
-    export import util = coaUtil;
+    export import util = utilsUtil;
 }
 /**
  * @deprecated v4.0.0でutils.utilに移行予定
  */
-export import Util = coaUtil;
+export import Util = utilsUtil;
 /**
  * @deprecated v4.0.0でservices.masterに移行予定
  */

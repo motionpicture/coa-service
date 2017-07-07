@@ -4,7 +4,7 @@
  * @ignore
  */
 // import * as createDebug from 'debug';
-import * as util from 'util';
+import * as globalUtil from 'util';
 
 // const debug = createDebug('coa-service:index');
 
@@ -18,7 +18,7 @@ if (typeof process.env.COA_REFRESH_TOKEN !== 'string' || (<string>process.env.CO
 
 import * as masterService from './services/master';
 import * as reserveService from './services/reserve';
-import * as coaUtil from './utils/util';
+import * as utilsUtil from './utils/util';
 
 /**
  * サービスモジュール群
@@ -36,15 +36,15 @@ export namespace services {
  * @namespace
  */
 export namespace utils {
-    export import util = coaUtil;
+    export import util = utilsUtil;
 }
 
 /**
  * @deprecated v4.0.0でutils.utilに移行予定
  */
-export import Util = coaUtil;
-exports.Util = util.deprecate(
-    () => coaUtil,
+export import Util = utilsUtil;
+exports.Util = globalUtil.deprecate(
+    () => utilsUtil,
     '@motionpicture/coa-service:Util is deprecated, use utils.util'
 )();
 
@@ -52,7 +52,7 @@ exports.Util = util.deprecate(
  * @deprecated v4.0.0でservices.masterに移行予定
  */
 export import MasterService = masterService;
-exports.MasterService = util.deprecate(
+exports.MasterService = globalUtil.deprecate(
     () => masterService,
     '@motionpicture/coa-service:MasterService is deprecated, use services.master'
 )();
@@ -61,7 +61,7 @@ exports.MasterService = util.deprecate(
  * @deprecated v4.0.0でservices.reserveに移行予定
  */
 export import ReserveService = reserveService;
-exports.ReserveService = util.deprecate(
+exports.ReserveService = globalUtil.deprecate(
     () => reserveService,
     '@motionpicture/coa-service:ReserveService is deprecated, use services.reserve'
 )();

@@ -72,7 +72,7 @@ describe('販売可能チケット情報', () => {
             title_code: '00000',
             title_branch_num: '0',
             time_begin: '1750',
-            flg_member: ReserveService.NON_MEMBER
+            flg_member: ReserveService.FlgMember.NonMember
         });
 
         assert(salesTicketResults.length === 0);
@@ -84,7 +84,7 @@ describe('販売可能チケット情報', () => {
             title_code: '99500',
             title_branch_num: '0',
             time_begin: '1750',
-            flg_member: ReserveService.NON_MEMBER
+            flg_member: ReserveService.FlgMember.NonMember
         });
 
         assert(salesTicketResults.length > 0);
@@ -96,7 +96,7 @@ describe('販売可能チケット情報', () => {
             title_code: '99500',
             title_branch_num: '0',
             time_begin: '1750',
-            flg_member: ReserveService.MEMBER
+            flg_member: ReserveService.FlgMember.Member
         });
 
         assert(salesTicketResults.length > 0);
