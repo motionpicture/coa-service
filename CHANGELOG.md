@@ -7,7 +7,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added
 
 ### Changed
- - 会員フラグ定数をenumへ変更
 
 ### Deprecated
 
@@ -16,11 +15,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Fixed
 
 ### Security
+
+
+## v3.4.0 - 2017-07-07
+### Changed
+ - 会員フラグ定数をenumへ変更
+
+### Security
 - 依存パッケージを最新に更新。
 - [nyc@^11.0.3](https://github.com/istanbuljs/nyc)に対応。
 - [snyk@^1.36.2](https://github.com/snyk/snyk)に対応。
 - [tslint@^5.4.3](https://github.com/palantir/tslint)に対応。
-- [typescript@^2.4.0](https://github.com/Microsoft/TypeScript)に対応。
+- [tslint-microsoft-contrib@^5.0.1](https://github.com/Microsoft/tslint-microsoft-contrib)に対応。
 
 ## v3.3.1 - 2017-07-06
 ### Fixed
