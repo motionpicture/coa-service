@@ -341,6 +341,52 @@ export interface ITicketResult {
  */
 export declare function ticket(args: ITicketArgs): Promise<ITicketResult[]>;
 /**
+ * 各種区分マスター抽出in
+ * @interface IKubunNameArgs
+ */
+export interface IKubunNameArgs {
+    /**
+     * 劇場コード
+     */
+    theater_code: string;
+    /**
+     * 区分種別
+     */
+    kubun_class: string;
+}
+/**
+ * 各種区分マスター抽出out
+ * @interface IKubunNameResult
+ */
+export interface IKubunNameResult {
+    /**
+     * 区分コード
+     */
+    kubun_code: string;
+    /**
+     * 区分名
+     */
+    kubun_name: string;
+    /**
+     * 区分名（英）
+     */
+    kubun_name_eng: string;
+    /**
+     * 加算料金（上映方式、音響等の１枚当たりの追加料金）
+     */
+    kubun_add_price: number;
+}
+/**
+ * 各種区分マスター抽出
+ * @memberOf services.master
+ * @function kubunName
+ * @param {IKubunNameArgs} args
+ * @param {string} args.theater_code 劇場コード
+ * @param {string} args.kubun_class 区分種別
+ * @returns {Promise<IKubunNameResult[]>}
+ */
+export declare function kubunName(args: IKubunNameArgs): Promise<IKubunNameResult[]>;
+/**
  * ムビチケチケットコード取得in
  * @interface MvtkTicketcodeArgs
  */
