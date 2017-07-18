@@ -15,12 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const assert = require("assert");
 const _ = require("underscore");
-const MasterService = require("../../lib/services/master");
+const masterService = require("../../lib/services/master");
 describe('劇場抽出', () => {
     it('存在しない劇場', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            yield MasterService.theater({
-                theater_code: '000'
+            yield masterService.theater({
+                theaterCode: '000'
             });
         }
         catch (error) {
@@ -31,17 +31,17 @@ describe('劇場抽出', () => {
     }));
     it('存在する劇場', () => __awaiter(this, void 0, void 0, function* () {
         const theaterCode = '118';
-        const result = yield MasterService.theater({
-            theater_code: theaterCode
+        const result = yield masterService.theater({
+            theaterCode: theaterCode
         });
-        assert.equal(result.theater_code, theaterCode);
+        assert.equal(result.theaterCode, theaterCode);
     }));
 });
 describe('作品抽出', () => {
     it('存在しない', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            yield MasterService.title({
-                theater_code: '000'
+            yield masterService.title({
+                theaterCode: '000'
             });
         }
         catch (error) {
@@ -51,17 +51,17 @@ describe('作品抽出', () => {
         throw new Error('作品は存在しないはず');
     }));
     it('存在する', () => __awaiter(this, void 0, void 0, function* () {
-        const result = yield MasterService.title({
-            theater_code: '118'
+        const result = yield masterService.title({
+            theaterCode: '118'
         });
-        assert(!_.isEmpty(result[0].title_code));
+        assert(!_.isEmpty(result[0].titleCode));
     }));
 });
 describe('スケジュール抽出', () => {
     it('存在しない', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            yield MasterService.schedule({
-                theater_code: '000',
+            yield masterService.schedule({
+                theaterCode: '000',
                 begin: '20170401',
                 end: '20170401'
             });
@@ -73,26 +73,26 @@ describe('スケジュール抽出', () => {
         throw new Error('スケジュールは存在しないはず');
     }));
     it('存在する', () => __awaiter(this, void 0, void 0, function* () {
-        const result = yield MasterService.schedule({
-            theater_code: '118',
+        const result = yield masterService.schedule({
+            theaterCode: '118',
             begin: '20170401',
             end: '20170401'
         });
-        assert(!_.isEmpty(result[0].title_code));
+        assert(!_.isEmpty(result[0].titleCode));
     }));
 });
 describe('ムビチケチケットコード取得', () => {
     it('存在しないムビチケチケットコード取得', (done) => {
-        MasterService.mvtkTicketcode({
-            theater_code: '118',
-            kbn_denshiken: '01',
-            kbn_maeuriken: '01',
-            kbn_kensyu: '01',
-            sales_price: 1400,
-            app_price: 1200,
-            kbn_eisyahousiki: '01',
-            title_code: 'xxxxx',
-            title_branch_num: 'xx'
+        masterService.mvtkTicketcode({
+            theaterCode: '118',
+            kbnDenshiken: '01',
+            kbnMaeuriken: '01',
+            kbnKensyu: '01',
+            salesPrice: 1400,
+            appPrice: 1200,
+            kbnEisyahousiki: '01',
+            titleCode: 'xxxxx',
+            titleBranchNum: 'xx'
         }).then(() => {
             done(new Error('存在しないムビチケチケットコードのはず'));
         }).catch(() => {
@@ -102,9 +102,9 @@ describe('ムビチケチケットコード取得', () => {
 });
 describe('各種区分マスター抽出', () => {
     it('存在しない', (done) => {
-        MasterService.kubunName({
-            theater_code: '118',
-            kubun_class: '0'
+        masterService.kubunName({
+            theaterCode: '118',
+            kubunClass: '0'
         }).then(() => {
             done(new Error('存在しない区分'));
         }).catch(() => {
@@ -112,9 +112,9 @@ describe('各種区分マスター抽出', () => {
         });
     });
     it('存在する', (done) => {
-        MasterService.kubunName({
-            theater_code: '118',
-            kubun_class: '001'
+        masterService.kubunName({
+            theaterCode: '118',
+            kubunClass: '001'
         }).then(() => {
             done();
         }).catch((err) => {

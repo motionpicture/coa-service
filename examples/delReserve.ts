@@ -6,21 +6,21 @@
 import * as COA from '../lib/index';
 
 COA.services.reserve.delReserve({
-    reserve_num: 985,
-    theater_code: '118',
-    date_jouei: '20170403',
-    title_code: '16344',
-    title_branch_num: '0',
-    time_begin: '1000',
-    tel_num: '09012345678',
-    list_seat: [
+    reserveNum: 985,
+    theaterCode: '118',
+    dateJouei: '20170403',
+    titleCode: '16344',
+    titleBranchNum: '0',
+    timeBegin: '1000',
+    telNum: '09012345678',
+    listSeat: [
         {
-            seat_section: '0',
-            seat_num: 'Ｂ－４'
+            seatSection: '0',
+            seatNum: 'Ｂ－４'
         },
         {
-            seat_section: '0',
-            seat_num: 'Ｂ－５'
+            seatSection: '0',
+            seatNum: 'Ｂ－５'
         }
     ]
 }).then((result) => {

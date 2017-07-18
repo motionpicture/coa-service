@@ -6,7 +6,7 @@ export interface ITheaterArgs {
     /**
      * 劇場コード
      */
-    theater_code: string;
+    theaterCode: string;
 }
 /**
  * 施設マスター抽出out
@@ -16,30 +16,30 @@ export interface ITheaterResult {
     /**
      * 施設コード
      */
-    theater_code: string;
+    theaterCode: string;
     /**
      * 施設名称
      */
-    theater_name: string;
+    theaterName: string;
     /**
      * 施設名称（カナ）
      */
-    theater_name_eng: string;
+    theaterNameEng: string;
     /**
      * 施設名称（英）
      */
-    theater_name_kana: string;
+    theaterNameKana: string;
     /**
      * 電話番号
      */
-    theater_tel_num: string;
+    theaterTelNum: string;
 }
 /**
  * 施設マスター抽出
  * @memberOf services.master
  * @function theater
  * @param {TheaterArgs} args
- * @param {string} args.theater_code 劇場コード
+ * @param {string} args.theaterCode 劇場コード
  * @returns {Promise<TheaterResult>}
  */
 export declare function theater(args: ITheaterArgs): Promise<ITheaterResult>;
@@ -51,84 +51,84 @@ export interface ITitleArgs {
     /**
      * 劇場コード
      */
-    theater_code: string;
+    theaterCode: string;
 }
 /**
  * 作品マスター抽出out
- * @interface TitleResult
+ * @interface ITitleResult
  */
 export interface ITitleResult {
     /**
      * 作品コード
      */
-    title_code: string;
+    titleCode: string;
     /**
      * 作品枝番
      */
-    title_branch_num: string;
+    titleBranchNum: string;
     /**
      * 作品タイトル名
      */
-    title_name: string;
+    titleName: string;
     /**
      * 作品タイトル名（カナ）
      */
-    title_name_kana: string;
+    titleNameKana: string;
     /**
      * 作品タイトル名（英）
      */
-    title_name_eng: string;
+    titleNameEng: string;
     /**
      * 作品タイトル名省略
      */
-    title_name_short: string;
+    titleNameShort: string;
     /**
      * 原題
      */
-    title_name_orig: string;
+    titleNameOrig: string;
     /**
      * 映倫区分
      */
-    kbn_eirin: string;
+    kbnEirin: string;
     /**
      * 映像区分
      */
-    kbn_eizou: string;
+    kbnEizou: string;
     /**
      * 上映方式区分
      */
-    kbn_joueihousiki: string;
+    kbnJoueihousiki: string;
     /**
      * 字幕吹替区分
      */
-    kbn_jimakufukikae: string;
+    kbnJimakufukikae: string;
     /**
      * 上映時間
      */
-    show_time: number;
+    showTime: number;
     /**
      * 公演開始予定日
      */
-    date_begin: string;
+    dateBegin: string;
     /**
      * 公演終了予定日
      */
-    date_end: string;
+    dateEnd: string;
     /**
      * ムビチケ使用フラグ
      */
-    flg_mvtk_use: string;
+    flgMvtkUse: string;
     /**
      * ムビチケ利用開始日
      */
-    date_mvtk_begin: string;
+    dateMvtkBegin: string;
 }
 /**
  * 作品マスター抽出
  * @memberOf services.master
  * @function title
  * @param {TitleArgs} args
- * @param {string} args.theater_code 劇場コード
+ * @param {string} args.theaterCode 劇場コード
  * @returns {Promise<TitleResult[]>}
  */
 export declare function title(args: ITitleArgs): Promise<ITitleResult[]>;
@@ -140,7 +140,7 @@ export interface IScreenArgs {
     /**
      * 劇場コード
      */
-    theater_code: string;
+    theaterCode: string;
 }
 /**
  * 座席
@@ -150,31 +150,31 @@ export interface IScreenSeat {
     /**
      * 座席セクション
      */
-    seat_section: string;
+    seatSection: string;
     /**
      * 座席番号
      */
-    seat_num: string;
+    seatNum: string;
     /**
      * 特別席フラグ
      */
-    flg_special: string;
+    flgSpecial: string;
     /**
      * 車椅子席フラグ
      */
-    flg_hc: string;
+    flgHc: string;
     /**
      * ペア席フラグ
      */
-    flg_pair: string;
+    flgPair: string;
     /**
      * 自由席フラグ
      */
-    flg_free: string;
+    flgFree: string;
     /**
      * 予備席フラグ
      */
-    flg_spare: string;
+    flgSpare: string;
 }
 /**
  * スクリーンマスター抽出out
@@ -184,26 +184,26 @@ export interface IScreenResult {
     /**
      * スクリーンコード
      */
-    screen_code: string;
+    screenCode: string;
     /**
      * スクリーン名
      */
-    screen_name: string;
+    screenName: string;
     /**
      * スクリーン名（英）
      */
-    screen_name_eng: string;
+    screenNameEng: string;
     /**
      * 座席リスト
      */
-    list_seat: IScreenSeat[];
+    listSeat: IScreenSeat[];
 }
 /**
  * スクリーンマスター抽出
  * @memberOf services.master
  * @function screen
  * @param {ScreenArgs} args
- * @param {string} args.theater_code 劇場コード
+ * @param {string} args.theaterCode 劇場コード
  * @returns {Promise<ScreenResult[]>}
  */
 export declare function screen(args: IScreenArgs): Promise<IScreenResult[]>;
@@ -215,7 +215,7 @@ export interface IScheduleArgs {
     /**
      * 劇場コード
      */
-    theater_code: string;
+    theaterCode: string;
     /**
      * スケジュールを抽出する上映日の開始日 ※日付は西暦8桁 'YYYYMMDD'
      */
@@ -226,6 +226,20 @@ export interface IScheduleArgs {
     end: string;
 }
 /**
+ * 先行予約フラグ
+ * @enum FlgEarlyBooking
+ */
+export declare enum FlgEarlyBooking {
+    /**
+     * 先行予約でない
+     */
+    NotPreOrder = "0",
+    /**
+     * 先行予約
+     */
+    EarlyBooking = "1",
+}
+/**
  * スケジュールマスター抽出out
  * @interface ScheduleResult
  */
@@ -233,69 +247,69 @@ export interface IScheduleResult {
     /**
      * 上映日
      */
-    date_jouei: string;
+    dateJouei: string;
     /**
      * 作品コード
      */
-    title_code: string;
+    titleCode: string;
     /**
      * 作品枝番
      */
-    title_branch_num: string;
+    titleBranchNum: string;
     /**
      * 上映開始時刻
      */
-    time_begin: string;
+    timeBegin: string;
     /**
      * 上映終了時刻
      */
-    time_end: string;
+    timeEnd: string;
     /**
      * スクリーンコード
      */
-    screen_code: string;
+    screenCode: string;
     /**
      * トレーラー時間
      */
-    trailer_time: number;
+    trailerTime: number;
     /**
      * サービス区分
      */
-    kbn_service: string;
+    kbnService: string;
     /**
      * 音響区分
      */
-    kbn_acoustic: string;
+    kbnAcoustic: string;
     /**
      * サービスデイ名称
      */
-    name_service_day: string;
+    nameServiceDay: string;
     /**
      * 購入可能枚数
      */
-    available_num: number;
+    availableNum: number;
     /**
      * 予約開始日
-     * 予約可能になる日付(YYYYMMDD)
+     * 予約可能になる日付(yyyymmdd)
      */
-    rsv_start_date: string;
+    rsvStartDate: string;
     /**
      * 予約終了日
-     * 予約終了になる日付(YYYYMMDD)　通常は上映日、先行販売の場合は販売終了日
+     * 予約終了になる日付(yyyymmdd)　通常は上映日、先行販売の場合は販売終了日
      */
-    rsv_end_date: string;
+    rsvEndDate: string;
     /**
      * 先行予約フラグ
      * 先行予約の場合は'1'、それ以外は'0'
      */
-    flg_early_booking: string;
+    flgEarlyBooking: FlgEarlyBooking;
 }
 /**
  * スケジュールマスター抽出
  * @memberOf services.master
  * @function schedule
  * @param {ScheduleArgs} args
- * @param {string} args.theater_code 劇場コード
+ * @param {string} args.theaterCode 劇場コード
  * @returns {Promise<ScheduleResult[]>}
  */
 export declare function schedule(args: IScheduleArgs): Promise<IScheduleResult[]>;
@@ -307,7 +321,7 @@ export interface ITicketArgs {
     /**
      * 施設コード
      */
-    theater_code: string;
+    theaterCode: string;
 }
 /**
  * 券種マスター抽出out
@@ -317,26 +331,26 @@ export interface ITicketResult {
     /**
      * チケットコード
      */
-    ticket_code: string;
+    ticketCode: string;
     /**
      * チケット名
      */
-    ticket_name: string;
+    ticketName: string;
     /**
      * チケット名(カナ)
      */
-    ticket_name_kana: string;
+    ticketNameKana: string;
     /**
      * チケット名(英)
      */
-    ticket_name_eng: string;
+    ticketNameEng: string;
 }
 /**
  * 券種マスター抽出
  * @memberOf services.master
  * @function ticket
  * @param {ITicketArgs} args
- * @param {string} args.theater_code 劇場コード
+ * @param {string} args.theaterCode 劇場コード
  * @returns {Promise<TicketResult[]>}
  */
 export declare function ticket(args: ITicketArgs): Promise<ITicketResult[]>;
@@ -348,11 +362,11 @@ export interface IKubunNameArgs {
     /**
      * 劇場コード
      */
-    theater_code: string;
+    theaterCode: string;
     /**
      * 区分種別
      */
-    kubun_class: string;
+    kubunClass: string;
 }
 /**
  * 各種区分マスター抽出out
@@ -362,27 +376,27 @@ export interface IKubunNameResult {
     /**
      * 区分コード
      */
-    kubun_code: string;
+    kubunCode: string;
     /**
      * 区分名
      */
-    kubun_name: string;
+    kubunName: string;
     /**
      * 区分名（英）
      */
-    kubun_name_eng: string;
+    kubunNameEng: string;
     /**
      * 加算料金（上映方式、音響等の１枚当たりの追加料金）
      */
-    kubun_add_price: number;
+    kubunAddPrice: number;
 }
 /**
  * 各種区分マスター抽出
  * @memberOf services.master
  * @function kubunName
  * @param {IKubunNameArgs} args
- * @param {string} args.theater_code 劇場コード
- * @param {string} args.kubun_class 区分種別
+ * @param {string} args.theaterCode 劇場コード
+ * @param {string} args.kubunClass 区分種別
  * @returns {Promise<IKubunNameResult[]>}
  */
 export declare function kubunName(args: IKubunNameArgs): Promise<IKubunNameResult[]>;
@@ -394,39 +408,39 @@ export interface IMvtkTicketcodeArgs {
     /**
      * 施設コード
      */
-    theater_code: string;
+    theaterCode: string;
     /**
      * 電子券区分
      */
-    kbn_denshiken: string;
+    kbnDenshiken: string;
     /**
      * 前売券区分
      */
-    kbn_maeuriken: string;
+    kbnMaeuriken: string;
     /**
      * 券種区分
      */
-    kbn_kensyu: string;
+    kbnKensyu: string;
     /**
      * 販売単価
      */
-    sales_price: number;
+    salesPrice: number;
     /**
      * 計上単価
      */
-    app_price: number;
+    appPrice: number;
     /**
      * 映写方式区分
      */
-    kbn_eisyahousiki: string;
+    kbnEisyahousiki: string;
     /**
      * 作品コード
      */
-    title_code: string;
+    titleCode: string;
     /**
      * 作品枝番
      */
-    title_branch_num: string;
+    titleBranchNum: string;
 }
 /**
  * ムビチケチケットコード取得out
@@ -436,27 +450,27 @@ export interface IMvtkTicketcodeResult {
     /**
      * チケットコード
      */
-    ticket_code: string;
+    ticketCode: string;
     /**
      * チケット名
      */
-    ticket_name: string;
+    ticketName: string;
     /**
      * チケット名(カナ)
      */
-    ticket_name_kana: string;
+    ticketNameKana: string;
     /**
      * チケット名(英)
      */
-    ticket_name_eng: string;
+    ticketNameEng: string;
     /**
      * 加算単価 ※３Ｄ、ＩＭＡＸ、４ＤＸ等の加算料金（メガネ抜き）
      */
-    add_price: number;
+    addPrice: number;
     /**
      * メガネ単価 ※３Ｄメガネの加算料金
      */
-    add_price_glasses: number;
+    addPriceGlasses: number;
 }
 /**
  * ムビチケチケットコード取得

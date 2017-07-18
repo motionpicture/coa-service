@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const COA = require("../lib/index");
 COA.services.reserve.stateReserve({
-    theater_code: '118',
-    reserve_num: 1339,
-    tel_num: '09012345678'
+    theaterCode: '118',
+    reserveNum: 1339,
+    telNum: '09012345678'
 }).then((result) => {
     // tslint:disable-next-line:no-console
     console.log(result);
