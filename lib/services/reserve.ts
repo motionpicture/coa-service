@@ -219,7 +219,16 @@ export async function stateReserveSeat(args: IStateReserveSeatArgs): Promise<ISt
     return {
         cntReserveFree: body.cnt_reserve_free,
         cntSeatLine: body.cnt_seat_line,
-        listSeat: body.list_seat
+        listSeat: body.list_seat.map((seat: any) => {
+            return {
+                seatSection: seat.seat_section,
+                listFreeSeat: seat.list_free_seat.map((freeSeat: any) => {
+                    return {
+                        seatNum: freeSeat.seat_num
+                    };
+                })
+            };
+        })
     };
 }
 
@@ -652,7 +661,13 @@ export async function updReserve(args: IUpdReserveArgs): Promise<IUpdReserveResu
 
     return {
         reserveNum: body.reserve_num,
-        listQr: body.list_qr
+        listQr: body.list_qr.map((qr: any) => {
+            return {
+                seatSection: qr.seat_section,
+                seatNum: qr.seat_num,
+                seatQrcode: qr.seat_qrcode
+            };
+        })
     };
 }
 
@@ -862,7 +877,18 @@ export async function stateReserve(args: IStateReserveArgs): Promise<IStateReser
         titleBranchNum: body.title_branch_num,
         timeBegin: body.time_begin,
         screenCode: body.screen_code,
-        listTicket: body.list_ticket
+        listTicket: body.list_ticket.map((ticket: any) => {
+            return {
+                ticketCode: ticket.ticket_code,
+                ticketName: ticket.ticket_name,
+                ticketPrice: ticket.ticket_price,
+                ticketCount: ticket.ticket_count,
+                seatSection: ticket.seat_section,
+                seatNum: ticket.seat_num,
+                seatQrcode: ticket.seat_qrcode,
+                addGlasses: ticket.add_glasses
+            };
+        })
     };
 }
 
