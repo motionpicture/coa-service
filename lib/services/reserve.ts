@@ -302,11 +302,11 @@ export interface IUpdTmpReserveSeatResult {
     /**
      * 座席チケット仮予約番号
      */
-    tmp_reserve_num: number;
+    tmpReserveNum: number;
     /**
      * 仮予約結果リスト(仮予約失敗時の座席毎の仮予約状況)
      */
-    list_tmp_reserve: IUpdTmpReserveSeatTmpReserve[];
+    listTmpReserve: IUpdTmpReserveSeatTmpReserve[];
 }
 /**
  * 座席仮予約
@@ -344,8 +344,13 @@ export async function updTmpReserveSeat(args: IUpdTmpReserveSeatArgs): Promise<I
     }).then(Util.throwIfNot200);
 
     return {
-        tmp_reserve_num: body.tmpReserveNum,
-        list_tmp_reserve: body.listTmpReserve
+        tmpReserveNum: body.tmpReserveNum,
+        listTmpReserve: body.listTmpReserve.map((tmpReserve: any) => {
+            return {
+                seatSection: tmpReserve.seat_section,
+                seatNum: tmpReserve.seat_num
+            };
+        })
     };
 }
 
