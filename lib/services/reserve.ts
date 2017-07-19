@@ -353,8 +353,8 @@ export async function updTmpReserveSeat(args: IUpdTmpReserveSeatArgs): Promise<I
     }).then(Util.throwIfNot200);
 
     return {
-        tmpReserveNum: body.tmpReserveNum,
-        listTmpReserve: body.listTmpReserve.map((tmpReserve: any) => {
+        tmpReserveNum: body.tmp_reserve_num,
+        listTmpReserve: body.list_tmp_reserve.map((tmpReserve: any) => {
             return {
                 seatSection: tmpReserve.seat_section,
                 seatNum: tmpReserve.seat_num
