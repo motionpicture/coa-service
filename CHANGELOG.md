@@ -12,6 +12,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Deprecated
 
 ### Removed
+ - Utilネームスペース削除
+ - MasterServiceネームスペース削除
+ - ReserveServiceネームスペース削除
 
 ### Fixed
 
