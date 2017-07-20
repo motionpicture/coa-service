@@ -6,7 +6,7 @@
 import * as COA from '../lib/index';
 
 COA.services.master.theater({
-    theater_code: '118'
+    theaterCode: '118'
 }).then((result) => {
     console.log(result); // tslint:disable-line:no-console
 }).catch((err) => {
