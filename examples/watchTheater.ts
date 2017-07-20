@@ -20,7 +20,7 @@ setInterval(
 
         try {
             await COA.services.master.theater({
-                theater_code: '118'
+                theaterCode: '118'
             });
         } catch (error) {
             console.error(error.message);

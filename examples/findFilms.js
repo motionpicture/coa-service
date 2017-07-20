@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const COA = require("../lib/index");
 COA.services.master.title({
-    theater_code: '118'
+    theaterCode: '118'
 }).then((films) => {
     // tslint:disable-next-line:no-console
     console.log(films);

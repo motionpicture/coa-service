@@ -6,7 +6,7 @@
 import * as COA from '../lib/index';
 
 COA.services.master.schedule({
-    theater_code: '118',
+    theaterCode: '118',
     begin: '20170411',
     end: '20170411'
 }).then((performances) => {

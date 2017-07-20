@@ -4,7 +4,6 @@
  * @ignore
  */
 // import * as createDebug from 'debug';
-import * as globalUtil from 'util';
 
 // const debug = createDebug('coa-service:index');
 
@@ -38,30 +37,3 @@ export namespace services {
 export namespace utils {
     export import util = utilsUtil;
 }
-
-/**
- * @deprecated v4.0.0でutils.utilに移行予定
- */
-export import Util = utilsUtil;
-exports.Util = globalUtil.deprecate(
-    () => utilsUtil,
-    '@motionpicture/coa-service:Util is deprecated, use utils.util'
-)();
-
-/**
- * @deprecated v4.0.0でservices.masterに移行予定
- */
-export import MasterService = masterService;
-exports.MasterService = globalUtil.deprecate(
-    () => masterService,
-    '@motionpicture/coa-service:MasterService is deprecated, use services.master'
-)();
-
-/**
- * @deprecated v4.0.0でservices.reserveに移行予定
- */
-export import ReserveService = reserveService;
-exports.ReserveService = globalUtil.deprecate(
-    () => reserveService,
-    '@motionpicture/coa-service:ReserveService is deprecated, use services.reserve'
-)();
