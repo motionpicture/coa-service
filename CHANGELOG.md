@@ -7,19 +7,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added
 
 ### Changed
- - 引数、戻り値をスネークケースからキャメルケースへ変更
 
 ### Deprecated
 
 ### Removed
- - Utilネームスペース削除
- - MasterServiceネームスペース削除
- - ReserveServiceネームスペース削除
 
 ### Fixed
 
 ### Security
 
+## v4.0.0 - 2017-07-20
+### Changed
+ - 引数、戻り値をスネークケースからキャメルケースへ変更
+ 
+### Removed
+ - Utilネームスペース削除
+ - MasterServiceネームスペース削除
+ - ReserveServiceネームスペース削除
 
 ## v3.4.0 - 2017-07-07
 ### Changed
