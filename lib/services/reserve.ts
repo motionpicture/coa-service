@@ -111,7 +111,22 @@ export async function countFreeSeat(args: ICountFreeSeatArgs): Promise<ICountFre
 
     return {
         theaterCode: body.theater_code,
-        listDate: body.list_date
+        listDate: body.list_date.map((date: any) => {
+            return {
+                dateJouei: date.date_jouei,
+                listPerformance: date.list_performance.map((performance: any) => {
+                    return {
+                        titleCode: performance.title_code,
+                        titleBranchNum: performance.title_branch_num,
+                        timeBegin: performance.time_begin,
+                        screenCode: performance.screen_code,
+                        cntReserveMax: performance.cnt_reserve_max,
+                        cntReserveFree: performance.cnt_reserve_free
+                    };
+                }),
+                cntPerformance: date.cnt_performance
+            };
+        })
     };
 }
 

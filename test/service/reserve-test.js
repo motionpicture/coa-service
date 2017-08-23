@@ -68,6 +68,22 @@ describe('座席本予約', () => {
         throw new Error('存在しない座席本予約のはず');
     }));
 });
+describe('空席状況', () => {
+    it('存在する空席状況', () => __awaiter(this, void 0, void 0, function* () {
+        const date = new Date();
+        // tslint:disable-next-line:prefer-template no-magic-numbers max-line-length
+        const today = `${date.getFullYear()}${('00' + String(date.getMonth() + 1)).slice(-2)}${('0' + String(date.getDate())).slice(-2)}`;
+        const theaterCode = '118';
+        const countFreeSeat = yield reserveService.countFreeSeat({
+            theaterCode: theaterCode,
+            begin: today,
+            end: today
+        });
+        assert(countFreeSeat.theaterCode === theaterCode);
+        assert(countFreeSeat.listDate.length === 1);
+        assert(countFreeSeat.listDate[0].dateJouei === today);
+    }));
+});
 describe('販売可能チケット情報', () => {
     it('存在しない', () => __awaiter(this, void 0, void 0, function* () {
         const salesTicketResults = yield reserveService.salesTicket({
