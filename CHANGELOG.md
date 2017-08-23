@@ -7,16 +7,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added
 
 ### Changed
- - moment依存部分をネイティブ化
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
- - reserve.countFreeSeatの戻り値をスネークケースからキャメルケースへ変更
 
 ### Security
+
+
+## v4.0.1 - 2017-08-23
+### Fixed
+ - moment依存部分をネイティブ化
+ - reserve.countFreeSeatの戻り値をスネークケースからキャメルケースへ変更
 
 ## v4.0.0 - 2017-07-20
 ### Changed
