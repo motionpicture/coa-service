@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Removed
 
 ### Fixed
+ - reserve.countFreeSeatの戻り値をスネークケースからキャメルケースへ変更
 
 ### Security
 
