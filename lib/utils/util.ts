@@ -4,7 +4,6 @@
  */
 
 import * as createDebug from 'debug';
-import * as moment from 'moment';
 import * as request from 'request-promise-native';
 
 const debug = createDebug('coa-service:utils:util');
@@ -60,9 +59,10 @@ export async function publishAccessToken(spareTimeInMilliseconds?: number): Prom
     if (credentials.access_token !== '' && credentials.expired_at !== '') {
         // 認証情報があれば期限をチェック
         debug('validating existing credentials...', credentials, spareTimeInMilliseconds);
-        const dateExpiredAtOfCredentials = moment(credentials.expired_at, 'YYYY-MM-DD HH:mm:ss', 'ja');
-        const dateExpiredAtActually = moment().add(spareTimeInMilliseconds, 'milliseconds');
-        if (dateExpiredAtOfCredentials.valueOf() > dateExpiredAtActually.valueOf()) {
+        const dateExpiredAtOfCredentials = new Date(credentials.expired_at);
+        const dateExpiredAtActually = new Date();
+        dateExpiredAtActually.setMilliseconds(dateExpiredAtActually.getMilliseconds() + spareTimeInMilliseconds);
+        if (dateExpiredAtOfCredentials.getTime() > dateExpiredAtActually.getTime()) {
             return credentials.access_token;
         }
     }
@@ -104,7 +104,7 @@ export async function throwIfNot200(body: any): Promise<any> {
     if (typeof body === 'string') {
         // 本来認証エラーは出ないはずだが、原因不明で出ることがあるので、その場合に備えて
         if (body === RESPONSE_BODY_BAD_CREDENTIALS) {
-            console.error(body, 'now:', moment(), 'credentials:', credentials);
+            console.error(body, 'now:', new Date().toISOString(), 'credentials:', credentials);
             debug('reseting credentials...');
             resetCredentials();
         }

@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added
 
 ### Changed
+ - moment依存部分をネイティブ化
 
 ### Deprecated
 
