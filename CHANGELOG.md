@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
+- [circleci](https://circleci.com/)設定を追加。
 
 ### Changed
 

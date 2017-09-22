@@ -74,7 +74,7 @@
     "build": "tsc",
     "check": "npm run tslint && nsp check",
     "clean": "rimraf npm-debug.log* ./lib ./doc ./coverage ./.nyc_output",
-    "jsdoc": "node_modules/.bin/jsdoc -c jsdoc.json",
+    "doc": "jsdoc -c jsdoc.json",
     "mocha": "mocha src/**/*.spec.ts",
     "nyc": "nyc mocha src/**/*.spec.ts",
     "snyk": "snyk wizard",
@@ -83,7 +83,7 @@
     "preversion": "npm run clean && npm run build && npm test",
     "version": "git add -A",
     "postversion": "git push origin --tags",
-    "prepare": "npm run clean && npm run build && npm test"
+    "prepublishOnly": "npm run clean && npm run build && npm test && npm run doc"
   },
   "version": "4.0.1"
 }
