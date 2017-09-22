@@ -59,7 +59,7 @@ jobs:
             npm run doc
   prerelease:
     docker:
-      - image: circleci/node:latest
+      - image: circleci/node:8.4
     steps:
       - checkout
       - restore_cache:
@@ -75,7 +75,7 @@ jobs:
           command: npm publish --tag next
   deploy:
     docker:
-      - image: circleci/node:latest
+      - image: circleci/node:8.4
     steps:
       - checkout
       - restore_cache:
