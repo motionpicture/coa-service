@@ -8,8 +8,8 @@ import * as assert from 'assert';
 import * as request from 'request-promise-native';
 import * as sinon from 'sinon';
 
-import * as util from '../../lib/utils/util';
 import wait from '../wait';
+import * as util from './util';
 
 let sandbox: sinon.SinonSandbox;
 
