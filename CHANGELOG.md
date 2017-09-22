@@ -15,6 +15,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Fixed
 
 ### Security
+- install debug@^3.0.1.
+- install request@^2.82.0.
+- .nsprcを追加。
 
 
 ## v4.0.1 - 2017-08-23
