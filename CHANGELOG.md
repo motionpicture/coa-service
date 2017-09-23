@@ -5,7 +5,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
-- [circleci](https://circleci.com/)設定を追加。
 
 ### Changed
 
@@ -16,13 +15,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Fixed
 
 ### Security
+
+
+## v4.0.2 - 2017-09-23
+### Added
+- [circleci](https://circleci.com/)設定を追加。
+
+### Security
 - install [debug]@3.0.1(https://www.npmjs.com/package/debug).
 - install [request@2.82.0](https://www.npmjs.com/package/request).
 - install [request-promise-native@1.0.5](https://www.npmjs.com/package/request-promise-native).
 - [.nsprc](https://github.com/nodesecurity/nsp)を追加。
 - [snyk wizard](https://snyk.io/docs/using-snyk/)スクリプトを追加。
 - coverageスクリプトをテストフローに追加。
-
 
 ## v4.0.1 - 2017-08-23
 ### Fixed
