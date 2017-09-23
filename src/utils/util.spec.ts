@@ -8,7 +8,7 @@ import * as assert from 'assert';
 import * as request from 'request-promise-native';
 import * as sinon from 'sinon';
 
-import wait from '../wait';
+import wait from '../wait.spec';
 import * as util from './util';
 
 let sandbox: sinon.SinonSandbox;
