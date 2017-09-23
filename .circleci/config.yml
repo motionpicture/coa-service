@@ -91,7 +91,7 @@ jobs:
 workflows:
   version: 2
 
-  build-test-doc-and-build:
+  build-test-doc-and-deploy:
     jobs:
       - build
       - test:
