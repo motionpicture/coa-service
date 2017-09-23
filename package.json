@@ -15,7 +15,8 @@
   "dependencies": {
     "debug": "^3.0.1",
     "request": "^2.82.0",
-    "request-promise-native": "^1.0.4"
+    "request-promise-native": "^1.0.5",
+    "tough-cookie": "^2.3.3"
   },
   "description": "COA Client Library for Node.js",
   "devDependencies": {
@@ -59,16 +60,6 @@
     "test": "./test"
   },
   "name": "@motionpicture/coa-service",
-  "nyc": {
-    "check-coverage": true,
-    "include": [
-      "lib/**/*.js"
-    ],
-    "reporter": [
-      "lcov",
-      "text-summary"
-    ]
-  },
   "repository": {},
   "scripts": {
     "build": "tsc",
@@ -76,10 +67,10 @@
     "clean": "rimraf npm-debug.log* ./lib ./doc ./coverage ./.nyc_output",
     "doc": "jsdoc -c jsdoc.json",
     "mocha": "mocha src/**/*.spec.ts",
-    "nyc": "nyc mocha src/**/*.spec.ts",
+    "coverage": "nyc mocha src/**/*.spec.ts",
     "snyk": "snyk wizard",
-    "test": "npm run check && npm run mocha",
-    "tslint": "tslint --type-check --project tsconfig.json -c tslint.json src/**/*.ts --exclude **/*.spec.ts",
+    "test": "npm run check && npm run coverage",
+    "tslint": "tslint --type-check --project tsconfig.json -c tslint.json --exclude \"**/*.spec.ts\" src/**/*.ts",
     "preversion": "npm run clean && npm run build && npm test",
     "version": "git add -A",
     "postversion": "git push origin --tags",
