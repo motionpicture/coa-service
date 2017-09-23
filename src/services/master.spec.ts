@@ -6,7 +6,7 @@
 import * as assert from 'assert';
 import * as _ from 'underscore';
 
-import * as masterService from '../../lib/services/master';
+import * as masterService from './master';
 
 describe('劇場抽出', () => {
     it('存在しない劇場', async () => {

@@ -5,7 +5,7 @@
  */
 import * as assert from 'assert';
 
-import * as reserveService from '../../lib/services/reserve';
+import * as reserveService from './reserve';
 
 describe('座席予約状態抽出', () => {
     it('存在しない予約', async () => {

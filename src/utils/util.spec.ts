@@ -5,48 +5,80 @@
  */
 
 import * as assert from 'assert';
+import * as request from 'request-promise-native';
+import * as sinon from 'sinon';
 
-import * as util from '../../lib/utils/util';
-import wait from '../wait';
+import wait from '../wait.spec';
+import * as util from './util';
+
+let sandbox: sinon.SinonSandbox;
 
 describe('アクセストークン発行', () => {
     beforeEach(() => {
+        sandbox = sinon.sandbox.create();
         // 毎回認証情報をリセットしてからテスト
         util.resetCredentials();
     });
 
+    afterEach(() => {
+        sandbox.restore();
+    });
+
     it('再発行しないはず', async () => {
         const accessToken = await util.publishAccessToken();
+
+        sandbox.mock(request).expects('post').never()
+            .withArgs(sinon.match({ url: `${process.env.COA_ENDPOINT}/token/access_token` }));
 
         // tslint:disable-next-line:no-magic-numbers
         await wait(1000);
         const accessToken2 = await util.publishAccessToken();
 
         assert.equal(accessToken, accessToken2);
+        sandbox.verify();
     });
 
     it('期限切れで再発行するはず', async () => {
-        const SPARE_TIME = 3600000;
+        const SPARE_TIME = 36000000;
+        const newCredentials = {
+            access_token: 'access_token',
+            expired_at: 'expired_at'
+        };
 
-        const accessToken = await util.publishAccessToken();
+        await util.publishAccessToken();
+
+        sandbox.mock(request).expects('post').once()
+            .withArgs(sinon.match({ url: `${process.env.COA_ENDPOINT}/token/access_token` }))
+            .resolves(newCredentials);
 
         // tslint:disable-next-line:no-magic-numbers
         await wait(1000);
+
         // アクセストークンまでの猶予時間を十分に小さく設定する
         const accessToken2 = await util.publishAccessToken(SPARE_TIME);
-
-        assert.notEqual(accessToken, accessToken2);
+        assert.equal(accessToken2, newCredentials.access_token);
+        sandbox.verify();
     });
 
     it('リセット後に再発行するはず', async () => {
+        const newCredentials = {
+            access_token: 'access_token',
+            expired_at: 'expired_at'
+        };
+
         const accessToken = await util.publishAccessToken();
         util.resetCredentials();
+
+        sandbox.mock(request).expects('post').once()
+            .withArgs(sinon.match({ url: `${process.env.COA_ENDPOINT}/token/access_token` }))
+            .resolves(newCredentials);
 
         // tslint:disable-next-line:no-magic-numbers
         await wait(1000);
         const accessToken2 = await util.publishAccessToken();
 
         assert.notEqual(accessToken, accessToken2);
+        sandbox.verify();
     });
 });
 
