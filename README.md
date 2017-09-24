@@ -1,5 +1,7 @@
 # COA Client Library for Node.js
 
+[![Build status](https://circleci.com/gh/ilovegadd/coa-service.png?style=shield&circle-token=e29e443f67a815be67d500d478ae3b8e413e7bab)](https://circleci.com/gh/ilovegadd/coa-service)
+
 node.jsでCOAサービスを使うためのパッケージです。
 
 
@@ -44,6 +46,6 @@ npm test
 ```
 
 
-# JsDoc
+# Jsdoc
 
-`grunt jsdoc`でjsdocを作成できます。./docsに出力されます。
+`npm run doc`でjsdocを作成できます。./docに出力されます。
