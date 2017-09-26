@@ -3,7 +3,8 @@
  *
  * @ignore
  */
-import * as COA from '../lib/index';
+
+const COA = require('../');
 
 COA.services.reserve.delTmpReserve({
     tmpReserveNum: 985,
@@ -13,7 +14,6 @@ COA.services.reserve.delTmpReserve({
     titleBranchNum: '0',
     timeBegin: '1000'
 }).then((result) => {
-    // tslint:disable-next-line:no-console
     console.log(result);
 }).catch((err) => {
     console.error(err.message);

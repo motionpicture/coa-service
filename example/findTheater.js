@@ -3,12 +3,13 @@
  *
  * @ignore
  */
-import * as COA from '../lib/index';
+
+const COA = require('../');
 
 COA.services.master.theater({
     theaterCode: '118'
 }).then((result) => {
-    console.log(result); // tslint:disable-line:no-console
+    console.log(result);
 }).catch((err) => {
     console.error(err.message);
 });

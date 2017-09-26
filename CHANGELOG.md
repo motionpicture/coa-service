@@ -17,6 +17,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Security
 
 
+## v4.0.4 - 2017-09-26
+### Added
+- COAServiceErrorクラスを追加。
+
+### Changed
+- request-promise-nativeをアンインストールして、transporterクラスを追加。
+- exampleを修正。
+
 ## v4.0.3 - 2017-09-24
 ### Changed
 - READMEを更新。
