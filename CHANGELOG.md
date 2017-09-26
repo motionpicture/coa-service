@@ -5,8 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
+- COAServiceErrorクラスを追加。
 
 ### Changed
+- request-promise-nativeをアンインストールして、transporterクラスを追加。
 
 ### Deprecated
 

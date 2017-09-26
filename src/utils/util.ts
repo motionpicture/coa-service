@@ -4,7 +4,7 @@
  */
 
 import * as createDebug from 'debug';
-import * as request from 'request-promise-native';
+import * as request from 'request';
 
 const debug = createDebug('coa-service:utils:util');
 
@@ -68,17 +68,27 @@ export async function publishAccessToken(spareTimeInMilliseconds?: number): Prom
     }
 
     debug('refreshing access_token...');
-    credentials = await request.post({
-        simple: false,
-        url: `${process.env.COA_ENDPOINT}/token/access_token`,
-        form: {
-            refresh_token: process.env.COA_REFRESH_TOKEN
-        },
-        json: true
-    }).then(throwIfNot200);
-    debug('credentials refreshed', credentials);
 
-    return credentials.access_token;
+    return new Promise<string>((resolve) => {
+        request.post(
+            {
+                // simple: false,
+                url: `${process.env.COA_ENDPOINT}/token/access_token`,
+                form: {
+                    refresh_token: process.env.COA_REFRESH_TOKEN
+                },
+                json: true
+            },
+            (__1, __2, body) => {
+                throwIfNot200(body);
+
+                credentials = body;
+                debug('credentials refreshed', credentials);
+
+                resolve(credentials.access_token);
+            }
+        );
+    });
 }
 
 /**

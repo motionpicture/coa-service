@@ -5,7 +5,7 @@
  */
 
 import * as assert from 'assert';
-import * as request from 'request-promise-native';
+import * as request from 'request';
 import * as sinon from 'sinon';
 
 import wait from '../wait.spec';

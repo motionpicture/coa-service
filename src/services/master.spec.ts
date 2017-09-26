@@ -1,12 +1,16 @@
 /**
  * マスターサービステスト
- *
  * @ignore
  */
+
 import * as assert from 'assert';
+import { OK } from 'http-status';
+import * as nock from 'nock';
 import * as _ from 'underscore';
 
 import * as masterService from './master';
+
+let scope: nock.Scope;
 
 describe('劇場抽出', () => {
     it('存在しない劇場', async () => {
@@ -86,8 +90,18 @@ describe('スケジュール抽出', () => {
 });
 
 describe('ムビチケチケットコード取得', () => {
-    it('存在しないムビチケチケットコード取得', (done) => {
-        masterService.mvtkTicketcode({
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+    });
+
+    it('ムビチケが存在すれば抽出できるはず', async () => {
+        const params = {
             theaterCode: '118',
             kbnDenshiken: '01',
             kbnMaeuriken: '01',
@@ -97,11 +111,16 @@ describe('ムビチケチケットコード取得', () => {
             kbnEisyahousiki: '01',
             titleCode: 'xxxxx',
             titleBranchNum: 'xx'
-        }).then(() => {
-            done(new Error('存在しないムビチケチケットコードのはず'));
-        }).catch(() => {
-            done();
-        });
+        };
+        const body = {
+        };
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(new RegExp(`\/api\/v1\/theater\/${params.theaterCode}\/mvtk_ticketcode\/\?.+`))
+            .reply(OK, body);
+
+        const result = await masterService.mvtkTicketcode(params);
+        assert(typeof result, 'object');
+        assert.equal(true, scope.isDone());
     });
 });
 
@@ -125,5 +144,64 @@ describe('各種区分マスター抽出', () => {
         }).catch((err) => {
             done(err);
         });
+    });
+});
+
+describe('スクリーンマスター抽出', () => {
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+    });
+
+    it('劇場が存在すれば抽出できるはず', async () => {
+        const theaterCode = '123';
+        const body = {
+            list_screen: [{
+                list_seat: [{}]
+            }]
+        };
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${theaterCode}/screen/`)
+            .reply(OK, body);
+
+        const result = await masterService.screen({
+            theaterCode: theaterCode
+        });
+        assert(Array.isArray(result));
+        assert.equal(true, scope.isDone());
+    });
+});
+
+describe('券種マスター抽出', () => {
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+    });
+
+    it('劇場が存在すれば抽出できるはず', async () => {
+        const theaterCode = '123';
+        const body = {
+            list_ticket: [{
+            }]
+        };
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${theaterCode}/ticket/`)
+            .reply(OK, body);
+
+        const result = await masterService.ticket({
+            theaterCode: theaterCode
+        });
+        assert(Array.isArray(result));
+        assert.equal(true, scope.isDone());
     });
 });
