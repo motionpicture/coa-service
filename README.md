@@ -1,3 +1,5 @@
+<img src="https://motionpicture.jp/images/common/logo_01.svg" alt="motionpicture" title="motionpicture" align="right" height="56" width="98"/>
+
 # COA Client Library for Node.js
 
 [![Build status](https://circleci.com/gh/ilovegadd/coa-service.png?style=shield&circle-token=e29e443f67a815be67d500d478ae3b8e413e7bab)](https://circleci.com/gh/ilovegadd/coa-service)

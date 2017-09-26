@@ -7,6 +7,7 @@
  */
 
 import * as createDebug from 'debug';
+import { INTERNAL_SERVER_ERROR } from 'http-status';
 import * as request from 'request';
 
 const debug = createDebug('coa-service:transporters');
@@ -43,26 +44,6 @@ export class COAServiceError extends Error {
         this.name = 'COAServiceError';
         this.code = code;
         this.status = status;
-    }
-}
-
-/**
- * stub transporter
- * スタブトランポーター
- * @export
- * @class
- * @memberof transporters
- */
-export class StubTransporter implements Transporter {
-    public body: any;
-    constructor(body: any) {
-        this.body = body;
-    }
-
-    public async request(options: request.OptionsWithUri) {
-        debug('requesting...', options);
-
-        return this.body;
     }
 }
 
@@ -135,8 +116,12 @@ export class DefaultTransporter implements Transporter {
      * TODO errorパラメータをハンドリング
      */
     private wrapCallback(error: any, response: request.RequestResponse, body: any): any {
-        // tslint:disable-next-line:no-magic-numbers
-        let err: COAServiceError = new COAServiceError(500, '', 'An unexpected error occurred.');
+        let err: COAServiceError = new COAServiceError(INTERNAL_SERVER_ERROR, '', 'An unexpected error occurred.');
+
+        if (error instanceof Error) {
+            console.error(error);
+            throw new COAServiceError(INTERNAL_SERVER_ERROR, '', error.message);
+        }
 
         debug('request processed', error, body);
         if (response.statusCode !== undefined) {

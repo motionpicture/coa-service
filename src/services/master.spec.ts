@@ -6,11 +6,18 @@
 import * as assert from 'assert';
 import { OK } from 'http-status';
 import * as nock from 'nock';
+import * as sinon from 'sinon';
 import * as _ from 'underscore';
 
+import * as util from '../utils/util';
 import * as masterService from './master';
 
 let scope: nock.Scope;
+let sandbox: sinon.SinonSandbox;
+
+before(() => {
+    sandbox = sinon.sandbox.create();
+});
 
 describe('劇場抽出', () => {
     it('存在しない劇場', async () => {
@@ -98,6 +105,8 @@ describe('ムビチケチケットコード取得', () => {
     afterEach(() => {
         nock.cleanAll();
         nock.enableNetConnect();
+
+        sandbox.restore();
     });
 
     it('ムビチケが存在すれば抽出できるはず', async () => {
@@ -114,6 +123,8 @@ describe('ムビチケチケットコード取得', () => {
         };
         const body = {
         };
+
+        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${params.theaterCode}/mvtk_ticketcode/`)
             .query(true)
@@ -121,7 +132,8 @@ describe('ムビチケチケットコード取得', () => {
 
         const result = await masterService.mvtkTicketcode(params);
         assert(typeof result, 'object');
-        assert.equal(true, scope.isDone());
+        assert(scope.isDone());
+        sandbox.verify();
     });
 });
 
@@ -157,6 +169,8 @@ describe('スクリーンマスター抽出', () => {
     afterEach(() => {
         nock.cleanAll();
         nock.enableNetConnect();
+
+        sandbox.restore();
     });
 
     it('劇場が存在すれば抽出できるはず', async () => {
@@ -166,6 +180,8 @@ describe('スクリーンマスター抽出', () => {
                 list_seat: [{}]
             }]
         };
+
+        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${theaterCode}/screen/`)
             .reply(OK, body);
@@ -174,7 +190,8 @@ describe('スクリーンマスター抽出', () => {
             theaterCode: theaterCode
         });
         assert(Array.isArray(result));
-        assert.equal(true, scope.isDone());
+        assert(scope.isDone());
+        sandbox.verify();
     });
 });
 
@@ -187,6 +204,8 @@ describe('券種マスター抽出', () => {
     afterEach(() => {
         nock.cleanAll();
         nock.enableNetConnect();
+
+        sandbox.restore();
     });
 
     it('劇場が存在すれば抽出できるはず', async () => {
@@ -195,6 +214,8 @@ describe('券種マスター抽出', () => {
             list_ticket: [{
             }]
         };
+
+        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${theaterCode}/ticket/`)
             .reply(OK, body);
@@ -203,6 +224,7 @@ describe('券種マスター抽出', () => {
             theaterCode: theaterCode
         });
         assert(Array.isArray(result));
-        assert.equal(true, scope.isDone());
+        assert(scope.isDone());
+        sandbox.verify();
     });
 });

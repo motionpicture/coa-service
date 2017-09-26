@@ -69,10 +69,9 @@ export async function publishAccessToken(spareTimeInMilliseconds?: number): Prom
 
     debug('refreshing access_token...');
 
-    return new Promise<string>((resolve) => {
+    return new Promise<string>((resolve, reject) => {
         request.post(
             {
-                // simple: false,
                 url: `${process.env.COA_ENDPOINT}/token/access_token`,
                 form: {
                     refresh_token: process.env.COA_REFRESH_TOKEN
@@ -80,7 +79,32 @@ export async function publishAccessToken(spareTimeInMilliseconds?: number): Prom
                 json: true
             },
             (__1, __2, body) => {
-                throwIfNot200(body);
+                if (typeof body === 'string') {
+                    // 本来認証エラーは出ないはずだが、原因不明で出ることがあるので、その場合に備えて
+                    if (body === RESPONSE_BODY_BAD_CREDENTIALS) {
+                        console.error(body, 'now:', new Date().toISOString(), 'credentials:', credentials);
+                        debug('reseting credentials...');
+                        resetCredentials();
+                    }
+
+                    reject(new Error(body));
+
+                    return;
+                }
+
+                // エラーレスポンスにメッセージがあった場合
+                if (typeof body.message === 'string' && (<string>body.message).length > 0) {
+                    reject(new Error(body.message));
+
+                    return;
+                }
+
+                // エラーレスポンスにステータスがあった場合
+                if (body.status !== undefined && body.status !== 0) {
+                    reject(new Error(body.status));
+
+                    return;
+                }
 
                 credentials = body;
                 debug('credentials refreshed', credentials);
@@ -101,36 +125,4 @@ export function resetCredentials() {
         access_token: '',
         expired_at: ''
     };
-}
-
-/**
- * レスポンスステータス200チェック
- * @memberof utils.util
- * @function throwIfNot200
- * @param {any} body
- * @returns {Promise<any>}
- */
-export async function throwIfNot200(body: any): Promise<any> {
-    if (typeof body === 'string') {
-        // 本来認証エラーは出ないはずだが、原因不明で出ることがあるので、その場合に備えて
-        if (body === RESPONSE_BODY_BAD_CREDENTIALS) {
-            console.error(body, 'now:', new Date().toISOString(), 'credentials:', credentials);
-            debug('reseting credentials...');
-            resetCredentials();
-        }
-
-        throw new Error(body);
-    }
-
-    // エラーレスポンスにメッセージがあった場合
-    if (typeof body.message === 'string' && (<string>body.message).length > 0) {
-        throw new Error(body.message);
-    }
-
-    // エラーレスポンスにステータスがあった場合
-    if (body.status !== undefined && body.status !== 0) {
-        throw new Error(body.status);
-    }
-
-    return body;
 }

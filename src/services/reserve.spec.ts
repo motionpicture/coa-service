@@ -38,7 +38,7 @@ describe('購入チケット内容抽出', () => {
             telNum: 'telNum'
         };
         const body = {
-            list_ticket: []
+            list_ticket: [{}]
         };
 
         sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
@@ -49,7 +49,29 @@ describe('購入チケット内容抽出', () => {
 
         const result = await reserveService.stateReserve(params);
         assert.equal(typeof result, 'object');
-        assert.equal(true, scope.isDone());
+        assert(scope.isDone());
+        sandbox.verify();
+    });
+
+    it('該当予約なければnullが返却されるはず', async () => {
+        const params = {
+            theaterCode: 'theaterCode',
+            reserveNum: 123,
+            telNum: 'telNum'
+        };
+        const body = {
+            list_ticket: []
+        };
+
+        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/state_reserve/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await reserveService.stateReserve(params);
+        assert.deepEqual(result, null);
+        assert(scope.isDone());
         sandbox.verify();
     });
 });
@@ -111,7 +133,7 @@ describe('座席本予約', () => {
 
         const result = await reserveService.updReserve(params);
         assert.equal(result.reserveNum, body.reserve_num);
-        assert.equal(true, scope.isDone());
+        assert(scope.isDone());
         sandbox.verify();
     });
 });
@@ -134,41 +156,66 @@ describe('空席状況', () => {
 });
 
 describe('販売可能チケット情報', () => {
-    it('存在しない', async () => {
-        const salesTicketResults = await reserveService.salesTicket({
-            theaterCode: '118',
-            dateJouei: '20170706',
-            titleCode: '00000',
-            titleBranchNum: '0',
-            timeBegin: '1750',
-            flgMember: reserveService.FlgMember.NonMember
-        });
-
-        assert(salesTicketResults.length === 0);
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
     });
-    it('存在する 非会員', async () => {
-        const salesTicketResults = await reserveService.salesTicket({
-            theaterCode: '118',
-            dateJouei: '20170706',
-            titleCode: '99500',
-            titleBranchNum: '0',
-            timeBegin: '1750',
-            flgMember: reserveService.FlgMember.NonMember
-        });
 
-        assert(salesTicketResults.length > 0);
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+
+        sandbox.restore();
     });
-    it('存在する 会員', async () => {
-        const salesTicketResults = await reserveService.salesTicket({
-            theaterCode: '118',
-            dateJouei: '20170706',
-            titleCode: '99500',
-            titleBranchNum: '0',
-            timeBegin: '1750',
+
+    it('会員用フラグが未指定であれば非会員がセットされるはず', async () => {
+        const params = {
+            theaterCode: 'theaterCode',
+            dateJouei: 'dateJouei',
+            titleCode: 'titleCode',
+            titleBranchNum: 'titleBranchNum',
+            timeBegin: 'timeBegin'
+            // flgMember?: FlgMember;
+        };
+        const body = {
+            list_ticket: [{}]
+        };
+
+        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/sales_ticket/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await reserveService.salesTicket(params);
+        assert(Array.isArray(result));
+        assert(scope.isDone());
+        sandbox.verify();
+    });
+
+    it('パラメーターが適切であれば抽出できるはず', async () => {
+        const params = {
+            theaterCode: 'theaterCode',
+            dateJouei: 'dateJouei',
+            titleCode: 'titleCode',
+            titleBranchNum: 'titleBranchNum',
+            timeBegin: 'timeBegin',
             flgMember: reserveService.FlgMember.Member
-        });
+        };
+        const body = {
+            list_ticket: [{}]
+        };
 
-        assert(salesTicketResults.length > 0);
+        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/sales_ticket/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await reserveService.salesTicket(params);
+        assert(Array.isArray(result));
+        assert(scope.isDone());
+        sandbox.verify();
     });
 });
 
@@ -207,7 +254,7 @@ describe('座席予約状態抽出', () => {
 
         const result = await reserveService.stateReserveSeat(params);
         assert.equal(result.cntReserveFree, body.cnt_reserve_free);
-        assert.equal(true, scope.isDone());
+        assert(scope.isDone());
         sandbox.verify();
     });
 });
@@ -233,7 +280,10 @@ describe('座席仮予約', () => {
             titleBranchNum: 'titleBranchNum',
             timeBegin: 'timeBegin',
             screenCode: 'screenCode',
-            listSeat: []
+            listSeat: [{
+                seatSection: '',
+                seatNum: ''
+            }]
         };
         const body = {
             tmp_reserve_num: 123,
@@ -246,7 +296,7 @@ describe('座席仮予約', () => {
 
         const result = await reserveService.updTmpReserveSeat(params);
         assert.deepEqual(result.tmpReserveNum, body.tmp_reserve_num);
-        assert.equal(true, scope.isDone());
+        assert(scope.isDone());
         sandbox.verify();
     });
 });
@@ -283,7 +333,7 @@ describe('座席仮予約削除', () => {
 
         const result = await reserveService.delTmpReserve(params);
         assert.deepEqual(result, undefined);
-        assert.equal(true, scope.isDone());
+        assert(scope.isDone());
         sandbox.verify();
     });
 });
@@ -311,7 +361,10 @@ describe('購入チケット取り消し', () => {
             screenCode: 'screenCode',
             reserveNum: 123,
             telNum: 'telNum',
-            listSeat: []
+            listSeat: [{
+                seatSection: '',
+                seatNum: ''
+            }]
         };
         const body = {
         };
@@ -322,7 +375,7 @@ describe('購入チケット取り消し', () => {
 
         const result = await reserveService.delReserve(params);
         assert.deepEqual(result, undefined);
-        assert.equal(true, scope.isDone());
+        assert(scope.isDone());
         sandbox.verify();
     });
 });
