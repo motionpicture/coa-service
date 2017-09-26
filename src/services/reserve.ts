@@ -2,7 +2,10 @@
  * 予約サービス
  * @namespace services.reserve
  */
-import * as request from 'request-promise-native';
+
+import { OK } from 'http-status';
+
+import { DefaultTransporter } from '../transporters';
 import * as Util from '../utils/util';
 
 /**
@@ -97,17 +100,15 @@ export interface ICountFreeSeatResult {
  * @returns {Promise<ICountFreeSeatResult>}
  */
 export async function countFreeSeat(args: ICountFreeSeatArgs): Promise<ICountFreeSeatResult> {
-    const body = await request.get({
-        simple: false,
-        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theaterCode}/count_free_seat/`,
+    const body = await new DefaultTransporter([OK]).request({
+        uri: `/api/v1/theater/${args.theaterCode}/count_free_seat/`,
         auth: { bearer: await Util.publishAccessToken() },
-        json: true,
+        method: 'GET',
         qs: {
             begin: args.begin,
             end: args.end
-        },
-        useQuerystring: true
-    }).then(Util.throwIfNot200);
+        }
+    });
 
     return {
         theaterCode: body.theater_code,
@@ -216,20 +217,18 @@ export interface IStateReserveSeatResult {
  * @returns {Promise<IStateReserveSeatResult>}
  */
 export async function stateReserveSeat(args: IStateReserveSeatArgs): Promise<IStateReserveSeatResult> {
-    const body = await request.get({
-        simple: false,
-        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theaterCode}/state_reserve_seat/`,
+    const body = await new DefaultTransporter([OK]).request({
+        uri: `/api/v1/theater/${args.theaterCode}/state_reserve_seat/`,
         auth: { bearer: await Util.publishAccessToken() },
-        json: true,
+        method: 'GET',
         qs: {
             date_jouei: args.dateJouei,
             title_code: args.titleCode,
             title_branch_num: args.titleBranchNum,
             time_begin: args.timeBegin,
             screen_code: args.screenCode
-        },
-        useQuerystring: true
-    }).then(Util.throwIfNot200);
+        }
+    });
 
     return {
         cntReserveFree: body.cnt_reserve_free,
@@ -349,11 +348,10 @@ export interface IUpdTmpReserveSeatResult {
  * @returns {Promise<IUpdTmpReserveSeatResult>}
  */
 export async function updTmpReserveSeat(args: IUpdTmpReserveSeatArgs): Promise<IUpdTmpReserveSeatResult> {
-    const body = await request.get({
-        simple: false,
-        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theaterCode}/upd_tmp_reserve_seat/`,
+    const body = await new DefaultTransporter([OK]).request({
+        uri: `/api/v1/theater/${args.theaterCode}/upd_tmp_reserve_seat/`,
         auth: { bearer: await Util.publishAccessToken() },
-        json: true,
+        method: 'GET',
         qs: {
             date_jouei: args.dateJouei,
             title_code: args.titleCode,
@@ -363,9 +361,8 @@ export async function updTmpReserveSeat(args: IUpdTmpReserveSeatArgs): Promise<I
             seat_section: args.listSeat.map((value) => value.seatSection),
             seat_num: args.listSeat.map((value) => value.seatNum),
             screen_code: args.screenCode
-        },
-        useQuerystring: true
-    }).then(Util.throwIfNot200);
+        }
+    });
 
     return {
         tmpReserveNum: body.tmp_reserve_num,
@@ -423,20 +420,18 @@ export interface IDelTmpReserveArgs {
  * @returns {Promise<void>}
  */
 export async function delTmpReserve(args: IDelTmpReserveArgs): Promise<void> {
-    await request.get({
-        simple: false,
-        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theaterCode}/del_tmp_reserve/`,
+    await new DefaultTransporter([OK]).request({
+        uri: `/api/v1/theater/${args.theaterCode}/del_tmp_reserve/`,
         auth: { bearer: await Util.publishAccessToken() },
-        json: true,
+        method: 'GET',
         qs: {
             date_jouei: args.dateJouei,
             title_code: args.titleCode,
             title_branch_num: args.titleBranchNum,
             time_begin: args.timeBegin,
             tmp_reserve_num: args.tmpReserveNum
-        },
-        useQuerystring: true
-    }).then(Util.throwIfNot200);
+        }
+    });
 }
 
 /**
@@ -638,11 +633,10 @@ export interface IUpdReserveQR {
  * @returns {Promise<IUpdReserveResult>}
  */
 export async function updReserve(args: IUpdReserveArgs): Promise<IUpdReserveResult> {
-    const body = await request.get({
-        simple: false,
-        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theaterCode}/upd_reserve/`,
+    const body = await new DefaultTransporter([OK]).request({
+        uri: `/api/v1/theater/${args.theaterCode}/upd_reserve/`,
         auth: { bearer: await Util.publishAccessToken() },
-        json: true,
+        method: 'GET',
         qs: {
             theater_code: args.theaterCode,
             date_jouei: args.dateJouei,
@@ -670,9 +664,8 @@ export async function updReserve(args: IUpdReserveArgs): Promise<IUpdReserveResu
             mvtk_kbn_maeuriken: args.listTicket.map((value) => value.mvtkKbnMaeuriken),
             mvtk_kbn_kensyu: args.listTicket.map((value) => value.mvtkKbnKensyu),
             mvtk_sales_price: args.listTicket.map((value) => value.mvtkSalesPrice)
-        },
-        useQuerystring: true
-    }).then(Util.throwIfNot200);
+        }
+    });
 
     return {
         reserveNum: body.reserve_num,
@@ -757,11 +750,10 @@ export interface IDelReserveSeat {
  * @returns {Promise<void>}
  */
 export async function delReserve(args: IDelReserveArgs): Promise<void> {
-    await request.get({
-        simple: false,
-        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theaterCode}/del_reserve/`,
+    await new DefaultTransporter([OK]).request({
+        uri: `/api/v1/theater/${args.theaterCode}/del_reserve/`,
         auth: { bearer: await Util.publishAccessToken() },
-        json: true,
+        method: 'GET',
         qs: {
             theater_code: args.theaterCode,
             date_jouei: args.dateJouei,
@@ -772,9 +764,8 @@ export async function delReserve(args: IDelReserveArgs): Promise<void> {
             tel_num: args.telNum,
             seat_section: args.listSeat.map((value) => value.seatSection),
             seat_num: args.listSeat.map((value) => value.seatNum)
-        },
-        useQuerystring: true
-    }).then(Util.throwIfNot200);
+        }
+    });
 }
 
 /**
@@ -868,18 +859,16 @@ export interface IStateReserveResult {
  * @returns {Promise<StateReserveResult>}
  */
 export async function stateReserve(args: IStateReserveArgs): Promise<IStateReserveResult | null> {
-    const body = await request.get({
-        simple: false,
-        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theaterCode}/state_reserve/`,
+    const body = await new DefaultTransporter([OK]).request({
+        uri: `/api/v1/theater/${args.theaterCode}/state_reserve/`,
         auth: { bearer: await Util.publishAccessToken() },
-        json: true,
+        method: 'GET',
         qs: {
             theater_code: args.theaterCode,
             reserve_num: args.reserveNum,
             tel_num: args.telNum
-        },
-        useQuerystring: true
-    }).then(Util.throwIfNot200);
+        }
+    });
 
     // 該当予約がなくてもステータス0が返ってくる
     if ((<IStateReserveTicket[]>body.list_ticket).length === 0) {
@@ -1016,20 +1005,19 @@ export interface ISalesTicketResult {
  * @param {string} args.flgMember 会員用フラグ
  */
 export async function salesTicket(args: ISalesTicketArgs): Promise<ISalesTicketResult[]> {
-    const body = await request.get({
-        simple: false,
-        url: `${process.env.COA_ENDPOINT}/api/v1/theater/${args.theaterCode}/sales_ticket/`,
+    const body = await new DefaultTransporter([OK]).request({
+        uri: `/api/v1/theater/${args.theaterCode}/sales_ticket/`,
         auth: { bearer: await Util.publishAccessToken() },
-        json: true,
+        method: 'GET',
         qs: {
             date_jouei: args.dateJouei,
             title_code: args.titleCode,
             title_branch_num: args.titleBranchNum,
             time_begin: args.timeBegin,
-            flg_member: (args.flgMember === undefined) ? FlgMember.NonMember : args.flgMember // 念のため互換性を保つ次期アップデートでデフォルト値削除
-        },
-        useQuerystring: true
-    }).then(Util.throwIfNot200);
+            // 念のため互換性を保つ次期アップデートでデフォルト値削除
+            flg_member: (args.flgMember === undefined) ? FlgMember.NonMember : args.flgMember
+        }
+    });
 
     return body.list_ticket.map((value: any) => {
         return {

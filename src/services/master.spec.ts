@@ -1,93 +1,141 @@
 /**
  * マスターサービステスト
- *
  * @ignore
  */
-import * as assert from 'assert';
-import * as _ from 'underscore';
 
+import * as assert from 'assert';
+import { OK } from 'http-status';
+import * as nock from 'nock';
+import * as sinon from 'sinon';
+
+import * as util from '../utils/util';
 import * as masterService from './master';
 
+let scope: nock.Scope;
+let sandbox: sinon.SinonSandbox;
+
 describe('劇場抽出', () => {
-    it('存在しない劇場', async () => {
-        try {
-            await masterService.theater({
-                theaterCode: '000'
-            });
-        } catch (error) {
-            assert(error instanceof Error);
-
-            return;
-        }
-
-        throw new Error('劇場は存在しないはず');
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
     });
 
-    it('存在する劇場', async () => {
-        const theaterCode = '118';
-        const result = await masterService.theater({
-            theaterCode: theaterCode
-        });
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
 
-        assert.equal(result.theaterCode, theaterCode);
+        sandbox.restore();
+    });
+
+    it('劇場が存在すれば抽出できるはず', async () => {
+        const params = {
+            theaterCode: 'theaterCode'
+        };
+        const body = {
+        };
+
+        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/theater/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await masterService.theater(params);
+        assert(typeof result, 'object');
+        assert(scope.isDone());
+        sandbox.verify();
     });
 });
 
 describe('作品抽出', () => {
-    it('存在しない', async () => {
-        try {
-            await masterService.title({
-                theaterCode: '000'
-            });
-        } catch (error) {
-            assert(error instanceof Error);
-
-            return;
-        }
-
-        throw new Error('作品は存在しないはず');
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
     });
 
-    it('存在する', async () => {
-        const result = await masterService.title({
-            theaterCode: '118'
-        });
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
 
-        assert(!_.isEmpty(result[0].titleCode));
+        sandbox.restore();
+    });
+
+    it('劇場が存在すれば抽出できるはず', async () => {
+        const params = {
+            theaterCode: 'theaterCode'
+        };
+        const body = {
+            list_title: [{}]
+        };
+
+        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/title/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await masterService.title(params);
+        assert(Array.isArray(result));
+        assert(scope.isDone());
+        sandbox.verify();
     });
 });
 
 describe('スケジュール抽出', () => {
-    it('存在しない', async () => {
-        try {
-            await masterService.schedule({
-                theaterCode: '000',
-                begin: '20170401',
-                end: '20170401'
-            });
-        } catch (error) {
-            assert(error instanceof Error);
-
-            return;
-        }
-
-        throw new Error('スケジュールは存在しないはず');
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
     });
 
-    it('存在する', async () => {
-        const result = await masterService.schedule({
-            theaterCode: '118',
-            begin: '20170401',
-            end: '20170401'
-        });
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
 
-        assert(!_.isEmpty(result[0].titleCode));
+        sandbox.restore();
+    });
+
+    it('劇場が存在すれば抽出できるはず', async () => {
+        const params = {
+            theaterCode: 'theaterCode',
+            begin: 'begin',
+            end: 'end'
+        };
+        const body = {
+            list_schedule: [{}]
+        };
+
+        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/schedule/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await masterService.schedule(params);
+        assert(Array.isArray(result));
+        assert(scope.isDone());
+        sandbox.verify();
     });
 });
 
 describe('ムビチケチケットコード取得', () => {
-    it('存在しないムビチケチケットコード取得', (done) => {
-        masterService.mvtkTicketcode({
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+
+        sandbox.restore();
+    });
+
+    it('ムビチケが存在すれば抽出できるはず', async () => {
+        const params = {
             theaterCode: '118',
             kbnDenshiken: '01',
             kbnMaeuriken: '01',
@@ -97,11 +145,20 @@ describe('ムビチケチケットコード取得', () => {
             kbnEisyahousiki: '01',
             titleCode: 'xxxxx',
             titleBranchNum: 'xx'
-        }).then(() => {
-            done(new Error('存在しないムビチケチケットコードのはず'));
-        }).catch(() => {
-            done();
-        });
+        };
+        const body = {
+        };
+
+        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/mvtk_ticketcode/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await masterService.mvtkTicketcode(params);
+        assert(typeof result, 'object');
+        assert(scope.isDone());
+        sandbox.verify();
     });
 });
 
@@ -125,5 +182,76 @@ describe('各種区分マスター抽出', () => {
         }).catch((err) => {
             done(err);
         });
+    });
+});
+
+describe('スクリーンマスター抽出', () => {
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+
+        sandbox.restore();
+    });
+
+    it('劇場が存在すれば抽出できるはず', async () => {
+        const theaterCode = '123';
+        const body = {
+            list_screen: [{
+                list_seat: [{}]
+            }]
+        };
+
+        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${theaterCode}/screen/`)
+            .reply(OK, body);
+
+        const result = await masterService.screen({
+            theaterCode: theaterCode
+        });
+        assert(Array.isArray(result));
+        assert(scope.isDone());
+        sandbox.verify();
+    });
+});
+
+describe('券種マスター抽出', () => {
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+
+        sandbox.restore();
+    });
+
+    it('劇場が存在すれば抽出できるはず', async () => {
+        const theaterCode = '123';
+        const body = {
+            list_ticket: [{
+            }]
+        };
+
+        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${theaterCode}/ticket/`)
+            .reply(OK, body);
+
+        const result = await masterService.ticket({
+            theaterCode: theaterCode
+        });
+        assert(Array.isArray(result));
+        assert(scope.isDone());
+        sandbox.verify();
     });
 });

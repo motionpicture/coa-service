@@ -105,7 +105,7 @@ workflows:
             - doc
           filters:
             branches:
-              only: /release\/.*/
+              only: /feature\/.+-alpha.+/
       - deploy:
           requires:
             - doc

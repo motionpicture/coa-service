@@ -3,7 +3,8 @@
  *
  * @ignore
  */
-import * as COA from '../lib/index';
+
+const COA = require('../');
 
 COA.services.reserve.delReserve({
     reserveNum: 985,
@@ -24,7 +25,6 @@ COA.services.reserve.delReserve({
         }
     ]
 }).then((result) => {
-    // tslint:disable-next-line:no-console
     console.log(result);
 }).catch((err) => {
     console.error(err.message);

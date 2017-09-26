@@ -3,7 +3,8 @@
  *
  * @ignore
  */
-import * as COA from '../lib/index';
+
+const COA = require('../');
 
 const date = new Date();
 // tslint:disable-next-line:prefer-template no-magic-numbers
@@ -14,7 +15,6 @@ COA.services.reserve.countFreeSeat({
     begin: today,
     end: today
 }).then((result) => {
-    // tslint:disable-next-line:no-console
     console.log(result);
 }).catch((err) => {
     console.error(err.message);
