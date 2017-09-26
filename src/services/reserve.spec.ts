@@ -14,14 +14,11 @@ import * as reserveService from './reserve';
 let scope: nock.Scope;
 let sandbox: sinon.SinonSandbox;
 
-before(() => {
-    sandbox = sinon.sandbox.create();
-});
-
 describe('購入チケット内容抽出', () => {
     beforeEach(() => {
         nock.cleanAll();
         nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
     });
 
     afterEach(() => {
@@ -80,6 +77,7 @@ describe('座席本予約', () => {
     beforeEach(() => {
         nock.cleanAll();
         nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
     });
 
     afterEach(() => {
@@ -159,6 +157,7 @@ describe('販売可能チケット情報', () => {
     beforeEach(() => {
         nock.cleanAll();
         nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
     });
 
     afterEach(() => {
@@ -223,6 +222,7 @@ describe('座席予約状態抽出', () => {
     beforeEach(() => {
         nock.cleanAll();
         nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
     });
 
     afterEach(() => {
@@ -263,6 +263,7 @@ describe('座席仮予約', () => {
     beforeEach(() => {
         nock.cleanAll();
         nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
     });
 
     afterEach(() => {
@@ -305,6 +306,7 @@ describe('座席仮予約削除', () => {
     beforeEach(() => {
         nock.cleanAll();
         nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
     });
 
     afterEach(() => {
@@ -342,6 +344,7 @@ describe('購入チケット取り消し', () => {
     beforeEach(() => {
         nock.cleanAll();
         nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
     });
 
     afterEach(() => {
