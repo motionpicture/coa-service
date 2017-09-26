@@ -3,7 +3,8 @@
  *
  * @ignore
  */
-import * as COA from '../lib/index';
+
+const COA = require('../');
 
 COA.services.reserve.salesTicket({
     theaterCode: '118',
@@ -12,7 +13,6 @@ COA.services.reserve.salesTicket({
     titleBranchNum: '0',
     timeBegin: '2130'
 }).then((results) => {
-    // tslint:disable-next-line:no-console
     console.log(results);
 }).catch((err) => {
     console.error(err.message);

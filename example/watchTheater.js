@@ -3,7 +3,8 @@
  *
  * @ignore
  */
-import * as COA from '../lib/index';
+
+const COA = require('../');
 
 let countRetry = 0;
 

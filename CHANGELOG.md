@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 - request-promise-nativeをアンインストールして、transporterクラスを追加。
+- exampleを修正。
 
 ### Deprecated
 
