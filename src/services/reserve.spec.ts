@@ -1,66 +1,118 @@
 /**
  * 予約サービステスト
- *
  * @ignore
  */
-import * as assert from 'assert';
 
+import * as assert from 'assert';
+import { OK } from 'http-status';
+import * as nock from 'nock';
+import * as sinon from 'sinon';
+
+import * as util from '../utils/util';
 import * as reserveService from './reserve';
 
-describe('座席予約状態抽出', () => {
-    it('存在しない予約', async () => {
-        const stateReserveResult = await reserveService.stateReserve({
-            theaterCode: '118',
-            reserveNum: 123,
-            telNum: '09000000000'
-        });
+let scope: nock.Scope;
+let sandbox: sinon.SinonSandbox;
 
-        assert.equal(stateReserveResult, null);
+before(() => {
+    sandbox = sinon.sandbox.create();
+});
+
+describe('購入チケット内容抽出', () => {
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+
+        sandbox.restore();
+    });
+
+    it('パラメーターが適切であれば抽出できるはず', async () => {
+        const params = {
+            theaterCode: 'theaterCode',
+            reserveNum: 123,
+            telNum: 'telNum'
+        };
+        const body = {
+            list_ticket: []
+        };
+
+        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/state_reserve/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await reserveService.stateReserve(params);
+        assert.equal(typeof result, 'object');
+        assert.equal(true, scope.isDone());
+        sandbox.verify();
     });
 });
 
 describe('座席本予約', () => {
-    it('存在しない座席本予約', async () => {
-        try {
-            await reserveService.updReserve({
-                theaterCode: '',
-                dateJouei: '',
-                titleCode: '',
-                titleBranchNum: '',
-                timeBegin: '',
-                tmpReserveNum: 0,
-                reserveName: '',
-                reserveNameJkana: '',
-                telNum: '',
-                mailAddr: '',
-                reserveAmount: 0,
-                listTicket: [
-                    {
-                        ticketCode: '',
-                        stdPrice: 0,
-                        addPrice: 0,
-                        disPrice: 0,
-                        salePrice: 0,
-                        mvtkAppPrice: 0,
-                        ticketCount: 1,
-                        seatNum: '',
-                        addGlasses: 0,
-                        kbnEisyahousiki: '00',
-                        mvtkNum: '',
-                        mvtkKbnDenshiken: '00',
-                        mvtkKbnMaeuriken: '00',
-                        mvtkKbnKensyu: '00',
-                        mvtkSalesPrice: 0
-                    }
-                ]
-            });
-        } catch (error) {
-            assert(error instanceof Error);
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+    });
 
-            return;
-        }
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
 
-        throw new Error('存在しない座席本予約のはず');
+        sandbox.restore();
+    });
+
+    it('パラメーターが適切であれば本予約できるはず', async () => {
+        const params = {
+            theaterCode: '',
+            dateJouei: '',
+            titleCode: '',
+            titleBranchNum: '',
+            timeBegin: '',
+            tmpReserveNum: 123,
+            reserveName: '',
+            reserveNameJkana: '',
+            telNum: '',
+            mailAddr: '',
+            reserveAmount: 123,
+            listTicket: [{
+                ticketCode: '',
+                stdPrice: 123,
+                addPrice: 123,
+                disPrice: 123,
+                salePrice: 123,
+                mvtkAppPrice: 123,
+                ticketCount: 123,
+                seatNum: '',
+                addGlasses: 123,
+                kbnEisyahousiki: '',
+                mvtkNum: '',
+                mvtkKbnDenshiken: '',
+                mvtkKbnMaeuriken: '',
+                mvtkKbnKensyu: '',
+                mvtkSalesPrice: 123
+            }]
+        };
+        const body = {
+            reserve_num: 123,
+            list_qr: [{}]
+        };
+
+        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/upd_reserve/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await reserveService.updReserve(params);
+        assert.equal(result.reserveNum, body.reserve_num);
+        assert.equal(true, scope.isDone());
+        sandbox.verify();
     });
 });
 
@@ -117,5 +169,160 @@ describe('販売可能チケット情報', () => {
         });
 
         assert(salesTicketResults.length > 0);
+    });
+});
+
+describe('座席予約状態抽出', () => {
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+
+        sandbox.restore();
+    });
+
+    it('パラメーターが適切であれば抽出できるはず', async () => {
+        const params = {
+            theaterCode: 'theaterCode',
+            dateJouei: 'dateJouei',
+            titleCode: 'titleCode',
+            titleBranchNum: 'titleBranchNum',
+            timeBegin: 'timeBegin',
+            screenCode: 'screenCode'
+        };
+        const body = {
+            cnt_reserve_free: 'cnt_reserve_free',
+            list_seat: [{
+                list_free_seat: [{}]
+            }]
+        };
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/state_reserve_seat/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await reserveService.stateReserveSeat(params);
+        assert.equal(result.cntReserveFree, body.cnt_reserve_free);
+        assert.equal(true, scope.isDone());
+        sandbox.verify();
+    });
+});
+
+describe('座席仮予約', () => {
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+
+        sandbox.restore();
+    });
+
+    it('パラメーターが適切であれば仮予約できるはず', async () => {
+        const params = {
+            theaterCode: 'theaterCode',
+            dateJouei: 'dateJouei',
+            titleCode: 'titleCode',
+            titleBranchNum: 'titleBranchNum',
+            timeBegin: 'timeBegin',
+            screenCode: 'screenCode',
+            listSeat: []
+        };
+        const body = {
+            tmp_reserve_num: 123,
+            list_tmp_reserve: [{}]
+        };
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/upd_tmp_reserve_seat/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await reserveService.updTmpReserveSeat(params);
+        assert.deepEqual(result.tmpReserveNum, body.tmp_reserve_num);
+        assert.equal(true, scope.isDone());
+        sandbox.verify();
+    });
+});
+
+describe('座席仮予約削除', () => {
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+
+        sandbox.restore();
+    });
+
+    it('パラメーターが適切であれば仮予約削除できるはず', async () => {
+        const params = {
+            theaterCode: 'theaterCode',
+            dateJouei: 'dateJouei',
+            titleCode: 'titleCode',
+            titleBranchNum: 'titleBranchNum',
+            timeBegin: 'timeBegin',
+            screenCode: 'screenCode',
+            tmpReserveNum: 123
+        };
+        const body = {
+        };
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/del_tmp_reserve/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await reserveService.delTmpReserve(params);
+        assert.deepEqual(result, undefined);
+        assert.equal(true, scope.isDone());
+        sandbox.verify();
+    });
+});
+
+describe('購入チケット取り消し', () => {
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+
+        sandbox.restore();
+    });
+
+    it('パラメーターが適切であれば取消できるはず', async () => {
+        const params = {
+            theaterCode: 'theaterCode',
+            dateJouei: 'dateJouei',
+            titleCode: 'titleCode',
+            titleBranchNum: 'titleBranchNum',
+            timeBegin: 'timeBegin',
+            screenCode: 'screenCode',
+            reserveNum: 123,
+            telNum: 'telNum',
+            listSeat: []
+        };
+        const body = {
+        };
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/del_reserve/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await reserveService.delReserve(params);
+        assert.deepEqual(result, undefined);
+        assert.equal(true, scope.isDone());
+        sandbox.verify();
     });
 });

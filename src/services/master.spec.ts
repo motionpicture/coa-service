@@ -115,7 +115,8 @@ describe('ムビチケチケットコード取得', () => {
         const body = {
         };
         scope = nock(process.env.COA_ENDPOINT)
-            .get(new RegExp(`\/api\/v1\/theater\/${params.theaterCode}\/mvtk_ticketcode\/\?.+`))
+            .get(`/api/v1/theater/${params.theaterCode}/mvtk_ticketcode/`)
+            .query(true)
             .reply(OK, body);
 
         const result = await masterService.mvtkTicketcode(params);
