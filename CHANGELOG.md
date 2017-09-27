@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - typesディレクトリを削除。
 
 ### Fixed
+- 販売可能チケット情報の戻り値へ制限単位(limitUnit)追加
 
 ### Security
 
