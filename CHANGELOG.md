@@ -14,11 +14,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - typesディレクトリを削除。
 
 ### Fixed
+
+### Security
+
+
+## v4.0.5 - 2017-09-28
+### Fixed
 - 販売可能チケット情報の戻り値へ制限単位(limitUnit)追加
 
 ### Security
 - nsp除外リスト追加 [debug](https://nodesecurity.io/advisories/534)
-
 
 ## v4.0.4 - 2017-09-26
 ### Added
