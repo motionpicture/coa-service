@@ -1019,7 +1019,7 @@ export async function salesTicket(args: ISalesTicketArgs): Promise<ISalesTicketR
         }
     });
 
-    return body.list_ticket.map((value: any) => {
+    return body.list_ticket.map((value: any): ISalesTicketResult => {
         return {
             ticketCode: value.ticket_code,
             ticketName: value.ticket_name,
@@ -1029,6 +1029,7 @@ export async function salesTicket(args: ISalesTicketArgs): Promise<ISalesTicketR
             addPrice: value.add_price,
             salePrice: value.sale_price,
             limitCount: value.limit_count,
+            limitUnit: value.limit_unit,
             ticketNote: value.ticket_note,
             addGlasses: value.add_glasses
         };

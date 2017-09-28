@@ -1,41 +1,44 @@
 <img src="https://motionpicture.jp/images/common/logo_01.svg" alt="motionpicture" title="motionpicture" align="right" height="56" width="98"/>
 
-# COA Client Library for Node.js
+# COA client library for Node.js
 
 [![Build status](https://circleci.com/gh/ilovegadd/coa-service.png?style=shield&circle-token=e29e443f67a815be67d500d478ae3b8e413e7bab)](https://circleci.com/gh/ilovegadd/coa-service)
 
 node.jsでCOAサービスを使うためのライブラリです。
 
 
-# Getting Started
+## Table of contents
 
-## Install
+* [Usage](#usage)
+* [Example](#code-samples)
+* [Jsdoc](#jsdoc)
+* [License](#license)
 
-```shell
-npm install @motionpicture/coa-service
-```
 
 ## Usage
 
-```Javascript
-var COA = require('@motionpicture/coa-service');
+``` sh
+npm install @motionpicture/coa-service
 ```
 
-When using the COA Service SDK, you must provide connection information. This can be provided using:
+``` js
+const COA = require('@motionpicture/coa-service');
+```
 
-* set environment variables - For example,
-```shell
+### 以下環境変数の設定が必須です。
+
+``` shell
 set COA_ENDPOINT=*****
 set COA_REFRESH_TOKEN=*****
 ```
 
-* 劇場情報を取得する
+### 劇場情報を取得する
 
 ``` js
 const COA = require('@motionpicture/coa-service');
 
 COA.services.master.theater({
-    theaterCode: '118'
+    theaterCode: '123'
 }).then((result) => {
     console.log(result);
 }).catch((err) => {
@@ -45,18 +48,13 @@ COA.services.master.theater({
 
 ## Code Samples
 
-コードサンプルは./exampleにあります。
+コードサンプルは [example](https://github.com/ilovegadd/coa-service/tree/master/example) にあります。
 
 
-# Tests
-
-単体テストは以下で実行できます。
-
-```shell
-npm test
-```
-
-
-# Jsdoc
+## Jsdoc
 
 `npm run doc`でjsdocを作成できます。./docに出力されます。
+
+## License
+
+ISC
