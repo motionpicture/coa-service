@@ -13,9 +13,9 @@
     }
   ],
   "dependencies": {
-    "debug": "^3.0.1",
+    "debug": "^3.1.0",
     "http-status": "^1.0.1",
-    "request": "^2.82.0",
+    "request": "^2.83.0",
     "tough-cookie": "^2.3.3"
   },
   "description": "COA client library for Node.js",
@@ -24,6 +24,7 @@
     "@types/http-status": "^0.2.30",
     "@types/mocha": "^2.2.43",
     "@types/nock": "^8.2.1",
+    "@types/power-assert": "^1.4.29",
     "@types/request": "0.0.44",
     "@types/sinon": "^2.3.5",
     "@types/underscore": "^1.8.3",
@@ -32,16 +33,17 @@
     "jsdoc": "^3.5.5",
     "mocha": "^3.5.3",
     "moment": "^2.18.1",
-    "nock": "^9.0.21",
-    "nsp": "^2.8.0",
+    "nock": "^9.0.22",
+    "nsp": "^2.8.1",
     "nyc": "^11.2.1",
+    "power-assert": "^1.4.4",
     "rimraf": "^2.6.2",
     "sinon": "^3.3.0",
     "snyk": "^1.41.1",
     "ts-node": "^3.3.0",
     "tslint": "^5.7.0",
     "tslint-microsoft-contrib": "^5.0.1",
-    "typescript": "^2.5.2",
+    "typescript": "^2.5.3",
     "underscore": "^1.8.3"
   },
   "engines": {
@@ -66,7 +68,7 @@
   "name": "@motionpicture/coa-service",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ilovegadd/coa-service.git"
+    "url": "https://github.com/motionpicture/coa-service.git"
   },
   "scripts": {
     "build": "tsc",
@@ -83,5 +85,5 @@
     "postversion": "git push origin --tags",
     "prepublishOnly": "npm run clean && npm run build && npm test && npm run doc"
   },
-  "version": "4.0.5"
+  "version": "4.0.6"
 }

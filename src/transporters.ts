@@ -7,7 +7,7 @@
  */
 
 import * as createDebug from 'debug';
-import { INTERNAL_SERVER_ERROR } from 'http-status';
+import { INTERNAL_SERVER_ERROR, NO_CONTENT } from 'http-status';
 import * as request from 'request';
 
 const debug = createDebug('coa-service:transporters');
@@ -69,17 +69,6 @@ export class DefaultTransporter implements Transporter {
      * Configures request options before making a request.
      */
     public static CONFIGURE(options: request.OptionsWithUri): request.OptionsWithUri {
-        const defaultOptions = {
-            baseUrl: process.env.COA_ENDPOINT,
-            // simple: false,
-            // resolveWithFullResponse: true,
-            json: true,
-            method: 'GET',
-            useQuerystring: true
-        };
-
-        options = { ...defaultOptions, ...options };
-
         // set transporter user agent
         options.headers = (options.headers !== undefined) ? options.headers : {};
         if (!options.headers['User-Agent']) {
@@ -119,7 +108,6 @@ export class DefaultTransporter implements Transporter {
         let err: COAServiceError = new COAServiceError(INTERNAL_SERVER_ERROR, '', 'An unexpected error occurred.');
 
         if (error instanceof Error) {
-            console.error(error);
             throw new COAServiceError(INTERNAL_SERVER_ERROR, '', error.message);
         }
 
@@ -138,15 +126,15 @@ export class DefaultTransporter implements Transporter {
 
                 // エラーレスポンスにステータスがあった場合
                 if (body.status !== undefined && body.status !== 0) {
-                    err = new COAServiceError(response.statusCode, body.status, body.message);
+                    err = new COAServiceError(response.statusCode, body.status);
                 }
             } else {
-                if (body !== undefined) {
-                    // consider 200,201,404
-                    return body;
-                } else {
+                if (response.statusCode === NO_CONTENT) {
                     // consider 204
                     return;
+                } else {
+                    // consider 200,201
+                    return body;
                 }
             }
         }

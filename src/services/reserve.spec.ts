@@ -8,7 +8,7 @@ import { OK } from 'http-status';
 import * as nock from 'nock';
 import * as sinon from 'sinon';
 
-import * as util from '../utils/util';
+import RefreshTokenClient from '../auth/refreshTokenClient';
 import * as reserveService from './reserve';
 
 let scope: nock.Scope;
@@ -38,7 +38,7 @@ describe('購入チケット内容抽出', () => {
             list_ticket: [{}]
         };
 
-        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${params.theaterCode}/state_reserve/`)
             .query(true)
@@ -60,7 +60,7 @@ describe('購入チケット内容抽出', () => {
             list_ticket: []
         };
 
-        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${params.theaterCode}/state_reserve/`)
             .query(true)
@@ -123,7 +123,7 @@ describe('座席本予約', () => {
             list_qr: [{}]
         };
 
-        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${params.theaterCode}/upd_reserve/`)
             .query(true)
@@ -137,19 +137,42 @@ describe('座席本予約', () => {
 });
 
 describe('空席状況', () => {
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+
+        sandbox.restore();
+    });
+
     it('存在する空席状況', async () => {
-        const date = new Date();
-        // tslint:disable-next-line:prefer-template no-magic-numbers max-line-length
-        const today = `${date.getFullYear()}${('00' + String(date.getMonth() + 1)).slice(-2)}${('0' + String(date.getDate())).slice(-2)}`;
-        const theaterCode = '118';
-        const countFreeSeat = await reserveService.countFreeSeat({
-            theaterCode: theaterCode,
-            begin: today,
-            end: today
-        });
-        assert(countFreeSeat.theaterCode === theaterCode);
-        assert(countFreeSeat.listDate.length === 1);
-        assert(countFreeSeat.listDate[0].dateJouei === today);
+        const params = {
+            theaterCode: 'theaterCode',
+            begin: 'begin',
+            end: 'end'
+        };
+        const body = {
+            theater_code: 'theater_code',
+            list_date: [{
+                list_performance: [{}]
+            }]
+        };
+
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/count_free_seat/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await reserveService.countFreeSeat(params);
+        assert.equal(result.theaterCode, body.theater_code);
+        assert(scope.isDone());
+        sandbox.verify();
     });
 });
 
@@ -180,7 +203,7 @@ describe('販売可能チケット情報', () => {
             list_ticket: [{}]
         };
 
-        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${params.theaterCode}/sales_ticket/`)
             .query(true)
@@ -205,7 +228,7 @@ describe('販売可能チケット情報', () => {
             list_ticket: [{}]
         };
 
-        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${params.theaterCode}/sales_ticket/`)
             .query(true)
@@ -247,6 +270,8 @@ describe('座席予約状態抽出', () => {
                 list_free_seat: [{}]
             }]
         };
+
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${params.theaterCode}/state_reserve_seat/`)
             .query(true)
@@ -290,6 +315,8 @@ describe('座席仮予約', () => {
             tmp_reserve_num: 123,
             list_tmp_reserve: [{}]
         };
+
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${params.theaterCode}/upd_tmp_reserve_seat/`)
             .query(true)
@@ -328,6 +355,8 @@ describe('座席仮予約削除', () => {
         };
         const body = {
         };
+
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${params.theaterCode}/del_tmp_reserve/`)
             .query(true)
@@ -371,6 +400,8 @@ describe('購入チケット取り消し', () => {
         };
         const body = {
         };
+
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${params.theaterCode}/del_reserve/`)
             .query(true)

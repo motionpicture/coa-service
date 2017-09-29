@@ -5,8 +5,7 @@
 
 import { OK } from 'http-status';
 
-import { DefaultTransporter } from '../transporters';
-import * as Util from '../utils/util';
+import service from '../service';
 
 /**
  * 施設マスター抽出in
@@ -53,11 +52,13 @@ export interface ITheaterResult {
  * @returns {Promise<TheaterResult>}
  */
 export async function theater(args: ITheaterArgs): Promise<ITheaterResult> {
-    const body = await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/theater/`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET'
-    });
+    const body = await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/theater/`,
+            method: 'GET'
+        },
+        [OK]
+    );
 
     return {
         theaterCode: body.theater_code,
@@ -157,11 +158,13 @@ export interface ITitleResult {
  * @returns {Promise<TitleResult[]>}
  */
 export async function title(args: ITitleArgs): Promise<ITitleResult[]> {
-    const body = await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/title/`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET'
-    });
+    const body = await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/title/`,
+            method: 'GET'
+        },
+        [OK]
+    );
 
     return body.list_title.map((value: any): ITitleResult => {
         return {
@@ -260,11 +263,13 @@ export interface IScreenResult {
  * @returns {Promise<ScreenResult[]>}
  */
 export async function screen(args: IScreenArgs): Promise<IScreenResult[]> {
-    const body = await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/screen/`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET'
-    });
+    const body = await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/screen/`,
+            method: 'GET'
+        },
+        [OK]
+    );
 
     return body.list_screen.map((value: any): IScreenResult => {
         return {
@@ -396,15 +401,17 @@ export interface IScheduleResult {
 export async function schedule(
     args: IScheduleArgs
 ): Promise<IScheduleResult[]> {
-    const body = await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/schedule/`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET',
-        qs: {
-            begin: args.begin,
-            end: args.end
-        }
-    });
+    const body = await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/schedule/`,
+            method: 'GET',
+            qs: {
+                begin: args.begin,
+                end: args.end
+            }
+        },
+        [OK]
+    );
 
     return body.list_schedule.map((value: any): IScheduleResult => {
         return {
@@ -467,11 +474,13 @@ export interface ITicketResult {
  * @returns {Promise<TicketResult[]>}
  */
 export async function ticket(args: ITicketArgs): Promise<ITicketResult[]> {
-    const body = await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/ticket/`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET'
-    });
+    const body = await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/ticket/`,
+            method: 'GET'
+        },
+        [OK]
+    );
 
     return body.list_ticket.map((value: any): ITicketResult => {
         return {
@@ -529,11 +538,16 @@ export interface IKubunNameResult {
  * @returns {Promise<IKubunNameResult[]>}
  */
 export async function kubunName(args: IKubunNameArgs): Promise<IKubunNameResult[]> {
-    const body = await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/kubun_name/?kubun_class=${args.kubunClass}`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET'
-    });
+    const body = await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/kubun_name/`,
+            method: 'GET',
+            qs: {
+                kubun_class: args.kubunClass
+            }
+        },
+        [OK]
+    );
 
     return body.list_kubun.map((value: any): IKubunNameResult => {
         return {
@@ -635,22 +649,24 @@ export interface IMvtkTicketcodeResult {
  * @returns {Promise<IMvtkTicketcodeResult>}
  */
 export async function mvtkTicketcode(args: IMvtkTicketcodeArgs): Promise<IMvtkTicketcodeResult> {
-    const body = await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/mvtk_ticketcode/`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET',
-        qs: {
-            theater_code: args.theaterCode,
-            kbn_denshiken: args.kbnDenshiken,
-            kbn_maeuriken: args.kbnMaeuriken,
-            kbn_kensyu: args.kbnKensyu,
-            sales_price: args.salesPrice,
-            app_price: args.appPrice,
-            kbn_eisyahousiki: args.kbnEisyahousiki,
-            title_code: args.titleCode,
-            title_branch_num: args.titleBranchNum
-        }
-    });
+    const body = await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/mvtk_ticketcode/`,
+            method: 'GET',
+            qs: {
+                theater_code: args.theaterCode,
+                kbn_denshiken: args.kbnDenshiken,
+                kbn_maeuriken: args.kbnMaeuriken,
+                kbn_kensyu: args.kbnKensyu,
+                sales_price: args.salesPrice,
+                app_price: args.appPrice,
+                kbn_eisyahousiki: args.kbnEisyahousiki,
+                title_code: args.titleCode,
+                title_branch_num: args.titleBranchNum
+            }
+        },
+        [OK]
+    );
 
     return {
         ticketCode: body.ticket_code,

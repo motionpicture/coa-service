@@ -2,7 +2,7 @@
 
 # COA client library for Node.js
 
-[![Build status](https://circleci.com/gh/ilovegadd/coa-service.png?style=shield&circle-token=e29e443f67a815be67d500d478ae3b8e413e7bab)](https://circleci.com/gh/ilovegadd/coa-service)
+[![Build status](https://circleci.com/gh/motionpicture/coa-service.png?style=shield&circle-token=e29e443f67a815be67d500d478ae3b8e413e7bab)](https://circleci.com/gh/motionpicture/coa-service)
 
 node.jsでCOAサービスを使うためのライブラリです。
 
@@ -48,7 +48,7 @@ COA.services.master.theater({
 
 ## Code Samples
 
-コードサンプルは [example](https://github.com/ilovegadd/coa-service/tree/master/example) にあります。
+コードサンプルは [example](https://github.com/motionpicture/coa-service/tree/master/example) にあります。
 
 
 ## Jsdoc
