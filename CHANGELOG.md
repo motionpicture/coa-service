@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Fixed
 
 ### Security
+- 依存パッケージを最新に更新。
 
 
 ## v4.0.5 - 2017-09-28

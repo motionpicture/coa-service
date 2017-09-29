@@ -1,9 +1,5 @@
 {
     "check-coverage": true,
-    "statements": 70,
-    "branches": 80,
-    "functions": 60,
-    "lines": 70,
     "extension": [
         ".ts"
     ],
@@ -15,7 +11,7 @@
     ],
     "reporter": [
         "lcov",
+        "text-lcov",
         "text-summary"
-    ],
-    "all": true
+    ]
 }
