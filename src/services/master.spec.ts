@@ -8,7 +8,7 @@ import { OK } from 'http-status';
 import * as nock from 'nock';
 import * as sinon from 'sinon';
 
-import * as util from '../utils/util';
+import RefreshTokenClient from '../auth/refreshTokenClient';
 import * as masterService from './master';
 
 let scope: nock.Scope;
@@ -35,7 +35,7 @@ describe('劇場抽出', () => {
         const body = {
         };
 
-        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${params.theaterCode}/theater/`)
             .query(true)
@@ -70,7 +70,7 @@ describe('作品抽出', () => {
             list_title: [{}]
         };
 
-        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${params.theaterCode}/title/`)
             .query(true)
@@ -107,7 +107,7 @@ describe('スケジュール抽出', () => {
             list_schedule: [{}]
         };
 
-        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${params.theaterCode}/schedule/`)
             .query(true)
@@ -149,7 +149,7 @@ describe('ムビチケチケットコード取得', () => {
         const body = {
         };
 
-        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${params.theaterCode}/mvtk_ticketcode/`)
             .query(true)
@@ -163,25 +163,38 @@ describe('ムビチケチケットコード取得', () => {
 });
 
 describe('各種区分マスター抽出', () => {
-    it('存在しない', (done) => {
-        masterService.kubunName({
-            theaterCode: '118',
-            kubunClass: '0'
-        }).then(() => {
-            done(new Error('存在しない区分'));
-        }).catch(() => {
-            done();
-        });
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
     });
-    it('存在する', (done) => {
-        masterService.kubunName({
+
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+
+        sandbox.restore();
+    });
+
+    it('区分が存在すれば抽出できるはず', async () => {
+        const params = {
             theaterCode: '118',
-            kubunClass: '001'
-        }).then(() => {
-            done();
-        }).catch((err) => {
-            done(err);
-        });
+            kubunClass: 'kubunClass'
+        };
+        const body = {
+            list_kubun: [{}]
+        };
+
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/kubun_name/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await masterService.kubunName(params);
+        assert(typeof result, 'object');
+        assert(scope.isDone());
+        sandbox.verify();
     });
 });
 
@@ -207,7 +220,7 @@ describe('スクリーンマスター抽出', () => {
             }]
         };
 
-        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${theaterCode}/screen/`)
             .reply(OK, body);
@@ -242,7 +255,7 @@ describe('券種マスター抽出', () => {
             }]
         };
 
-        sandbox.mock(util).expects('publishAccessToken').once().resolves('access_token');
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
         scope = nock(process.env.COA_ENDPOINT)
             .get(`/api/v1/theater/${theaterCode}/ticket/`)
             .reply(OK, body);

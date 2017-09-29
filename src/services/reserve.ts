@@ -5,8 +5,7 @@
 
 import { OK } from 'http-status';
 
-import { DefaultTransporter } from '../transporters';
-import * as Util from '../utils/util';
+import service from '../service';
 
 /**
  * 空席状況in
@@ -100,15 +99,17 @@ export interface ICountFreeSeatResult {
  * @returns {Promise<ICountFreeSeatResult>}
  */
 export async function countFreeSeat(args: ICountFreeSeatArgs): Promise<ICountFreeSeatResult> {
-    const body = await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/count_free_seat/`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET',
-        qs: {
-            begin: args.begin,
-            end: args.end
-        }
-    });
+    const body = await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/count_free_seat/`,
+            method: 'GET',
+            qs: {
+                begin: args.begin,
+                end: args.end
+            }
+        },
+        [OK]
+    );
 
     return {
         theaterCode: body.theater_code,
@@ -217,18 +218,20 @@ export interface IStateReserveSeatResult {
  * @returns {Promise<IStateReserveSeatResult>}
  */
 export async function stateReserveSeat(args: IStateReserveSeatArgs): Promise<IStateReserveSeatResult> {
-    const body = await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/state_reserve_seat/`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET',
-        qs: {
-            date_jouei: args.dateJouei,
-            title_code: args.titleCode,
-            title_branch_num: args.titleBranchNum,
-            time_begin: args.timeBegin,
-            screen_code: args.screenCode
-        }
-    });
+    const body = await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/state_reserve_seat/`,
+            method: 'GET',
+            qs: {
+                date_jouei: args.dateJouei,
+                title_code: args.titleCode,
+                title_branch_num: args.titleBranchNum,
+                time_begin: args.timeBegin,
+                screen_code: args.screenCode
+            }
+        },
+        [OK]
+    );
 
     return {
         cntReserveFree: body.cnt_reserve_free,
@@ -348,21 +351,23 @@ export interface IUpdTmpReserveSeatResult {
  * @returns {Promise<IUpdTmpReserveSeatResult>}
  */
 export async function updTmpReserveSeat(args: IUpdTmpReserveSeatArgs): Promise<IUpdTmpReserveSeatResult> {
-    const body = await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/upd_tmp_reserve_seat/`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET',
-        qs: {
-            date_jouei: args.dateJouei,
-            title_code: args.titleCode,
-            title_branch_num: args.titleBranchNum,
-            time_begin: args.timeBegin,
-            cnt_reserve_seat: args.listSeat.length,
-            seat_section: args.listSeat.map((value) => value.seatSection),
-            seat_num: args.listSeat.map((value) => value.seatNum),
-            screen_code: args.screenCode
-        }
-    });
+    const body = await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/upd_tmp_reserve_seat/`,
+            method: 'GET',
+            qs: {
+                date_jouei: args.dateJouei,
+                title_code: args.titleCode,
+                title_branch_num: args.titleBranchNum,
+                time_begin: args.timeBegin,
+                cnt_reserve_seat: args.listSeat.length,
+                seat_section: args.listSeat.map((value) => value.seatSection),
+                seat_num: args.listSeat.map((value) => value.seatNum),
+                screen_code: args.screenCode
+            }
+        },
+        [OK]
+    );
 
     return {
         tmpReserveNum: body.tmp_reserve_num,
@@ -420,18 +425,20 @@ export interface IDelTmpReserveArgs {
  * @returns {Promise<void>}
  */
 export async function delTmpReserve(args: IDelTmpReserveArgs): Promise<void> {
-    await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/del_tmp_reserve/`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET',
-        qs: {
-            date_jouei: args.dateJouei,
-            title_code: args.titleCode,
-            title_branch_num: args.titleBranchNum,
-            time_begin: args.timeBegin,
-            tmp_reserve_num: args.tmpReserveNum
-        }
-    });
+    await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/del_tmp_reserve/`,
+            method: 'GET',
+            qs: {
+                date_jouei: args.dateJouei,
+                title_code: args.titleCode,
+                title_branch_num: args.titleBranchNum,
+                time_begin: args.timeBegin,
+                tmp_reserve_num: args.tmpReserveNum
+            }
+        },
+        [OK]
+    );
 }
 
 /**
@@ -633,39 +640,41 @@ export interface IUpdReserveQR {
  * @returns {Promise<IUpdReserveResult>}
  */
 export async function updReserve(args: IUpdReserveArgs): Promise<IUpdReserveResult> {
-    const body = await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/upd_reserve/`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET',
-        qs: {
-            theater_code: args.theaterCode,
-            date_jouei: args.dateJouei,
-            title_code: args.titleCode,
-            title_branch_num: args.titleBranchNum,
-            time_begin: args.timeBegin,
-            tmp_reserve_num: args.tmpReserveNum,
-            reserve_name: args.reserveName,
-            reserve_name_jkana: args.reserveNameJkana,
-            tel_num: args.telNum,
-            mail_addr: args.mailAddr,
-            reserve_amount: args.reserveAmount,
-            ticket_code: args.listTicket.map((value) => value.ticketCode),
-            std_price: args.listTicket.map((value) => value.stdPrice),
-            add_price: args.listTicket.map((value) => value.addPrice),
-            dis_price: args.listTicket.map((value) => value.disPrice),
-            sale_price: args.listTicket.map((value) => value.salePrice),
-            mvtk_app_price: args.listTicket.map((value) => value.mvtkAppPrice),
-            ticket_count: args.listTicket.map((value) => value.ticketCount),
-            seat_num: args.listTicket.map((value) => value.seatNum),
-            add_glasses: args.listTicket.map((value) => value.addGlasses),
-            kbn_eisyahousiki: args.listTicket.map((value) => value.kbnEisyahousiki),
-            mvtk_num: args.listTicket.map((value) => value.mvtkNum),
-            mvtk_kbn_denshiken: args.listTicket.map((value) => value.mvtkKbnDenshiken),
-            mvtk_kbn_maeuriken: args.listTicket.map((value) => value.mvtkKbnMaeuriken),
-            mvtk_kbn_kensyu: args.listTicket.map((value) => value.mvtkKbnKensyu),
-            mvtk_sales_price: args.listTicket.map((value) => value.mvtkSalesPrice)
-        }
-    });
+    const body = await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/upd_reserve/`,
+            method: 'GET',
+            qs: {
+                theater_code: args.theaterCode,
+                date_jouei: args.dateJouei,
+                title_code: args.titleCode,
+                title_branch_num: args.titleBranchNum,
+                time_begin: args.timeBegin,
+                tmp_reserve_num: args.tmpReserveNum,
+                reserve_name: args.reserveName,
+                reserve_name_jkana: args.reserveNameJkana,
+                tel_num: args.telNum,
+                mail_addr: args.mailAddr,
+                reserve_amount: args.reserveAmount,
+                ticket_code: args.listTicket.map((value) => value.ticketCode),
+                std_price: args.listTicket.map((value) => value.stdPrice),
+                add_price: args.listTicket.map((value) => value.addPrice),
+                dis_price: args.listTicket.map((value) => value.disPrice),
+                sale_price: args.listTicket.map((value) => value.salePrice),
+                mvtk_app_price: args.listTicket.map((value) => value.mvtkAppPrice),
+                ticket_count: args.listTicket.map((value) => value.ticketCount),
+                seat_num: args.listTicket.map((value) => value.seatNum),
+                add_glasses: args.listTicket.map((value) => value.addGlasses),
+                kbn_eisyahousiki: args.listTicket.map((value) => value.kbnEisyahousiki),
+                mvtk_num: args.listTicket.map((value) => value.mvtkNum),
+                mvtk_kbn_denshiken: args.listTicket.map((value) => value.mvtkKbnDenshiken),
+                mvtk_kbn_maeuriken: args.listTicket.map((value) => value.mvtkKbnMaeuriken),
+                mvtk_kbn_kensyu: args.listTicket.map((value) => value.mvtkKbnKensyu),
+                mvtk_sales_price: args.listTicket.map((value) => value.mvtkSalesPrice)
+            }
+        },
+        [OK]
+    );
 
     return {
         reserveNum: body.reserve_num,
@@ -750,22 +759,24 @@ export interface IDelReserveSeat {
  * @returns {Promise<void>}
  */
 export async function delReserve(args: IDelReserveArgs): Promise<void> {
-    await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/del_reserve/`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET',
-        qs: {
-            theater_code: args.theaterCode,
-            date_jouei: args.dateJouei,
-            title_code: args.titleCode,
-            title_branch_num: args.titleBranchNum,
-            time_begin: args.timeBegin,
-            reserve_num: args.reserveNum,
-            tel_num: args.telNum,
-            seat_section: args.listSeat.map((value) => value.seatSection),
-            seat_num: args.listSeat.map((value) => value.seatNum)
-        }
-    });
+    await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/del_reserve/`,
+            method: 'GET',
+            qs: {
+                theater_code: args.theaterCode,
+                date_jouei: args.dateJouei,
+                title_code: args.titleCode,
+                title_branch_num: args.titleBranchNum,
+                time_begin: args.timeBegin,
+                reserve_num: args.reserveNum,
+                tel_num: args.telNum,
+                seat_section: args.listSeat.map((value) => value.seatSection),
+                seat_num: args.listSeat.map((value) => value.seatNum)
+            }
+        },
+        [OK]
+    );
 }
 
 /**
@@ -859,16 +870,18 @@ export interface IStateReserveResult {
  * @returns {Promise<StateReserveResult>}
  */
 export async function stateReserve(args: IStateReserveArgs): Promise<IStateReserveResult | null> {
-    const body = await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/state_reserve/`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET',
-        qs: {
-            theater_code: args.theaterCode,
-            reserve_num: args.reserveNum,
-            tel_num: args.telNum
-        }
-    });
+    const body = await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/state_reserve/`,
+            method: 'GET',
+            qs: {
+                theater_code: args.theaterCode,
+                reserve_num: args.reserveNum,
+                tel_num: args.telNum
+            }
+        },
+        [OK]
+    );
 
     // 該当予約がなくてもステータス0が返ってくる
     if ((<IStateReserveTicket[]>body.list_ticket).length === 0) {
@@ -1005,19 +1018,21 @@ export interface ISalesTicketResult {
  * @param {string} args.flgMember 会員用フラグ
  */
 export async function salesTicket(args: ISalesTicketArgs): Promise<ISalesTicketResult[]> {
-    const body = await new DefaultTransporter([OK]).request({
-        uri: `/api/v1/theater/${args.theaterCode}/sales_ticket/`,
-        auth: { bearer: await Util.publishAccessToken() },
-        method: 'GET',
-        qs: {
-            date_jouei: args.dateJouei,
-            title_code: args.titleCode,
-            title_branch_num: args.titleBranchNum,
-            time_begin: args.timeBegin,
-            // 念のため互換性を保つ次期アップデートでデフォルト値削除
-            flg_member: (args.flgMember === undefined) ? FlgMember.NonMember : args.flgMember
-        }
-    });
+    const body = await service.request(
+        {
+            uri: `/api/v1/theater/${args.theaterCode}/sales_ticket/`,
+            method: 'GET',
+            qs: {
+                date_jouei: args.dateJouei,
+                title_code: args.titleCode,
+                title_branch_num: args.titleBranchNum,
+                time_begin: args.timeBegin,
+                // 念のため互換性を保つ次期アップデートでデフォルト値削除
+                flg_member: (args.flgMember === undefined) ? FlgMember.NonMember : args.flgMember
+            }
+        },
+        [OK]
+    );
 
     return body.list_ticket.map((value: any): ISalesTicketResult => {
         return {

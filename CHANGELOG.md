@@ -5,8 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
+- リフレッシュトークン認証クライアントを新規で作成。
 
 ### Changed
+- 認証エラーの場合一度だけトークンを自動的にリフレッシュするように対応。
 
 ### Deprecated
 
