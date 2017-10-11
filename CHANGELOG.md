@@ -13,10 +13,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Removed
 
 ### Fixed
-- HTTPステータスコードが2xxでもレスポンス本文のstatusが0でない場合をエラーとしてハンドリング。
 
 ### Security
 
+
+## v4.0.7 - 2017-10-11
+### Fixed
+- HTTPステータスコードが2xxでもレスポンス本文のstatusが0でない場合をエラーとしてハンドリング。
 
 ## v4.0.6 - 2017-09-29
 ### Added
