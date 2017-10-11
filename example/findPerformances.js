@@ -13,5 +13,5 @@ COA.services.master.schedule({
 }).then((performances) => {
     console.log(performances);
 }).catch((err) => {
-    console.error(err.message);
+    console.error(err);
 });

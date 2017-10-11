@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Removed
 
 ### Fixed
+- HTTPステータスコードが2xxでもレスポンス本文のstatusが0でない場合をエラーとしてハンドリング。
 
 ### Security
 

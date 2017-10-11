@@ -11,5 +11,5 @@ COA.services.master.title({
 }).then((films) => {
     console.log(films);
 }).catch((err) => {
-    console.error(err.message);
+    console.error(err);
 });

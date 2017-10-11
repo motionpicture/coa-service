@@ -24,7 +24,7 @@ setInterval(
                 theaterCode: '118'
             });
         } catch (error) {
-            console.error(error.message);
+            console.error(err);
         }
 
         countRetry -= 1;

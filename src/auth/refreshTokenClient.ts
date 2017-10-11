@@ -163,6 +163,8 @@ export default class RefreshTokenClient {
 
                 break;
             } catch (error) {
+                // tslint:disable-next-line:no-single-line-block-comment
+                /* istanbul ignore else */
                 if (error instanceof Error) {
                     const statusCode = (<COAServiceError>error).code;
 
@@ -172,6 +174,8 @@ export default class RefreshTokenClient {
                         await this.refreshAccessToken();
                         continue;
                     }
+                } else {
+                    // no operation
                 }
 
                 throw error;

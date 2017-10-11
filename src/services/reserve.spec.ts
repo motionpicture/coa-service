@@ -327,6 +327,42 @@ describe('座席仮予約', () => {
         assert(scope.isDone());
         sandbox.verify();
     });
+
+    it('statusが0であればエラーのなるはず', async () => {
+        const params = {
+            theaterCode: 'theaterCode',
+            dateJouei: 'dateJouei',
+            titleCode: 'titleCode',
+            titleBranchNum: 'titleBranchNum',
+            timeBegin: 'timeBegin',
+            screenCode: 'screenCode',
+            listSeat: [{
+                seatSection: 'seat_section',
+                seatNum: 'seat_num'
+            }]
+        };
+        const body = {
+            status: '1',
+            message: 'message',
+            tmp_reserve_num: 0,
+            list_tmp_reserve: [{
+                seat_section: 'seat_section',
+                seat_num: 'seat_num',
+                sts_tmp_reserve: 'NG'
+            }]
+        };
+
+        sandbox.mock(RefreshTokenClient.prototype).expects('getAccessToken').once().resolves('access_token');
+        scope = nock(process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/upd_tmp_reserve_seat/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await reserveService.updTmpReserveSeat(params).catch((err) => err);
+        assert(result instanceof Error);
+        assert(scope.isDone());
+        sandbox.verify();
+    });
 });
 
 describe('座席仮予約削除', () => {
