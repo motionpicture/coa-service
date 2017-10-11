@@ -17,5 +17,5 @@ COA.services.reserve.countFreeSeat({
 }).then((result) => {
     console.log(result);
 }).catch((err) => {
-    console.error(err.message);
+    console.error(err);
 });

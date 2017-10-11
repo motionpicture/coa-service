@@ -15,5 +15,5 @@ COA.services.reserve.salesTicket({
 }).then((results) => {
     console.log(results);
 }).catch((err) => {
-    console.error(err.message);
+    console.error(err);
 });

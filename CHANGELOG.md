@@ -17,6 +17,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Security
 
 
+## v4.0.7 - 2017-10-11
+### Fixed
+- HTTPステータスコードが2xxでもレスポンス本文のstatusが0でない場合をエラーとしてハンドリング。
+
 ## v4.0.6 - 2017-09-29
 ### Added
 - リフレッシュトークン認証クライアントを新規で作成。

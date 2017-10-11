@@ -103,8 +103,8 @@ describe('リクエストコールバック', () => {
         sandbox.verify();
     });
 
-    it('エラー本文にmessageがあれば、COAServiceErrorとなるはず', async () => {
-        const body = { message: 'messaga' };
+    it('エラー本文にstatusがあれば、COAServiceErrorとなるはず', async () => {
+        const body = { status: '1', message: 'messaga' };
 
         const options = {
             baseUrl: 'https://example.com',
@@ -122,8 +122,8 @@ describe('リクエストコールバック', () => {
         sandbox.verify();
     });
 
-    it('エラー本文にstatusがあれば、COAServiceErrorとなるはず', async () => {
-        const body = { status: 'status' };
+    it('レスポンス本文のstatusが0でなければ、COAServiceErrorとなるはず', async () => {
+        const body = { status: '1' };
 
         const options = {
             baseUrl: 'https://example.com',
@@ -132,7 +132,7 @@ describe('リクエストコールバック', () => {
             json: true
         };
 
-        scope = nock(options.baseUrl).get(options.uri).once().reply(INTERNAL_SERVER_ERROR, body);
+        scope = nock(options.baseUrl).get(options.uri).once().reply(OK, body);
 
         const result = await new DefaultTransporter([OK]).request(options).catch((err) => err);
         assert(result instanceof COAServiceError);
