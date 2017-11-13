@@ -34,7 +34,7 @@ export default class RefreshTokenClient {
     }
 
     /**
-     * クライアント認証でアクセストークンを取得します。
+     * トークンエンドポイントからアクセストークンを取得します。
      * @public
      * @memberof RefreshTokenClient
      */
@@ -70,7 +70,7 @@ export default class RefreshTokenClient {
                             err = new Error(body.status);
                         }
 
-                        reject(new Error(body.status));
+                        reject(err);
                     } else {
                         this.credentials = body;
                         resolve(this.credentials);
@@ -99,7 +99,7 @@ export default class RefreshTokenClient {
             throw new Error('No refresh token is set.');
         }
 
-        return await this.refreshToken(this.options.refreshToken);
+        return this.refreshToken(this.options.refreshToken);
     }
 
     /**
@@ -145,10 +145,6 @@ export default class RefreshTokenClient {
      */
     public async request(options: request.OptionsWithUri, expectedStatusCodes: number[]) {
         let retry = true;
-
-        const accessToken = await this.getAccessToken();
-        options.auth = { bearer: accessToken };
-
         let result: any;
         let numberOfTry = 0;
         // tslint:disable-next-line:no-magic-numbers
@@ -159,6 +155,7 @@ export default class RefreshTokenClient {
                     retry = false;
                 }
 
+                options.auth = { bearer: await this.getAccessToken() };
                 result = await this.makeRequest(options, expectedStatusCodes);
 
                 break;
@@ -168,11 +165,21 @@ export default class RefreshTokenClient {
                 if (error instanceof Error) {
                     const statusCode = (<COAServiceError>error).code;
 
-                    if (retry && (statusCode === UNAUTHORIZED || statusCode === FORBIDDEN)) {
-                        // 多くの場合、認証エラーは、トークンの期限が原因なので、一度だけリフレッシュするのは有効なはず。
-                        // リフレッシュしても同様に認証エラーの場合は、それ以外の原因で起きているのであきらめる。
-                        await this.refreshAccessToken();
-                        continue;
+                    if (statusCode === UNAUTHORIZED || statusCode === FORBIDDEN) {
+                        if (retry) {
+                            // 多くの場合、認証エラーは、トークンの期限が原因なので、一度だけリフレッシュするのは有効なはず。
+                            // リフレッシュしても同様に認証エラーの場合は、それ以外の原因で起きているのであきらめる。
+                            await this.refreshAccessToken();
+                            continue;
+                        } else {
+                            // リトライしても認証エラーが出る状況は不可解なので、エラー出力
+                            console.error(
+                                'Retried request threw an error.', error,
+                                'credentials:', this.credentials,
+                                'request options:', options,
+                                'now:', new Date()
+                            );
+                        }
                     }
                 } else {
                     // no operation
@@ -194,7 +201,7 @@ export default class RefreshTokenClient {
     protected async makeRequest(options: request.OptionsWithUri, expectedStatusCodes: number[]) {
         const transporter = new DefaultTransporter(expectedStatusCodes);
 
-        return await transporter.request(options);
+        return transporter.request(options);
     }
 
     /**

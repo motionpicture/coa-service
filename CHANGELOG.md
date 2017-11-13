@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Removed
 
 ### Fixed
+- 認証エラーでリトライした際にアクセストークンが再セットされないバグを修正。
 
 ### Security
 
