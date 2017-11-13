@@ -41,12 +41,13 @@ npm install @motionpicture/coa-service
 const COA = require('@motionpicture/coa-service');
 ```
 
-### 以下環境変数の設定が必須です。
+### Environment variables
 
-```shell
-set COA_ENDPOINT=*****APIのエンドポイント*****
-set COA_REFRESH_TOKEN=**********リクエストに必要なリフレッシュトークン*****
-```
+| Name                                       | Required              | Value                 | Purpose                           
+|--------------------------------------------|-----------------------|-----------------------|-----------------------------------
+| `DEBUG`                                    | false                 | coa-service:*         | Debug                             
+| `COA_ENDPOINT`                             | true                  |                       | APIのエンドポイント
+| `COA_REFRESH_TOKEN`                        | true                  |                       | リクエストに必要なリフレッシュトークン
 
 ### 劇場情報を取得する
 ```js

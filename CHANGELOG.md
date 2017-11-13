@@ -13,10 +13,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Removed
 
 ### Fixed
-- 認証エラーでリトライした際にアクセストークンが再セットされないバグを修正。
 
 ### Security
 
+
+## v4.0.8 - 2017-11-14
+### Fixed
+- 認証エラーでリトライした際にアクセストークンが再セットされないバグを修正。
 
 ## v4.0.7 - 2017-10-11
 ### Fixed
