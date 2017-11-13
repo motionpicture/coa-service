@@ -39,7 +39,7 @@ export class Service {
 
         options = { ...defaultOptions, ...options };
 
-        return await this.options.auth.request(options, expectedStatusCodes);
+        return this.options.auth.request(options, expectedStatusCodes);
     }
 }
 

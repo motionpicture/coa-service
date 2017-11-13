@@ -294,29 +294,32 @@ describe('request()', () => {
     // tslint:disable-next-line:mocha-no-side-effect-code
     [UNAUTHORIZED, FORBIDDEN].forEach((statusCode) => {
         it(`リソースサーバーが次のステータスコードを返却されば、アクセストークンはリフレッシュされるはず  ${statusCode}`, async () => {
-            const credentials = {
-                access_token: 'new access_token',
+            const oldCredentilas = {
+                access_token: 'accessToken',
+                expired_at: moment().add(1, 'hour').toISOString()
+            };
+            const newCredentials = {
+                access_token: 'newAccessToken',
                 expired_at: moment().add(1, 'hour').toISOString()
             };
             const requestOption = {
                 baseurl: 'https://example.com',
                 uri: '/'
             };
+            const requestResult = new COAServiceError(statusCode, '');
 
             const auth = new RefreshTokenClient({
                 endpoint: ENDPOINT,
                 refreshToken: 'refreshToken'
             });
-            auth.credentials = {
-                access_token: 'access_token',
-                expired_at: moment().add(1, 'hour').toISOString()
-            };
 
-            scope = nock(ENDPOINT).post('/token/access_token').once().reply(OK, credentials);
-            sandbox.mock(auth).expects('makeRequest').twice().rejects(new COAServiceError(statusCode, ''));
+            scope = nock(ENDPOINT)
+                .post('/token/access_token').once().reply(OK, oldCredentilas)
+                .post('/token/access_token').once().reply(OK, newCredentials);
+            sandbox.mock(auth).expects('makeRequest').twice().rejects(requestResult);
 
             await auth.request(requestOption, [OK]).catch((err) => err);
-            assert.equal(auth.credentials.access_token, credentials.access_token);
+            assert.equal(auth.credentials.access_token, newCredentials.access_token);
             assert(scope.isDone());
             sandbox.verify();
         });
