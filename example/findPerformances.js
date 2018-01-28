@@ -5,13 +5,15 @@
  */
 
 const COA = require('../');
+const fs = require('fs');
 
 COA.services.master.schedule({
-    theaterCode: '118',
-    begin: '20170411',
-    end: '20170411'
-}).then((performances) => {
-    console.log(performances);
+    theaterCode: '012',
+    begin: '20180126',
+    end: '20180126'
+}).then((result) => {
+    fs.writeFileSync(`${__dirname}/output/schedule.json`, JSON.stringify(result, null, '    '));
+    console.log(result);
 }).catch((err) => {
     console.error(err);
 });
