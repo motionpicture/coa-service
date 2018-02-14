@@ -170,7 +170,7 @@ export async function title(args: ITitleArgs): Promise<ITitleResult[]> {
         return {
             titleCode: value.title_code,
             titleBranchNum: value.title_branch_num,
-            titleName: value.titleName,
+            titleName: value.title_name,
             titleNameKana: value.title_name_kana,
             titleNameEng: value.title_name_eng,
             titleNameShort: value.title_name_short,

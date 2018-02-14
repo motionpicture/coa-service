@@ -1,10 +1,10 @@
 /**
- * 購入チケット取消の例
- *
+ * 空席検索サンプル
  * @ignore
  */
 
 const COA = require('../');
+const fs = require('fs');
 
 const date = new Date();
 // tslint:disable-next-line:prefer-template no-magic-numbers
@@ -15,6 +15,7 @@ COA.services.reserve.countFreeSeat({
     begin: today,
     end: today
 }).then((result) => {
+    fs.writeFileSync(`${__dirname}/output/countFreeSeat.json`, JSON.stringify(result, null, '    '));
     console.log(result);
 }).catch((err) => {
     console.error(err);
