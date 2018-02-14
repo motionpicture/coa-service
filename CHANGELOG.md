@@ -13,10 +13,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Removed
 
 ### Fixed
-- 作品抽出のレスポンスにtitle_nameをセットできていないバグを修正。
 
 ### Security
 
+
+## v4.0.9 - 2018-02-14
+### Fixed
+- 作品抽出のレスポンスにtitle_nameをセットできていないバグを修正。
 
 ## v4.0.8 - 2017-11-14
 ### Fixed

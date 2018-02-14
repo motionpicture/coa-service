@@ -43,11 +43,11 @@ const COA = require('@motionpicture/coa-service');
 
 ### Environment variables
 
-| Name                                       | Required              | Value                 | Purpose                           
-|--------------------------------------------|-----------------------|-----------------------|-----------------------------------
-| `DEBUG`                                    | false                 | coa-service:*         | Debug                             
-| `COA_ENDPOINT`                             | true                  |                       | APIのエンドポイント
-| `COA_REFRESH_TOKEN`                        | true                  |                       | リクエストに必要なリフレッシュトークン
+| Name                | Required | Value         | Purpose               |
+| ------------------- | -------- | ------------- | --------------------- |
+| `DEBUG`             | false    | coa-service:* | Debug                 |
+| `COA_ENDPOINT`      | true     |               | APIのエンドポイント           |
+| `COA_REFRESH_TOKEN` | true     |               | リクエストに必要なリフレッシュトークン |
 
 ### 劇場情報を取得する
 ```js
@@ -55,11 +55,9 @@ const COA = require('@motionpicture/coa-service');
 
 COA.services.master.theater({
     theaterCode: '123'
-}).then((result) => {
-    console.log(result);
-}).catch((err) => {
-    console.error(err);
-});
+})
+    .then(console.log)
+    .catch(console.error);
 ```
 
 ### 作品情報を取得する
@@ -68,22 +66,19 @@ const COA = require('@motionpicture/coa-service');
 
 COA.services.master.title({
     theaterCode: '123'
-}).then((films) => {
-    console.log(films);
-}).catch((err) => {
-    console.error(err);
-});
+})
+    .then(console.log)
+    .catch(console.error);
 ```
 
 ## Code Samples
 
-コードサンプルは [example](https://github.com/motionpicture/coa-service/tree/master/example) にあります。
-
+Code sample are [here](https://github.com/motionpicture/coa-service/tree/master/example).
 
 ## Jsdoc
 
-`npm run doc`でjsdocを作成できます。./docに出力されます。
+`npm run doc` emits jsdoc to ./doc.
 
 ## License
 
-ISC
+UNLICENSED
