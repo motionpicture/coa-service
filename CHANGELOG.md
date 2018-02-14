@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Removed
 
 ### Fixed
+- 作品抽出のレスポンスにtitle_nameをセットできていないバグを修正。
 
 ### Security
 
