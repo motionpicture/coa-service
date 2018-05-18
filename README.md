@@ -2,7 +2,12 @@
 
 # COA client library for Node.js
 
-[![CircleCI](https://circleci.com/gh/motionpicture/coa-service.svg?style=svg&circle-token=e29e443f67a815be67d500d478ae3b8e413e7bab)](https://circleci.com/gh/motionpicture/coa-service)
+[![npm (scoped)](https://img.shields.io/npm/v/@motionpicture/coa-service.svg)](https://www.npmjs.com/package/@motionpicture/coa-service)
+[![CircleCI](https://circleci.com/gh/motionpicture/coa-service.svg?style=shield)](https://circleci.com/gh/motionpicture/coa-service)
+[![Coverage Status](https://coveralls.io/repos/github/motionpicture/coa-service/badge.svg?branch=master)](https://coveralls.io/github/motionpicture/coa-service?branch=master)
+[![Dependency Status](https://img.shields.io/david/motionpicture/coa-service.svg)](https://david-dm.org/motionpicture/coa-service)
+[![Known Vulnerabilities](https://snyk.io/test/github/motionpicture/coa-service/badge.svg)](https://snyk.io/test/github/motionpicture/coa-service)
+[![npm](https://img.shields.io/npm/dm/@motionpicture/coa-service.svg)](https://nodei.co/npm/@motionpicture/coa-service/)
 
 Node.jsでCOAサービスを使うためのライブラリです。
 

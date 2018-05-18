@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 
+- パブリックパッケージ化。
+
 ### Deprecated
 
 ### Removed
@@ -17,6 +19,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Fixed
 
 ### Security
+
+## v4.0.11 - 2018-05-18
+
+### Changed
+
+- パブリックパッケージ化。
 
 ## v4.0.10 - 2018-05-18
 
