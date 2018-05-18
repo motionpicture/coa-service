@@ -1,12 +1,17 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
+
 ### Added
 
 ### Changed
+
+- 依存パッケージを最新化。
+- tslintの新ルールに従いコメント調整。
 
 ### Deprecated
 
@@ -16,8 +21,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
-
 ## v4.0.9 - 2018-02-14
+
 ### Fixed
 - 作品抽出のレスポンスにtitle_nameをセットできていないバグを修正。
 

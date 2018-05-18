@@ -9,7 +9,6 @@ import service from '../service';
 
 /**
  * 空席状況in
- * @interface ICountFreeSeatArgs
  */
 export interface ICountFreeSeatArgs {
     /**
@@ -27,7 +26,6 @@ export interface ICountFreeSeatArgs {
 }
 /**
  * パフォーマンス
- * @interface ICountFreeSeatPerformance
  */
 export interface ICountFreeSeatPerformance {
     /**
@@ -58,7 +56,6 @@ export interface ICountFreeSeatPerformance {
 }
 /**
  * 日程
- * @interface ICountFreeSeatDate
  */
 export interface ICountFreeSeatDate {
     /**
@@ -76,7 +73,6 @@ export interface ICountFreeSeatDate {
 }
 /**
  * 空席状況out
- * @interface ICountFreeSeatResult
  */
 export interface ICountFreeSeatResult {
     /**
@@ -90,13 +86,9 @@ export interface ICountFreeSeatResult {
 }
 /**
  * 空席状況
- * @memberof services.reserve
- * @function countFreeSeat
- * @param {ICountFreeSeatArgs} args
- * @param {string} args.theaterCode 施設コード
- * @param {string} args.begin 空席情報を抽出する上映日の開始日 ※日付は西暦8桁 'YYYYMMDD'
- * @param {string} args.end 空席情報を抽出する上映日の終了日 ※日付は西暦8桁 'YYYYMMDD'
- * @returns {Promise<ICountFreeSeatResult>}
+ * @param args.theaterCode 施設コード
+ * @param args.begin 空席情報を抽出する上映日の開始日 ※日付は西暦8桁 'YYYYMMDD'
+ * @param args.end 空席情報を抽出する上映日の終了日 ※日付は西暦8桁 'YYYYMMDD'
  */
 export async function countFreeSeat(args: ICountFreeSeatArgs): Promise<ICountFreeSeatResult> {
     const body = await service.request(
@@ -134,7 +126,6 @@ export async function countFreeSeat(args: ICountFreeSeatArgs): Promise<ICountFre
 
 /**
  * 座席予約状態抽出in
- * @interface IStateReserveSeatArgs
  */
 export interface IStateReserveSeatArgs {
     /**
@@ -164,7 +155,6 @@ export interface IStateReserveSeatArgs {
 }
 /**
  * 空席リスト
- * @interface IStateReserveSeatFreeSeat
  */
 export interface IStateReserveSeatFreeSeat {
     /**
@@ -174,7 +164,6 @@ export interface IStateReserveSeatFreeSeat {
 }
 /**
  * 座席リスト
- * @interface IStateReserveSeatSeat
  */
 export interface IStateReserveSeatSeat {
     /**
@@ -188,7 +177,6 @@ export interface IStateReserveSeatSeat {
 }
 /**
  * 座席予約状態抽出out
- * @interface IStateReserveSeatResult
  */
 export interface IStateReserveSeatResult {
     /**
@@ -206,16 +194,12 @@ export interface IStateReserveSeatResult {
 }
 /**
  * 座席予約状態抽出
- * @memberof services.reserve
- * @function stateReserveSeat
- * @param {IStateReserveSeatArgs} args
- * @param {string} args.theaterCode 施設コード
- * @param {string} args.dateJouei 上映日
- * @param {string} args.titleCode 作品コード
- * @param {string} args.titleBranchNum 作品枝番
- * @param {string} args.timeBegin 上映時刻
- * @param {string} args.screenCode スクリーンコード
- * @returns {Promise<IStateReserveSeatResult>}
+ * @param args.theaterCode 施設コード
+ * @param args.dateJouei 上映日
+ * @param args.titleCode 作品コード
+ * @param args.titleBranchNum 作品枝番
+ * @param args.timeBegin 上映時刻
+ * @param args.screenCode スクリーンコード
  */
 export async function stateReserveSeat(args: IStateReserveSeatArgs): Promise<IStateReserveSeatResult> {
     const body = await service.request(
@@ -251,7 +235,6 @@ export async function stateReserveSeat(args: IStateReserveSeatArgs): Promise<ISt
 
 /**
  * 予約座席
- * @interface ISeat
  */
 export interface IUpdTmpReserveSeatSeat {
     /**
@@ -265,7 +248,6 @@ export interface IUpdTmpReserveSeatSeat {
 }
 /**
  * 仮予約結果リスト
- * @interface ITmpReserve
  */
 export interface IUpdTmpReserveSeatTmpReserve {
     /**
@@ -284,7 +266,6 @@ export interface IUpdTmpReserveSeatTmpReserve {
 
 /**
  * 座席仮予約in
- * @interface IUpdTmpReserveSeatArgs
  */
 export interface IUpdTmpReserveSeatArgs {
     /**
@@ -322,7 +303,6 @@ export interface IUpdTmpReserveSeatArgs {
 }
 /**
  * 座席仮予約out
- * @interface IUpdTmpReserveSeatResult
  */
 export interface IUpdTmpReserveSeatResult {
     /**
@@ -336,19 +316,15 @@ export interface IUpdTmpReserveSeatResult {
 }
 /**
  * 座席仮予約
- * @memberof services.reserve
- * @function updTmpReserveSeat
- * @param {IUpdTmpReserveSeatArgs} args
- * @param {string} args.theaterCode 劇場コード
- * @param {string} args.dateJouei 上映日
- * @param {string} args.titleCode 作品コード
- * @param {string} args.titleBranchNum 作品枝番
- * @param {string} args.timeBegin 上映時刻
- * @param {string} args.screenCode スクリーンコード
- * @param {string} args.screenCode 予約座席リスト
- * @param {string} args.screenCode.seatSection 座席セクション
- * @param {string} args.screenCode.seatNum 座席番号
- * @returns {Promise<IUpdTmpReserveSeatResult>}
+ * @param args.theaterCode 劇場コード
+ * @param args.dateJouei 上映日
+ * @param args.titleCode 作品コード
+ * @param args.titleBranchNum 作品枝番
+ * @param args.timeBegin 上映時刻
+ * @param args.screenCode スクリーンコード
+ * @param args.screenCode 予約座席リスト
+ * @param args.screenCode.seatSection 座席セクション
+ * @param args.screenCode.seatNum 座席番号
  */
 export async function updTmpReserveSeat(args: IUpdTmpReserveSeatArgs): Promise<IUpdTmpReserveSeatResult> {
     const body = await service.request(
@@ -382,7 +358,6 @@ export async function updTmpReserveSeat(args: IUpdTmpReserveSeatArgs): Promise<I
 
 /**
  * 座席仮予約削除in
- * @interface IDelTmpReserveArgs
  */
 export interface IDelTmpReserveArgs {
     /**
@@ -413,16 +388,12 @@ export interface IDelTmpReserveArgs {
 
 /**
  * 座席仮予約削除
- * @memberof services.reserve
- * @function delTmpReserve
- * @param {IDelTmpReserveArgs} args
- * @param {string} args.theaterCode 施設コード
- * @param {string} args.dateJouei 上映日
- * @param {string} args.titleCode 作品コード
- * @param {string} args.titleBranchNum 作品枝番
- * @param {string} args.timeBegin 上映時刻
- * @param {number} args.tmpReserveNum 座席チケット仮予約番号
- * @returns {Promise<void>}
+ * @param args.theaterCode 施設コード
+ * @param args.dateJouei 上映日
+ * @param args.titleCode 作品コード
+ * @param args.titleBranchNum 作品枝番
+ * @param args.timeBegin 上映時刻
+ * @param args.tmpReserveNum 座席チケット仮予約番号
  */
 export async function delTmpReserve(args: IDelTmpReserveArgs): Promise<void> {
     await service.request(
@@ -443,7 +414,6 @@ export async function delTmpReserve(args: IDelTmpReserveArgs): Promise<void> {
 
 /**
  * 座席本予約in
- * @interface IUpdReserveArgs
  */
 export interface IUpdReserveArgs {
     /**
@@ -497,7 +467,6 @@ export interface IUpdReserveArgs {
 }
 /**
  * 価格情報
- * @interface IUpdReserveTicket
  */
 export interface IUpdReserveTicket {
     /**
@@ -518,7 +487,8 @@ export interface IUpdReserveTicket {
     disPrice: number;
     /**
      * 金額
-     * 価格情報毎の１枚当たりの金額（ムビチケの場合も金額をセット）　※標準単価+加算単価-割引額
+     * 価格情報毎の１枚当たりの金額（ムビチケの場合も金額をセット）
+     * ※標準単価+加算単価-割引額
      */
     salePrice: number;
     /**
@@ -551,17 +521,20 @@ export interface IUpdReserveTicket {
     mvtkNum: string;
     /**
      * ムビチケ電子券区分
-     * ムビチケ連携情報より（01：電子、02：紙　※ムビチケ以外は"00"をセット）
+     * ムビチケ連携情報より(01：電子、02：紙)
+     * ※ムビチケ以外は"00"をセット
      */
     mvtkKbnDenshiken: string;
     /**
      * ムビチケ前売券区分
-     * ムビチケ連携情報より（01：全国券、02：劇場券　※ムビチケ以外は"00"をセット）
+     * ムビチケ連携情報より(01：全国券、02：劇場券)
+     * ※ムビチケ以外は"00"をセット
      */
     mvtkKbnMaeuriken: string;
     /**
      * ムビチケ券種区分
-     * ムビチケ連携情報より（01：一般2Ｄ、02：小人2Ｄ、03：一般3Ｄ、…　※ムビチケ以外は"00"をセット）
+     * ムビチケ連携情報より(01：一般2Ｄ、02：小人2Ｄ、03：一般3Ｄ)
+     * ※ムビチケ以外は"00"をセット
      */
     mvtkKbnKensyu: string;
     /**
@@ -572,7 +545,6 @@ export interface IUpdReserveTicket {
 }
 /**
  * 座席本予約out
- * @interface IUpdReserveResult
  */
 export interface IUpdReserveResult {
     /**
@@ -587,7 +559,6 @@ export interface IUpdReserveResult {
 
 /**
  * 入場QR
- * @interface IUpdReserveQR
  */
 export interface IUpdReserveQR {
     /**
@@ -606,38 +577,34 @@ export interface IUpdReserveQR {
 }
 /**
  * 座席本予約
- * @memberof services.reserve
- * @function updReserve
- * @param {IUpdReserveArgs} args
- * @param {string} args.theaterCode 施設コード
- * @param {string} args.dateJouei 上映日
- * @param {string} args.titleCode 作品コード
- * @param {string} args.titleBranchNum 作品枝番
- * @param {string} args.timeBegin 上映時刻
- * @param {string} args.screenCode 座席チケット仮予約番号
- * @param {number} args.tmpReserveNum スクリーンコード
- * @param {string} args.reserveName 予約者名
- * @param {string} args.reserveNameJkana 予約者名（かな）※予約者名（かな）：（かな姓）+空白+（かな名）
- * @param {string} args.telNum 電話番号
- * @param {string} args.mailAddr メールアドレス
- * @param {string} args.reserveAmount 予約金額
- * @param {IUpdReserveTicket[]} args.listTicket 価格情報リスト
- * @param {string} args.listTicket.ticketCode チケットコード
- * @param {number} args.listTicket.stdPrice 標準単価
- * @param {number} args.listTicket.addPrice 加算単価
- * @param {number} args.listTicket.disPrice 割引額
- * @param {number} args.listTicket.salePrice 金額 ※価格情報毎の１枚当たりの金額（ムビチケの場合も金額をセット）　※標準単価+加算単価-割引額
- * @param {number} args.listTicket.mvtkAppPrice ムビチケ計上単価 ※ムビチケの場合、計上単価（興収報告単価）をセット（ムビチケ以外は0をセット）
- * @param {number} args.listTicket.ticketCount 枚数
- * @param {string} args.listTicket.seatNum 座席番号
- * @param {number} args.listTicket.addGlasses メガネ単価 ※メガネ代が別途発生した場合は、メガネ代をセット。それ以外は０をセット（ムビチケの場合も同様）
- * @param {string} args.listTicket.kbnEisyahousiki ムビチケ連携情報より
- * @param {string} args.listTicket.mvtkNum ムビチケ連携情報より（ムビチケ以外は""）
- * @param {string} args.listTicket.mvtkKbnDenshiken ムビチケ連携情報より（01：電子、02：紙　※ムビチケ以外は"00"をセット）
- * @param {string} args.listTicket.mvtkKbnMaeuriken ムビチケ連携情報より（01：全国券、02：劇場券　※ムビチケ以外は"00"をセット）
- * @param {string} args.listTicket.mvtkKbnKensyu ムビチケ連携情報より（01：一般2Ｄ、02：小人2Ｄ、03：一般3Ｄ、…　※ムビチケ以外は"00"をセット）
- * @param {number} args.listTicket.mvtkSalesPrice ムビチケ連携情報より（ムビチケ以外は0をセット）
- * @returns {Promise<IUpdReserveResult>}
+ * @param args.theaterCode 施設コード
+ * @param args.dateJouei 上映日
+ * @param args.titleCode 作品コード
+ * @param args.titleBranchNum 作品枝番
+ * @param args.timeBegin 上映時刻
+ * @param args.screenCode 座席チケット仮予約番号
+ * @param args.tmpReserveNum スクリーンコード
+ * @param args.reserveName 予約者名
+ * @param args.reserveNameJkana 予約者名（かな）※予約者名（かな）：（かな姓）+空白+（かな名）
+ * @param args.telNum 電話番号
+ * @param args.mailAddr メールアドレス
+ * @param args.reserveAmount 予約金額
+ * @param args.listTicket 価格情報リスト
+ * @param args.listTicket.ticketCode チケットコード
+ * @param args.listTicket.stdPrice 標準単価
+ * @param args.listTicket.addPrice 加算単価
+ * @param args.listTicket.disPrice 割引額
+ * @param args.listTicket.salePrice 金額 ※価格情報毎の１枚当たりの金額（ムビチケの場合も金額をセット）※標準単価+加算単価-割引額
+ * @param args.listTicket.mvtkAppPrice ムビチケ計上単価 ※ムビチケの場合、計上単価（興収報告単価）をセット（ムビチケ以外は0をセット）
+ * @param args.listTicket.ticketCount 枚数
+ * @param args.listTicket.seatNum 座席番号
+ * @param args.listTicket.addGlasses メガネ単価 ※メガネ代が別途発生した場合は、メガネ代をセット。それ以外は０をセット（ムビチケの場合も同様）
+ * @param args.listTicket.kbnEisyahousiki ムビチケ連携情報より
+ * @param args.listTicket.mvtkNum ムビチケ連携情報より（ムビチケ以外は""）
+ * @param args.listTicket.mvtkKbnDenshiken ムビチケ連携情報より（01：電子、02：紙 ※ムビチケ以外は"00"をセット）
+ * @param args.listTicket.mvtkKbnMaeuriken ムビチケ連携情報より（01：全国券、02：劇場券 ※ムビチケ以外は"00"をセット）
+ * @param args.listTicket.mvtkKbnKensyu ムビチケ連携情報より（01：一般2Ｄ、02：小人2Ｄ、03：一般3Ｄ ※ムビチケ以外は"00"をセット）
+ * @param args.listTicket.mvtkSalesPrice ムビチケ連携情報より（ムビチケ以外は0をセット）
  */
 export async function updReserve(args: IUpdReserveArgs): Promise<IUpdReserveResult> {
     const body = await service.request(
@@ -690,7 +657,6 @@ export async function updReserve(args: IUpdReserveArgs): Promise<IUpdReserveResu
 
 /**
  * 購入チケット取り消しin
- * @interface IDelReserveArgs
  */
 export interface IDelReserveArgs {
     /**
@@ -728,7 +694,6 @@ export interface IDelReserveArgs {
 }
 /**
  * 座席単位削除
- * @interface IDelReserveSeat
  */
 export interface IDelReserveSeat {
     /**
@@ -742,21 +707,17 @@ export interface IDelReserveSeat {
 }
 /**
  * 購入チケット取り消し
- * @memberof services.reserve
- * @function delReserve
- * @param {IDelReserveArgs} args
- * @param {string} args.theaterCode 施設コード
- * @param {string} args.dateJouei 上映日
- * @param {string} args.titleCode 作品コード
- * @param {string} args.titleBranchNum 作品枝番
- * @param {string} args.timeBegin 上映時刻
- * @param {number} args.reserveNum 座席チケット購入番号
- * @param {string} args.telNum 電話番号
- * @param {IDelReserveSeat[]} args.screenCode 座席単位削除リスト
- * @param {string} args.screenCode 座席単位削除リスト
- * @param {string} args.screenCode.seatSection 座席セクション
- * @param {string} args.screenCode.seatNum 座席番号
- * @returns {Promise<void>}
+ * @param args.theaterCode 施設コード
+ * @param args.dateJouei 上映日
+ * @param args.titleCode 作品コード
+ * @param args.titleBranchNum 作品枝番
+ * @param args.timeBegin 上映時刻
+ * @param args.reserveNum 座席チケット購入番号
+ * @param args.telNum 電話番号
+ * @param args.screenCode 座席単位削除リスト
+ * @param args.screenCode 座席単位削除リスト
+ * @param args.screenCode.seatSection 座席セクション
+ * @param args.screenCode.seatNum 座席番号
  */
 export async function delReserve(args: IDelReserveArgs): Promise<void> {
     await service.request(
@@ -861,13 +822,9 @@ export interface IStateReserveResult {
 }
 /**
  * 購入チケット内容抽出
- * @memberof services.reserve
- * @function stateReserve
- * @param {StateReserveArgs} args
- * @param {string} args.theaterCode 施設コード
- * @param {number} args.reserveNum 座席チケット購入番号
- * @param {string} args.telNum 電話番号
- * @returns {Promise<StateReserveResult>}
+ * @param args.theaterCode 施設コード
+ * @param args.reserveNum 座席チケット購入番号
+ * @param args.telNum 電話番号
  */
 export async function stateReserve(args: IStateReserveArgs): Promise<IStateReserveResult | null> {
     const body = await service.request(
@@ -911,7 +868,6 @@ export async function stateReserve(args: IStateReserveArgs): Promise<IStateReser
 
 /**
  * 会員用フラグ
- * @enum FlgMember
  */
 export enum FlgMember {
     /**
@@ -926,7 +882,6 @@ export enum FlgMember {
 
 /**
  * 販売可能チケット情報in
- * @interface ISalesTicketArgs
  */
 export interface ISalesTicketArgs {
     /**
@@ -956,7 +911,6 @@ export interface ISalesTicketArgs {
 }
 /**
  * 販売可能チケット情報out
- * @interface IsalesTicketResult
  */
 export interface ISalesTicketResult {
     /**
@@ -1007,15 +961,12 @@ export interface ISalesTicketResult {
 
 /**
  * 販売可能チケット情報
- * @memberof services.reserve
- * @function salesTicket
- * @param {SalesTicketArgs} args
- * @param {string} args.theaterCode 施設コード
- * @param {string} args.dateJouei 上映日
- * @param {string} args.titleCode 作品コード
- * @param {string} args.titleBranchNum 作品枝番
- * @param {string} args.timeBegin 上映時刻
- * @param {string} args.flgMember 会員用フラグ
+ * @param args.theaterCode 施設コード
+ * @param args.dateJouei 上映日
+ * @param args.titleCode 作品コード
+ * @param args.titleBranchNum 作品枝番
+ * @param args.timeBegin 上映時刻
+ * @param args.flgMember 会員用フラグ
  */
 export async function salesTicket(args: ISalesTicketArgs): Promise<ISalesTicketResult[]> {
     const body = await service.request(
