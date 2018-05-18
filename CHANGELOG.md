@@ -10,9 +10,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 
-- 依存パッケージを最新化。
-- tslintの新ルールに従いコメント調整。
-
 ### Deprecated
 
 ### Removed
@@ -20,6 +17,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Fixed
 
 ### Security
+
+## v4.0.10 - 2018-05-18
+
+### Changed
+
+- 依存パッケージを最新化。
+- tslintの新ルールに従いコメント調整。
 
 ## v4.0.9 - 2018-02-14
 
