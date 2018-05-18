@@ -1,8 +1,8 @@
+// tslint:disable:no-implicit-dependencies
 /**
  * 予約サービステスト
  * @ignore
  */
-
 import * as assert from 'assert';
 import { OK } from 'http-status';
 import * as nock from 'nock';
