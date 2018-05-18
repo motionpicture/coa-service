@@ -14,13 +14,10 @@ export interface IOptions {
 
 /**
  * リフレッシュトークン認証クライアント
- * @class
  */
 export default class RefreshTokenClient {
     /**
      * アクセストークンの有効期限までの猶予時間初期値
-     * @static
-     * @memberof RefreshTokenClient
      */
     public static DEFAULT_SPARE_TIME_IN_MILLISECONDS: number = 60000;
 
@@ -35,8 +32,6 @@ export default class RefreshTokenClient {
 
     /**
      * トークンエンドポイントからアクセストークンを取得します。
-     * @public
-     * @memberof RefreshTokenClient
      */
     public async getToken(): Promise<ICredentials> {
         return new Promise<ICredentials>((resolve, reject) => {
@@ -82,8 +77,6 @@ export default class RefreshTokenClient {
 
     /**
      * 認証情報を手動でセットする
-     * @public
-     * @memberof RefreshTokenClient
      */
     public setCredentials(credentials: ICredentials) {
         this.credentials = credentials;
@@ -91,8 +84,6 @@ export default class RefreshTokenClient {
 
     /**
      * アクセストークンを更新する
-     * @public
-     * @memberof RefreshTokenClient
      */
     public async refreshAccessToken(): Promise<ICredentials> {
         if (this.options.refreshToken === undefined) {
@@ -105,8 +96,6 @@ export default class RefreshTokenClient {
     /**
      * 期限の切れていないアクセストークンを取得します。
      * 必要であれば更新してから取得します。
-     * @public
-     * @memberof RefreshTokenClient
      */
     public async getAccessToken(): Promise<string> {
         const expiredAt = this.credentials.expired_at;
@@ -140,8 +129,6 @@ export default class RefreshTokenClient {
     /**
      * APIリクエストを投げる
      * 認証エラー(401,403)であれば自動的に一度だけアクセストークンをリフレッシュします。
-     * @public
-     * @memberof RefreshTokenClient
      */
     public async request(options: request.OptionsWithUri, expectedStatusCodes: number[]) {
         let retry = true;
@@ -194,8 +181,6 @@ export default class RefreshTokenClient {
 
     /**
      * 認証情報が適切である前提でAPIリクエストを投げる
-     * @protected
-     * @memberof RefreshTokenClient
      */
     // tslint:disable-next-line:prefer-function-over-method
     protected async makeRequest(options: request.OptionsWithUri, expectedStatusCodes: number[]) {
@@ -206,8 +191,6 @@ export default class RefreshTokenClient {
 
     /**
      * 認証情報を更新する
-     * @protected
-     * @memberof RefreshTokenClient
      */
     protected async refreshToken(__: string): Promise<ICredentials> {
         debug('refreshing an access token...');

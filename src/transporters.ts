@@ -25,9 +25,6 @@ const RESPONSE_BODY_STAUS_SUCCESS = 0;
  * transporter abstract class
  * トランスポーター抽象クラス
  * @export
- * @class
- * @abstract
- * @memberof transporters
  */
 export abstract class Transporter {
     public abstract async request(options: request.OptionsWithUri): Promise<any>;
@@ -38,8 +35,6 @@ export type IBodyResponseCallback = Promise<any>;
 /**
  * COAServiceError
  * @export
- * @class
- * @memberof transporters
  */
 export class COAServiceError extends Error {
     public code: number;
@@ -57,8 +52,6 @@ export class COAServiceError extends Error {
 /**
  * DefaultTransporter
  * @export
- * @class
- * @memberof transporters
  */
 export class DefaultTransporter implements Transporter {
     /**

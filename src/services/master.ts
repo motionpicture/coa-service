@@ -9,7 +9,6 @@ import service from '../service';
 
 /**
  * 施設マスター抽出in
- * @interface TheaterArgs
  */
 export interface ITheaterArgs {
     /**
@@ -19,7 +18,6 @@ export interface ITheaterArgs {
 }
 /**
  * 施設マスター抽出out
- * @interface TheaterResult
  */
 export interface ITheaterResult {
     /**
@@ -45,11 +43,7 @@ export interface ITheaterResult {
 }
 /**
  * 施設マスター抽出
- * @memberOf services.master
- * @function theater
- * @param {TheaterArgs} args
- * @param {string} args.theaterCode 劇場コード
- * @returns {Promise<TheaterResult>}
+ * @param args.theaterCode 劇場コード
  */
 export async function theater(args: ITheaterArgs): Promise<ITheaterResult> {
     const body = await service.request(
@@ -71,7 +65,6 @@ export async function theater(args: ITheaterArgs): Promise<ITheaterResult> {
 
 /**
  * 作品マスター抽出in
- * @interface TitleArgs
  */
 export interface ITitleArgs {
     /**
@@ -81,7 +74,6 @@ export interface ITitleArgs {
 }
 /**
  * 作品マスター抽出out
- * @interface ITitleResult
  */
 export interface ITitleResult {
     /**
@@ -151,11 +143,7 @@ export interface ITitleResult {
 }
 /**
  * 作品マスター抽出
- * @memberOf services.master
- * @function title
- * @param {TitleArgs} args
- * @param {string} args.theaterCode 劇場コード
- * @returns {Promise<TitleResult[]>}
+ * @param args.theaterCode 劇場コード
  */
 export async function title(args: ITitleArgs): Promise<ITitleResult[]> {
     const body = await service.request(
@@ -190,7 +178,6 @@ export async function title(args: ITitleArgs): Promise<ITitleResult[]> {
 
 /**
  * スクリーンマスター抽出in
- * @interface ScreenArgs
  */
 export interface IScreenArgs {
     /**
@@ -200,7 +187,6 @@ export interface IScreenArgs {
 }
 /**
  * 座席
- * @interface ScreenSeat
  */
 export interface IScreenSeat {
     /**
@@ -234,7 +220,6 @@ export interface IScreenSeat {
 }
 /**
  * スクリーンマスター抽出out
- * @interface ScreenResult
  */
 export interface IScreenResult {
     /**
@@ -256,11 +241,7 @@ export interface IScreenResult {
 }
 /**
  * スクリーンマスター抽出
- * @memberOf services.master
- * @function screen
- * @param {ScreenArgs} args
- * @param {string} args.theaterCode 劇場コード
- * @returns {Promise<ScreenResult[]>}
+ * @param args.theaterCode 劇場コード
  */
 export async function screen(args: IScreenArgs): Promise<IScreenResult[]> {
     const body = await service.request(
@@ -293,7 +274,6 @@ export async function screen(args: IScreenArgs): Promise<IScreenResult[]> {
 
 /**
  * スケジュールマスター抽出in
- * @interface ScheduleArgs
  */
 export interface IScheduleArgs {
     /**
@@ -312,7 +292,6 @@ export interface IScheduleArgs {
 
 /**
  * 先行予約フラグ
- * @enum FlgEarlyBooking
  */
 export enum FlgEarlyBooking {
     /**
@@ -327,7 +306,6 @@ export enum FlgEarlyBooking {
 
 /**
  * スケジュールマスター抽出out
- * @interface ScheduleResult
  */
 export interface IScheduleResult {
     /**
@@ -381,7 +359,8 @@ export interface IScheduleResult {
     rsvStartDate: string;
     /**
      * 予約終了日
-     * 予約終了になる日付(yyyymmdd)　通常は上映日、先行販売の場合は販売終了日
+     * 予約終了になる日付(yyyymmdd)
+     * 通常は上映日、先行販売の場合は販売終了日
      */
     rsvEndDate: string;
     /**
@@ -392,11 +371,7 @@ export interface IScheduleResult {
 }
 /**
  * スケジュールマスター抽出
- * @memberOf services.master
- * @function schedule
- * @param {ScheduleArgs} args
- * @param {string} args.theaterCode 劇場コード
- * @returns {Promise<ScheduleResult[]>}
+ * @param args.theaterCode 劇場コード
  */
 export async function schedule(
     args: IScheduleArgs
@@ -435,7 +410,6 @@ export async function schedule(
 
 /**
  * 券種マスター抽出in
- * @interface TicketArgs
  */
 export interface ITicketArgs {
     /**
@@ -445,7 +419,6 @@ export interface ITicketArgs {
 }
 /**
  * 券種マスター抽出out
- * @interface TicketResult
  */
 export interface ITicketResult {
     /**
@@ -467,11 +440,7 @@ export interface ITicketResult {
 }
 /**
  * 券種マスター抽出
- * @memberOf services.master
- * @function ticket
- * @param {ITicketArgs} args
- * @param {string} args.theaterCode 劇場コード
- * @returns {Promise<TicketResult[]>}
+ * @param args.theaterCode 劇場コード
  */
 export async function ticket(args: ITicketArgs): Promise<ITicketResult[]> {
     const body = await service.request(
@@ -494,7 +463,6 @@ export async function ticket(args: ITicketArgs): Promise<ITicketResult[]> {
 
 /**
  * 各種区分マスター抽出in
- * @interface IKubunNameArgs
  */
 export interface IKubunNameArgs {
     /**
@@ -508,7 +476,6 @@ export interface IKubunNameArgs {
 }
 /**
  * 各種区分マスター抽出out
- * @interface IKubunNameResult
  */
 export interface IKubunNameResult {
     /**
@@ -531,11 +498,8 @@ export interface IKubunNameResult {
 /**
  * 各種区分マスター抽出
  * @memberOf services.master
- * @function kubunName
- * @param {IKubunNameArgs} args
- * @param {string} args.theaterCode 劇場コード
- * @param {string} args.kubunClass 区分種別
- * @returns {Promise<IKubunNameResult[]>}
+ * @param args.theaterCode 劇場コード
+ * @param args.kubunClass 区分種別
  */
 export async function kubunName(args: IKubunNameArgs): Promise<IKubunNameResult[]> {
     const body = await service.request(
@@ -561,7 +525,6 @@ export async function kubunName(args: IKubunNameArgs): Promise<IKubunNameResult[
 
 /**
  * ムビチケチケットコード取得in
- * @interface MvtkTicketcodeArgs
  */
 export interface IMvtkTicketcodeArgs {
     /**
@@ -604,7 +567,6 @@ export interface IMvtkTicketcodeArgs {
 
 /**
  * ムビチケチケットコード取得out
- * @interface MvtkTicketcodeResult
  */
 export interface IMvtkTicketcodeResult {
     /**
@@ -634,19 +596,15 @@ export interface IMvtkTicketcodeResult {
 }
 /**
  * ムビチケチケットコード取得
- * @memberOf services.master
- * @function mvtkTicketcode
- * @param {IMvtkTicketcodeArgs} args
- * @param {string} args.theater_code 劇場コード
- * @param {string} args.kbn_denshiken 電子券区分
- * @param {string} args.kbn_maeuriken 前売券区分
- * @param {string} args.kbn_kensyu 券種区分
- * @param {number} args.sales_price 販売単価
- * @param {number} args.app_price 計上単価
- * @param {number} args.kbn_eisyahousiki 映写方式区分
- * @param {number} args.title_code 作品コード
- * @param {number} args.title_branch_num 作品枝番
- * @returns {Promise<IMvtkTicketcodeResult>}
+ * @param args.theater_code 劇場コード
+ * @param args.kbn_denshiken 電子券区分
+ * @param args.kbn_maeuriken 前売券区分
+ * @param args.kbn_kensyu 券種区分
+ * @param args.sales_price 販売単価
+ * @param args.app_price 計上単価
+ * @param args.kbn_eisyahousiki 映写方式区分
+ * @param args.title_code 作品コード
+ * @param args.title_branch_num 作品枝番
  */
 export async function mvtkTicketcode(args: IMvtkTicketcodeArgs): Promise<IMvtkTicketcodeResult> {
     const body = await service.request(

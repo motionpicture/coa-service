@@ -1,6 +1,5 @@
 /**
  * 認証情報インターフェース
- * @interface
  */
 interface ICredentials {
     /**

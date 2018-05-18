@@ -1,8 +1,6 @@
 /**
  * coa-service
- * @ignore
  */
-
 if (typeof process.env.COA_ENDPOINT !== 'string' || (<string>process.env.COA_ENDPOINT).length === 0) {
     throw new Error('NPM warnings. The environment variable "COA_ENDPOINT" is required for using @motionpicture/coa-service.');
 }
@@ -16,9 +14,14 @@ import * as reserveService from './services/reserve';
 
 /**
  * サービスモジュール群
- * @namespace
  */
 export namespace services {
+    /**
+     * マスターサービス
+     */
     export import master = masterService;
+    /**
+     * 予約サービス
+     */
     export import reserve = reserveService;
 }

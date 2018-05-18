@@ -5,7 +5,6 @@ import RefreshTokenClient from './auth/refreshTokenClient';
 /**
  * service constructor options
  * @export
- * @interface
  */
 export interface IOptions {
     endpoint: string;
@@ -15,7 +14,6 @@ export interface IOptions {
 /**
  * base service class
  * @export
- * @class Service
  */
 export class Service {
     public options: IOptions;
@@ -37,9 +35,7 @@ export class Service {
             useQuerystring: true
         };
 
-        options = { ...defaultOptions, ...options };
-
-        return this.options.auth.request(options, expectedStatusCodes);
+        return this.options.auth.request({ ...defaultOptions, ...options }, expectedStatusCodes);
     }
 }
 
