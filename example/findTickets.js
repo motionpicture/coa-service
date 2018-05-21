@@ -1,8 +1,7 @@
 /**
- * スクリーン抽出サンプル
+ * 券種抽出サンプル
  * @ignore
  */
-
 const COA = require('../');
 const fs = require('fs');
 

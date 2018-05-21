@@ -409,6 +409,20 @@ export async function schedule(
 }
 
 /**
+ * 会員用フラグ
+ */
+export enum FlgMember {
+    /**
+     * 非会員
+     */
+    NonMember = '0',
+    /**
+     * 会員
+     */
+    Member = '1'
+}
+
+/**
  * 券種マスター抽出in
  */
 export interface ITicketArgs {
@@ -437,6 +451,14 @@ export interface ITicketResult {
      * チケット名(英)
      */
     ticketNameEng: string;
+    /**
+     * ポイント購入の場合の消費ポイント
+     */
+    usePoint: number;
+    /**
+     * 会員用フラグ
+     */
+    flgMember?: FlgMember;
 }
 /**
  * 券種マスター抽出
@@ -456,7 +478,9 @@ export async function ticket(args: ITicketArgs): Promise<ITicketResult[]> {
             ticketCode: value.ticket_code,
             ticketName: value.ticket_name,
             ticketNameKana: value.ticket_name_kana,
-            ticketNameEng: value.ticket_name_eng
+            ticketNameEng: value.ticket_name_eng,
+            usePoint: (value.use_point !== undefined) ? value.use_point : 0,
+            flgMember: (value.flg_member !== undefined) ? value.flg_member : FlgMember.NonMember
         };
     });
 }

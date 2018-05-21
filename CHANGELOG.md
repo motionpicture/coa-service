@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Changed
 
 - パブリックパッケージ化。
+- 券種マスター抽出結果に消費ポイント属性を追加。
 
 ### Deprecated
 
