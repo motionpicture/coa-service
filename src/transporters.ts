@@ -1,11 +1,8 @@
 // tslint:disable:max-classes-per-file
-
 /**
  * transporters
- * @namespace transporters
  * @ignore
  */
-
 import * as createDebug from 'debug';
 import { INTERNAL_SERVER_ERROR, NO_CONTENT } from 'http-status';
 import * as request from 'request';

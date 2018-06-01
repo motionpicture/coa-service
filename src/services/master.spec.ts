@@ -252,6 +252,12 @@ describe('券種マスター抽出', () => {
         const theaterCode = '123';
         const body = {
             list_ticket: [{
+                ticket_code: '',
+                ticket_name: '',
+                ticket_name_kana: '',
+                ticket_name_eng: '',
+                use_point: 0,
+                flg_member: masterService.FlgMember.NonMember
             }]
         };
 

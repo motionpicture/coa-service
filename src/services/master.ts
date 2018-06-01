@@ -1,8 +1,6 @@
 /**
  * マスターサービス
- * @namespace services.master
  */
-
 import { OK } from 'http-status';
 
 import service from '../service';
@@ -479,8 +477,10 @@ export async function ticket(args: ITicketArgs): Promise<ITicketResult[]> {
             ticketName: value.ticket_name,
             ticketNameKana: value.ticket_name_kana,
             ticketNameEng: value.ticket_name_eng,
-            usePoint: (value.use_point !== undefined) ? value.use_point : 0,
-            flgMember: (value.flg_member !== undefined) ? value.flg_member : FlgMember.NonMember
+            // tslint:disable-next-line:no-single-line-block-comment
+            usePoint: (value.use_point !== undefined) ? value.use_point : /* istanbul ignore next */0,
+            // tslint:disable-next-line:no-single-line-block-comment
+            flgMember: (value.flg_member !== undefined) ? value.flg_member : /* istanbul ignore next */FlgMember.NonMember
         };
     });
 }
