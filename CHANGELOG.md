@@ -10,8 +10,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 
-- パブリックパッケージ化。
-
 ### Deprecated
 
 ### Removed
@@ -19,6 +17,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Fixed
 
 ### Security
+
+## v4.1.0 - 2018-06-01
+
+### Added
+
+- typedocをdocsに追加。
+
+### Changed
+
+- 券種マスター抽出結果に消費ポイント属性を追加。
 
 ## v4.0.11 - 2018-05-18
 

@@ -1,8 +1,6 @@
 /**
  * 予約サービス
- * @namespace services.reserve
  */
-
 import { OK } from 'http-status';
 
 import service from '../service';

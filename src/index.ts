@@ -18,10 +18,12 @@ import * as reserveService from './services/reserve';
 export namespace services {
     /**
      * マスターサービス
+     * @export
      */
     export import master = masterService;
     /**
      * 予約サービス
+     * @export
      */
     export import reserve = reserveService;
 }

@@ -16,7 +16,7 @@ Node.jsでCOAサービスを使うためのライブラリです。
 * [Specification](#specification)
 * [Usage](#usage)
 * [Example](#code-samples)
-* [Jsdoc](#jsdoc)
+* [Documentation](#documentation)
 * [License](#license)
 
 ## Specification
@@ -80,9 +80,9 @@ COA.services.master.title({
 
 Code sample are [here](https://github.com/motionpicture/coa-service/tree/master/example).
 
-## Jsdoc
+## Documentation
 
-`npm run doc` emits jsdoc to ./doc.
+`npm run doc` emits typedoc to ./docs.
 
 ## License
 
