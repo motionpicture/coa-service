@@ -3,6 +3,8 @@
  */
 import { OK } from 'http-status';
 
+import * as request from 'request';
+import * as xml2js from 'xml2js';
 import service from '../service';
 
 /**
@@ -403,6 +405,391 @@ export async function schedule(
             rsvEndDate: value.rsv_end_date,
             flgEarlyBooking: value.flg_early_booking
         };
+    });
+}
+
+export interface IXMLScheduleArgs {
+    /*
+     * XMLのエンドポイントのベースURL
+     */
+    baseUrl: string;
+    /*
+     * 劇場のコード名
+     */
+    theaterCodeName: string;
+}
+
+export enum XMLErrorCode {
+    /*
+     * 正常
+     */
+    NoError = '000000',
+    /*
+     * 指定データーなし
+     */
+    NoData = '111111',
+    /*
+     * 上記以外のエラー
+     */
+    Error = '222222'
+}
+
+export enum XMLAvailableCode {
+    /*
+     * 空席あり・予約可能
+     */
+    EmptySeatAvailableCanPreOrder = 0,
+    /*
+     * 空席あり・予約不可（窓口）
+     */
+    EmptySeatAvailableCantPreOrder = 1,
+    /*
+     * 残りわずか・予約可能
+     */
+    FewSeatLeftCanPreOrder = 2,
+    /*
+     * 残りわずか・予約不可（窓口）
+     */
+    FewSeatLeftCantPreOrder = 4,
+    /*
+     * 満席
+     */
+    EmptySeatNotAvailable = 5,
+    /*
+     * 予約不可
+     */
+    CantPreOrder = 6
+}
+
+export enum XMLLateCode {
+    /*
+     * 普通上映
+     */
+    NormalShow = 0,
+    /*
+     * モーニングショー
+     */
+    MorningShow = 1,
+    /*
+     * レイトショー
+     */
+    LateShow = 2
+}
+
+export interface IXMLScheduleOriginal {
+    /*
+    * root要素
+    */
+    schedules: {
+        /*
+        * エラーコード
+        */
+        error: string[];
+        /*
+        * 劇場コード
+        */
+        theater_code: string[];
+        /*
+        * 注意文
+        */
+        attention: string[];
+        /*
+        * スケジュール要素
+        */
+        schedule: {
+            /*
+            * 日付
+            */
+            date: string[];
+            /*
+            * 予約可能日flg
+            */
+            usable: string[];
+            /*
+            * 作品要素
+            */
+            movie: IXMLMovieOriginal[];
+        }[];
+    };
+}
+
+export interface IXMLMovieOriginal {
+    /*
+     * 作品コード
+     */
+    movie_code: string[];
+    /*
+     * 作品コード(5桁)
+     */
+    movie_short_code: string[];
+    /*
+     * 作品枝番(1桁)
+     */
+    movie_branch_code: string[];
+    /*
+     * 作品名
+     */
+    name: string[];
+    /*
+     * 作品名（英語）
+     */
+    ename: string[];
+    /*
+     * 作品名（携帯）
+     */
+    cname: string[];
+    /*
+     * コメント
+     */
+    comment: string[];
+    /*
+     * 上映時間
+     */
+    running_time: string[];
+    /*
+     * 予告時間
+     */
+    cm_time: string[];
+    /*
+     * 公式サイトなどへリンクする際のURL
+     */
+    official_site: string[];
+    /*
+     * あらすじ
+     */
+    summary: string[];
+    /*
+     * スクリーン要素
+     */
+    screen: IXMLScreenOriginal[];
+}
+
+export interface IXMLScreenOriginal {
+    /*
+     * スクリーンコード
+     */
+    name: string[];
+    /*
+     * スクリーン名
+     */
+    screen_code: string[];
+    /*
+     * 時間要素
+     */
+    time: IXMLTimeOriginal[];
+}
+
+export interface IXMLTimeOriginal {
+    /*
+     * 予約可能flg
+     */
+    available: string[];
+    /*
+     * 終了時間
+     */
+    end_time: string[];
+    /*
+     * レイト区分
+     */
+    late: string[];
+    /*
+     * 開始時間
+     */
+    start_time: string[];
+    /*
+     * 予約詳細ページ（規約ページ）
+     */
+    url: string[];
+}
+
+export interface IXMLScheduleResult {
+    /*
+     * 日付
+     */
+    date: string;
+    /*
+     * 予約可能日flg
+     */
+    usable: boolean;
+    /*
+     * 作品要素
+     */
+    movie: IXMLMovie[];
+}
+
+export interface IXMLMovie {
+    /*
+     * 作品コード
+     */
+    movieCode: string;
+    /*
+     * 作品コード(5桁)
+     */
+    movieShortCode: string;
+    /*
+     * 作品枝番(1桁)
+     */
+    movieBranchCode: string;
+    /*
+     * 作品名
+     */
+    name: string;
+    /*
+     * 作品名（英語）
+     */
+    eName: string;
+    /*
+     * 作品名（携帯）
+     */
+    cName: string;
+    /*
+     * コメント
+     */
+    comment: string;
+    /*
+     * 上映時間
+     */
+    runningTime: number;
+    /*
+     * 予告時間
+     */
+    cmTime: number;
+    /*
+     * 公式サイトなどへリンクする際のURL
+     */
+    officialSite: string;
+    /*
+     * あらすじ
+     */
+    summary: string;
+    /*
+     * スクリーン要素
+     */
+    screen: IXMLScreen[];
+}
+
+export interface IXMLScreen {
+    /*
+     * スクリーンコード
+     */
+    name: string;
+    /*
+     * スクリーン名
+     */
+    screenCode: string;
+    /*
+     * 時間要素
+     */
+    time: IXMLTime[];
+}
+
+export interface IXMLTime {
+    /*
+     * 予約可能flg
+     */
+    available: XMLAvailableCode;
+    /*
+     * 終了時間
+     */
+    endTime: string;
+    /*
+     * レイト区分
+     */
+    late: XMLLateCode;
+    /*
+     * 開始時間
+     */
+    startTime: string;
+    /*
+     * 予約詳細ページ（規約ページ）
+     */
+    url: string;
+}
+
+/**
+ * スケジュールマスター抽出(XMLからスケジュールデータを取得)
+ * @param args.endpoint XMLのエンドポイント
+ * @param args.theaterCodeName 劇場のコード名
+ */
+export async function xmlSchedule(args: IXMLScheduleArgs): Promise<IXMLScheduleResult[]> {
+    return new Promise<IXMLScheduleResult[]>((resolve, reject) => {
+        request.get(
+            {
+                baseUrl: args.baseUrl,
+                uri: `/${args.theaterCodeName}/schedule/xml/schedule.xml`
+            },
+            (error, response, body) => {
+                if (error instanceof Error) {
+                    reject(new Error(error.message));
+
+                    return;
+                }
+
+                if (response.statusCode !== OK) {
+                    let err = new Error('Unexpected error occurred.');
+
+                    if (typeof body === 'string' && body.length > 0) {
+                        err = new Error(body);
+                    }
+
+                    reject(err);
+                } else {
+                    xml2js.parseString(body, (err, result: IXMLScheduleOriginal) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            if (result.schedules.error[0] === XMLErrorCode.Error) {
+                                reject(new Error('XMLエンドポイントからエラーが発生しました。'));
+                            } else if (result.schedules.error[0] === XMLErrorCode.NoData) {
+                                resolve([]);
+                            } else {
+                                const schedules: IXMLScheduleResult[] = result.schedules.schedule.map((scheduleByDate) => {
+                                    const movies: IXMLMovie[] = scheduleByDate.movie.map((movie) => {
+                                        const screens: IXMLScreen[] = movie.screen.map((screener) => {
+                                            const times: IXMLTime[] = screener.time.map((time) => ({
+                                                available: parseInt(time.available[0], 10),
+                                                url: time.url[0],
+                                                late: parseInt(time.late[0], 10),
+                                                startTime: time.start_time[0],
+                                                endTime: time.end_time[0]
+                                            }));
+
+                                            return {
+                                                time: times,
+                                                name: screener.name[0],
+                                                screenCode: screener.screen_code[0]
+                                            };
+                                        });
+
+                                        return {
+                                            screen: screens,
+                                            movieCode: movie.movie_code[0],
+                                            movieShortCode: movie.movie_short_code[0],
+                                            movieBranchCode: movie.movie_branch_code[0],
+                                            name: movie.name[0],
+                                            eName: movie.ename[0],
+                                            cName: movie.cname[0],
+                                            comment: movie.comment[0],
+                                            runningTime: parseInt(movie.running_time[0], 10),
+                                            cmTime: parseInt(movie.cm_time[0], 10),
+                                            officialSite: movie.official_site[0],
+                                            summary: movie.summary[0]
+                                        };
+                                    });
+
+                                    return {
+                                        date: scheduleByDate.date[0],
+                                        usable: scheduleByDate.usable[0] !== '0',
+                                        movie: movies
+                                    };
+                                });
+                                resolve(schedules);
+                            }
+                        }
+                    });
+                }
+            }
+        );
     });
 }
 
