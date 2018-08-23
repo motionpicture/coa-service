@@ -18,6 +18,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## v5.0.0 - 2018-06-01
+
+### Added
+
+- スケジュール取得をXMLと同期する
+
 ## v4.1.0 - 2018-06-01
 
 ### Added
