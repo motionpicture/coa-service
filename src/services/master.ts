@@ -712,7 +712,7 @@ export interface IXMLTime {
  * @param args.theaterCodeName 劇場のコード名
  */
 export async function xmlSchedule(args: IXMLScheduleArgs): Promise<IXMLScheduleResult[][]> {
-    const getSchedule = (baseUrl: string, uri: string) =>  new Promise<IXMLScheduleResult[]>((resolve, reject) => {
+    const getSchedule = async (baseUrl: string, uri: string) =>  new Promise<IXMLScheduleResult[]>((resolve, reject) => {
         request.get(
             {
                 baseUrl: baseUrl,
