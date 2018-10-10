@@ -18,6 +18,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## v5.0.01- 2018-10-10
+
+### Added
+
+- XML先行販売追加、大和郡山追加
+
 ## v5.0.0 - 2018-08-23
 
 ### Added
