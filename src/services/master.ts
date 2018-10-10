@@ -711,12 +711,12 @@ export interface IXMLTime {
  * @param args.endpoint XMLのエンドポイント
  * @param args.theaterCodeName 劇場のコード名
  */
-export async function xmlSchedule(args: IXMLScheduleArgs): Promise<IXMLScheduleResult[]> {
-    return new Promise<IXMLScheduleResult[]>((resolve, reject) => {
+export async function xmlSchedule(args: IXMLScheduleArgs): Promise<IXMLScheduleResult[][]> {
+    const getSchedule = async (baseUrl: string, uri: string) =>  new Promise<IXMLScheduleResult[]>((resolve, reject) => {
         request.get(
             {
-                baseUrl: args.baseUrl,
-                uri: `/${args.theaterCodeName}/schedule/xml/schedule.xml`
+                baseUrl: baseUrl,
+                uri: uri
             },
             (error, response, body) => {
                 if (error instanceof Error) {
@@ -791,6 +791,11 @@ export async function xmlSchedule(args: IXMLScheduleArgs): Promise<IXMLScheduleR
             }
         );
     });
+
+    return Promise.all([
+        getSchedule(args.baseUrl, `/${args.theaterCodeName}/schedule/xml/schedule.xml`),
+        getSchedule(args.baseUrl, `/${args.theaterCodeName}/schedule/xml/preSchedule.xml`)
+    ]);
 }
 
 /**

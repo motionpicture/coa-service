@@ -146,6 +146,9 @@ describe('XMLスケジュール抽出', () => {
         scope = nock(params.baseUrl)
             .get(`/${params.theaterCodeName}/schedule/xml/schedule.xml`)
             .once()
+            .replyWithError(error)
+            .get(`/${params.theaterCodeName}/schedule/xml/preSchedule.xml`)
+            .once()
             .replyWithError(error);
 
         const result = await masterService.xmlSchedule(params).catch((err) => (err));
@@ -165,6 +168,8 @@ describe('XMLスケジュール抽出', () => {
 
         scope = nock(params.baseUrl)
             .get(`/${params.theaterCodeName}/schedule/xml/schedule.xml`)
+            .reply(INTERNAL_SERVER_ERROR, errorBody1)
+            .get(`/${params.theaterCodeName}/schedule/xml/preSchedule.xml`)
             .reply(INTERNAL_SERVER_ERROR, errorBody1);
 
         let result = await masterService.xmlSchedule(params).catch((err) => (err));
@@ -175,6 +180,8 @@ describe('XMLスケジュール抽出', () => {
 
         scope = nock(params.baseUrl)
             .get(`/${params.theaterCodeName}/schedule/xml/schedule.xml`)
+            .reply(INTERNAL_SERVER_ERROR, errorBody2)
+            .get(`/${params.theaterCodeName}/schedule/xml/preSchedule.xml`)
             .reply(INTERNAL_SERVER_ERROR, errorBody2);
 
         result = await masterService.xmlSchedule(params).catch((err) => (err));
@@ -199,6 +206,8 @@ describe('XMLスケジュール抽出', () => {
 
         scope = nock(params.baseUrl)
             .get(`/${params.theaterCodeName}/schedule/xml/schedule.xml`)
+            .reply(OK, xmlBody)
+            .get(`/${params.theaterCodeName}/schedule/xml/preSchedule.xml`)
             .reply(OK, xmlBody);
 
         const result = await masterService.xmlSchedule(params).catch((err) => (err));
@@ -224,10 +233,12 @@ describe('XMLスケジュール抽出', () => {
 
         scope = nock(params.baseUrl)
             .get(`/${params.theaterCodeName}/schedule/xml/schedule.xml`)
+            .reply(OK, xmlBody)
+            .get(`/${params.theaterCodeName}/schedule/xml/preSchedule.xml`)
             .reply(OK, xmlBody);
 
         const result = await masterService.xmlSchedule(params);
-        assert.deepEqual(result, []);
+        assert.deepEqual(result, [[], []]);
         assert(scope.isDone());
         sandbox.verify();
     });
@@ -279,6 +290,8 @@ describe('XMLスケジュール抽出', () => {
 
         scope = nock(params.baseUrl)
             .get(`/${params.theaterCodeName}/schedule/xml/schedule.xml`)
+            .reply(OK, xmlBody)
+            .get(`/${params.theaterCodeName}/schedule/xml/preSchedule.xml`)
             .reply(OK, xmlBody);
 
         const result = await masterService.xmlSchedule(params);
@@ -310,7 +323,7 @@ describe('XMLスケジュール抽出', () => {
                 } ]
             } ]
         } ];
-        assert.deepEqual(result, expectedResult);
+        assert.deepEqual(result, [expectedResult, expectedResult]);
         assert(scope.isDone());
         sandbox.verify();
     });
@@ -325,6 +338,8 @@ describe('XMLスケジュール抽出', () => {
 
         scope = nock(params.baseUrl)
             .get(`/${params.theaterCodeName}/schedule/xml/schedule.xml`)
+            .reply(OK, body)
+            .get(`/${params.theaterCodeName}/schedule/xml/preSchedule.xml`)
             .reply(OK, body);
 
         const result = await masterService.xmlSchedule(params).catch((err) => err);
