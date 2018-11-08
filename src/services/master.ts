@@ -979,6 +979,10 @@ export interface IMvtkTicketcodeArgs {
      * 作品枝番
      */
     titleBranchNum: string;
+    /**
+     * 上映日
+     */
+    dateJouei: string;
 }
 
 /**
@@ -1012,15 +1016,16 @@ export interface IMvtkTicketcodeResult {
 }
 /**
  * ムビチケチケットコード取得
- * @param args.theater_code 劇場コード
- * @param args.kbn_denshiken 電子券区分
- * @param args.kbn_maeuriken 前売券区分
- * @param args.kbn_kensyu 券種区分
- * @param args.sales_price 販売単価
- * @param args.app_price 計上単価
- * @param args.kbn_eisyahousiki 映写方式区分
- * @param args.title_code 作品コード
- * @param args.title_branch_num 作品枝番
+ * @param args.theaterCode 劇場コード
+ * @param args.kbnDenshiken 電子券区分
+ * @param args.kbnMaeuriken 前売券区分
+ * @param args.kbnKensyu 券種区分
+ * @param args.salesPrice 販売単価
+ * @param args.appPrice 計上単価
+ * @param args.kbnEisyahousiki 映写方式区分
+ * @param args.titleCode 作品コード
+ * @param args.titleBranchNum 作品枝番
+ * @param args.dateJouei 上映日
  */
 export async function mvtkTicketcode(args: IMvtkTicketcodeArgs): Promise<IMvtkTicketcodeResult> {
     const body = await service.request(
@@ -1036,7 +1041,8 @@ export async function mvtkTicketcode(args: IMvtkTicketcodeArgs): Promise<IMvtkTi
                 app_price: args.appPrice,
                 kbn_eisyahousiki: args.kbnEisyahousiki,
                 title_code: args.titleCode,
-                title_branch_num: args.titleBranchNum
+                title_branch_num: args.titleBranchNum,
+                date_jouei: args.dateJouei
             }
         },
         [OK]

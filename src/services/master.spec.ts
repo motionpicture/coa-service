@@ -373,7 +373,8 @@ describe('ムビチケチケットコード取得', () => {
             appPrice: 1200,
             kbnEisyahousiki: '01',
             titleCode: 'xxxxx',
-            titleBranchNum: 'xx'
+            titleBranchNum: 'xx',
+            dateJouei: '20181107'
         };
         const body = {
         };
