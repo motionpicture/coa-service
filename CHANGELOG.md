@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Fixed
 
+- スケジュールXMLのschedule属性が未定義の場合にスケジュールの読み込みをスルーするように対応
+
 ### Security
 
 ## v6.0.0- 2018-11-08
