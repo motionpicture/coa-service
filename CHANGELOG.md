@@ -18,13 +18,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
-## v6.0.0- 2018-11-08
+## v6.0.1 - 2018-12-05
+
+### Fixed
+
+- スケジュールXMLのschedule属性が未定義の場合にスケジュールの読み込みをスルーするように対応
+
+## v6.0.0 - 2018-11-08
 
 ### Added
 
 - ムビチケチケットコード取得に上映日(dateJouei)追加
 
-## v5.0.01- 2018-10-10
+## v5.0.01 - 2018-10-10
 
 ### Added
 
