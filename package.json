@@ -72,7 +72,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "check": "npm run tslint && nsp check",
+    "check": "npm run tslint",
     "clean": "rimraf \"npm-debug.log*\" ./lib ./docs ./coverage ./.nyc_output",
     "doc": "typedoc --out ./docs/ --exclude **/*.spec.ts ./src/",
     "mocha": "mocha",

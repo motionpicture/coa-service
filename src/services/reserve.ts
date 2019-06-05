@@ -159,6 +159,21 @@ export interface IStateReserveSeatFreeSeat {
      * 座席番号
      */
     seatNum: string;
+    /**
+     * 特別席区分
+     * 000：通常席、001：コンフォート、002：グラントクラス、003：プレミアクラス
+     */
+    spseatKbn: string;
+    /**
+     * 特別席加算額１
+     * 特別席加算額の興行収入部分
+     */
+    spseatAdd1: number;
+    /**
+     * 特別席加算額２
+     * 特別席加算額のミールクーポン部分
+     */
+    spseatAdd2: number;
 }
 /**
  * 座席リスト
@@ -218,12 +233,23 @@ export async function stateReserveSeat(args: IStateReserveSeatArgs): Promise<ISt
     return {
         cntReserveFree: body.cnt_reserve_free,
         cntSeatLine: body.cnt_seat_line,
-        listSeat: body.list_seat.map((seat: any) => {
+        listSeat: body.list_seat.map((seat: {
+            seat_section: string;
+            list_free_seat: {
+                seat_num: string;
+                spseat_kbn: string;
+                spseat_add1: number;
+                spseat_add2: number;
+            }[];
+        }) => {
             return {
                 seatSection: seat.seat_section,
-                listFreeSeat: seat.list_free_seat.map((freeSeat: any) => {
+                listFreeSeat: seat.list_free_seat.map((freeSeat) => {
                     return {
-                        seatNum: freeSeat.seat_num
+                        seatNum: freeSeat.seat_num,
+                        spseatKbn: freeSeat.spseat_kbn,
+                        spseatAdd1: freeSeat.spseat_add1,
+                        spseatAdd2: freeSeat.spseat_add2
                     };
                 })
             };
@@ -480,6 +506,16 @@ export interface IUpdReserveTicket {
      */
     addPrice: number;
     /**
+     * 特別席加算額１
+     * 特別席加算額の興行収入部分
+     */
+    spseatAdd1?: number;
+    /**
+     * 特別席加算額２
+     * 特別席加算額のミールクーポン部分
+     */
+    spseatAdd2?: number;
+    /**
      * 割引額
      */
     disPrice: number;
@@ -498,6 +534,11 @@ export interface IUpdReserveTicket {
      * 枚数
      */
     ticketCount: number;
+    /**
+     * 特別席区分
+     * 000：通常席、001：コンフォート、002：グラントクラス、003：プレミアクラス
+     */
+    spseatKbn?: string;
     /**
      * 座席番号
      */
@@ -591,10 +632,13 @@ export interface IUpdReserveQR {
  * @param args.listTicket.ticketCode チケットコード
  * @param args.listTicket.stdPrice 標準単価
  * @param args.listTicket.addPrice 加算単価
+ * @param args.listTicket.spseatAdd1 特別席加算額１ 特別席加算額の興行収入部分
+ * @param args.listTicket.spseatAdd2 特別席加算額２ 特別席加算額のミールクーポン部分
  * @param args.listTicket.disPrice 割引額
  * @param args.listTicket.salePrice 金額 ※価格情報毎の１枚当たりの金額（ムビチケの場合も金額をセット）※標準単価+加算単価-割引額
  * @param args.listTicket.mvtkAppPrice ムビチケ計上単価 ※ムビチケの場合、計上単価（興収報告単価）をセット（ムビチケ以外は0をセット）
  * @param args.listTicket.ticketCount 枚数
+ * @param args.listTicket.spseatKbn 特別席区分 000：通常席、001：コンフォート、002：グラントクラス、003：プレミアクラス
  * @param args.listTicket.seatNum 座席番号
  * @param args.listTicket.addGlasses メガネ単価 ※メガネ代が別途発生した場合は、メガネ代をセット。それ以外は０をセット（ムビチケの場合も同様）
  * @param args.listTicket.kbnEisyahousiki ムビチケ連携情報より

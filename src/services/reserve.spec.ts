@@ -88,7 +88,7 @@ describe('座席本予約', () => {
     });
 
     it('パラメーターが適切であれば本予約できるはず', async () => {
-        const params = {
+        const params: reserveService.IUpdReserveArgs = {
             theaterCode: '',
             dateJouei: '',
             titleCode: '',
