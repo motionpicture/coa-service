@@ -509,12 +509,12 @@ export interface IUpdReserveTicket {
      * 特別席加算額１
      * 特別席加算額の興行収入部分
      */
-    spseatAdd1?: number;
+    spseatAdd1: number;
     /**
      * 特別席加算額２
      * 特別席加算額のミールクーポン部分
      */
-    spseatAdd2?: number;
+    spseatAdd2: number;
     /**
      * 割引額
      */
@@ -538,7 +538,7 @@ export interface IUpdReserveTicket {
      * 特別席区分
      * 000：通常席、001：コンフォート、002：グラントクラス、003：プレミアクラス
      */
-    spseatKbn?: string;
+    spseatKbn: string;
     /**
      * 座席番号
      */
