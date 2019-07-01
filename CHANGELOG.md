@@ -18,6 +18,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## v7.0.0 - 2019-07-01
+
+### Added
+
+- 座席予約状態抽出OUTへ特別席区分(spseatKbn)、特別席加算額１(spseatAdd1)、特別席加算額２(spseatAdd2)追加
+- 座席本予約INへ特別席区分(spseatKbn)、特別席加算額１(spseatAdd1)、特別席加算額２(spseatAdd2)追加
+
 ## v6.0.1 - 2018-12-05
 
 ### Fixed
