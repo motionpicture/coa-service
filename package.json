@@ -72,7 +72,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "check": "npm run tslint && nsp check",
+    "check": "npm run tslint",
     "clean": "rimraf \"npm-debug.log*\" ./lib ./docs ./coverage ./.nyc_output",
     "doc": "typedoc --out ./docs/ --exclude **/*.spec.ts ./src/",
     "mocha": "mocha",
@@ -86,5 +86,5 @@
     "postversion": "git push origin --tags",
     "prepublishOnly": "npm run clean && npm run build && npm test && npm run doc"
   },
-  "version": "6.0.1"
+  "version": "7.0.0"
 }

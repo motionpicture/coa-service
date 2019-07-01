@@ -8,7 +8,7 @@ const fs = require('fs');
 
 COA.services.reserve.stateReserveSeat({
     theaterCode: '118',
-    dateJouei: '20171206',
+    dateJouei: '20190605',
     titleCode: '16421',
     titleBranchNum: '0',
     timeBegin: '2045',
