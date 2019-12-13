@@ -1,7 +1,6 @@
 // tslint:disable:max-classes-per-file
 /**
  * transporters
- * @ignore
  */
 import * as createDebug from 'debug';
 import { INTERNAL_SERVER_ERROR, NO_CONTENT } from 'http-status';
@@ -14,14 +13,12 @@ const pkg = require('../package.json');
 /**
  * リクエスト成功の場合のレスポンス本文のstatus属性の値
  * 失敗の場合はstring型だが、成功の場合のみnumber型が返却されるので注意すること。
- * @const
  */
 const RESPONSE_BODY_STAUS_SUCCESS = 0;
 
 /**
  * transporter abstract class
  * トランスポーター抽象クラス
- * @export
  */
 export abstract class Transporter {
     public abstract async request(options: request.OptionsWithUri): Promise<any>;
@@ -31,7 +28,6 @@ export type IBodyResponseCallback = Promise<any>;
 
 /**
  * COAServiceError
- * @export
  */
 export class COAServiceError extends Error {
     public code: number;
@@ -48,7 +44,6 @@ export class COAServiceError extends Error {
 
 /**
  * DefaultTransporter
- * @export
  */
 export class DefaultTransporter implements Transporter {
     /**

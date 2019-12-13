@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 
+- マスターサービスインスタンスを必要に応じて生成できるように調整
+- 予約サービスインスタンスを必要に応じて生成できるように調整
+- 環境変数への依存を削除
+
 ### Deprecated
 
 ### Removed

@@ -4,7 +4,6 @@ import RefreshTokenClient from './auth/refreshTokenClient';
 
 /**
  * service constructor options
- * @export
  */
 export interface IOptions {
     endpoint: string;
@@ -13,13 +12,20 @@ export interface IOptions {
 
 /**
  * base service class
- * @export
  */
 export class Service {
     public options: IOptions;
+    public requestOptions: request.CoreOptions;
 
-    constructor(options: IOptions) {
+    constructor(options: IOptions, requestOptions?: request.CoreOptions) {
         this.options = options;
+
+        this.requestOptions = {};
+        // tslint:disable-next-line:no-single-line-block-comment
+        /* istanbul ignore else */
+        if (requestOptions !== undefined) {
+            this.requestOptions = { ...this.requestOptions, ...requestOptions };
+        }
     }
 
     /**
@@ -35,15 +41,21 @@ export class Service {
             useQuerystring: true
         };
 
-        return this.options.auth.request({ ...defaultOptions, ...options }, expectedStatusCodes);
+        const requestOptions = {
+            ...defaultOptions,
+            ...this.requestOptions,
+            ...options
+        };
+
+        return this.options.auth.request(requestOptions, expectedStatusCodes);
     }
 }
 
 // 1プロセスにつき1サービスインスタンスで動かす
-export default new Service({
-    endpoint: process.env.COA_ENDPOINT,
-    auth: new RefreshTokenClient({
-        endpoint: process.env.COA_ENDPOINT,
-        refreshToken: process.env.COA_REFRESH_TOKEN
-    })
-});
+// export default new Service({
+//     endpoint: process.env.COA_ENDPOINT,
+//     auth: new RefreshTokenClient({
+//         endpoint: process.env.COA_ENDPOINT,
+//         refreshToken: process.env.COA_REFRESH_TOKEN
+//     })
+// });

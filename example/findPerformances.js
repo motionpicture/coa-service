@@ -1,14 +1,22 @@
 /**
  * パフォーマンス抽出の例
- *
- * @ignore
  */
-
 const COA = require('../');
 const fs = require('fs');
 
-COA.services.master.schedule({
-    theaterCode: '012',
+const service = new COA.service.Master(
+    {
+        endpoint: process.env.COA_ENDPOINT,
+        auth: new COA.auth.RefreshToken({
+            endpoint: process.env.COA_ENDPOINT,
+            refreshToken: process.env.COA_REFRESH_TOKEN
+        })
+    },
+    { timeout: 1000 }
+);
+
+service.schedule({
+    theaterCode: '118',
     begin: '20180126',
     end: '20180126'
 }).then((result) => {

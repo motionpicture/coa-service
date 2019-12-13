@@ -7,7 +7,15 @@
 const COA = require('../');
 const fs = require('fs');
 
-COA.services.reserve.stateReserve({
+const service = new COA.service.Reserve({
+    endpoint: process.env.COA_ENDPOINT,
+    auth: new COA.auth.RefreshToken({
+        endpoint: process.env.COA_ENDPOINT,
+        refreshToken: process.env.COA_REFRESH_TOKEN
+    })
+});
+
+service.stateReserve({
     theaterCode: '118',
     reserveNum: 99150,
     telNum: '09012345678'

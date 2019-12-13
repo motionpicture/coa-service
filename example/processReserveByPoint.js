@@ -6,7 +6,7 @@ const COA = require('../');
 const moment = require('moment');
 
 async function main() {
-    const theaterCode = '118';
+    const theaterCode = '112';
 
     const schedules = await COA.services.master.schedule({
         theaterCode: theaterCode,

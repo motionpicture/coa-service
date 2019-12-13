@@ -1,7 +1,6 @@
 // tslint:disable:no-implicit-dependencies
 /**
  * マスターサービステスト
- * @ignore
  */
 import * as assert from 'assert';
 import { INTERNAL_SERVER_ERROR, OK } from 'http-status';
@@ -256,10 +255,10 @@ describe('XMLスケジュール抽出', () => {
                 error: ['000000'],
                 theater_code: ['theater code'],
                 attention: ['attention'],
-                schedule: [ {
+                schedule: [{
                     date: ['date'],
                     usable: ['0'],
-                    movie: [ {
+                    movie: [{
                         cname: ['cname'],
                         comment: ['comment'],
                         cm_time: ['10'],
@@ -271,19 +270,19 @@ describe('XMLスケジュール抽出', () => {
                         movie_code: ['movie code'],
                         movie_branch_code: ['movie branch code'],
                         movie_short_code: ['movie short code'],
-                        screen: [ {
+                        screen: [{
                             screen_code: ['screen code'],
                             name: ['name'],
-                            time: [ {
+                            time: [{
                                 available: ['0'],
                                 start_time: ['start time'],
                                 end_time: ['end time'],
                                 late: ['0'],
                                 url: ['url']
-                            } ]
-                        } ]
-                    } ]
-                } ]
+                            }]
+                        }]
+                    }]
+                }]
             }
         };
         const xmlBody = builder.buildObject(xmlObject);
@@ -295,10 +294,10 @@ describe('XMLスケジュール抽出', () => {
             .reply(OK, xmlBody);
 
         const result = await masterService.xmlSchedule(params);
-        const expectedResult: masterService.IXMLScheduleResult[] = [ {
+        const expectedResult: masterService.IXMLScheduleResult[] = [{
             date: 'date',
             usable: false,
-            movie: [ {
+            movie: [{
                 cName: 'cname',
                 comment: 'comment',
                 cmTime: 10,
@@ -310,19 +309,19 @@ describe('XMLスケジュール抽出', () => {
                 movieCode: 'movie code',
                 movieBranchCode: 'movie branch code',
                 movieShortCode: 'movie short code',
-                screen: [ {
+                screen: [{
                     screenCode: 'screen code',
                     name: 'name',
-                    time: [ {
+                    time: [{
                         available: 0,
                         startTime: 'start time',
                         endTime: 'end time',
                         late: 0,
                         url: 'url'
-                    } ]
-                } ]
-            } ]
-        } ];
+                    }]
+                }]
+            }]
+        }];
         assert.deepEqual(result, [expectedResult, expectedResult]);
         assert(scope.isDone());
         sandbox.verify();
