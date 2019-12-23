@@ -1,12 +1,20 @@
 /**
  * ムビチケ抽出サンプル
- * @ignore
  */
-
 const COA = require('../');
 const fs = require('fs');
 
-COA.services.master.mvtkTicketcode({
+const service = new COA.service.Master(
+    {
+        endpoint: process.env.COA_ENDPOINT,
+        auth: new COA.auth.RefreshToken({
+            endpoint: process.env.COA_ENDPOINT,
+            refreshToken: process.env.COA_REFRESH_TOKEN
+        })
+    }
+);
+
+service.mvtkTicketcode({
     theaterCode: '118',
     kubunClass: '000'
 }).then((result) => {

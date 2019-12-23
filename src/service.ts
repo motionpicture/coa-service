@@ -50,12 +50,3 @@ export class Service {
         return this.options.auth.request(requestOptions, expectedStatusCodes);
     }
 }
-
-// 1プロセスにつき1サービスインスタンスで動かす
-// export default new Service({
-//     endpoint: process.env.COA_ENDPOINT,
-//     auth: new RefreshTokenClient({
-//         endpoint: process.env.COA_ENDPOINT,
-//         refreshToken: process.env.COA_REFRESH_TOKEN
-//     })
-// });

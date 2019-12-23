@@ -1,9 +1,6 @@
 /**
  * 購入チケット内容取得の例
- *
- * @ignore
  */
-
 const COA = require('../');
 const fs = require('fs');
 

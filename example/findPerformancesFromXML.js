@@ -1,13 +1,20 @@
 /**
  * パフォーマンス抽出の例
- *
- * @ignore
  */
-
 const COA = require('../');
 const fs = require('fs');
 
-COA.services.master.xmlSchedule({
+const service = new COA.service.Master(
+    {
+        endpoint: process.env.COA_ENDPOINT,
+        auth: new COA.auth.RefreshToken({
+            endpoint: process.env.COA_ENDPOINT,
+            refreshToken: process.env.COA_REFRESH_TOKEN
+        })
+    }
+);
+
+service.xmlSchedule({
     baseUrl: "http://cinema.coasystems.net",
     theaterCodeName: "aira"
 }).then((result) => {

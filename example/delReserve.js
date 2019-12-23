@@ -1,12 +1,19 @@
 /**
  * 購入チケット取消の例
- *
- * @ignore
  */
-
 const COA = require('../');
 
-COA.services.reserve.delReserve({
+const service = new COA.service.Reserve(
+    {
+        endpoint: process.env.COA_ENDPOINT,
+        auth: new COA.auth.RefreshToken({
+            endpoint: process.env.COA_ENDPOINT,
+            refreshToken: process.env.COA_REFRESH_TOKEN
+        })
+    }
+);
+
+service.delReserve({
     reserveNum: 985,
     theaterCode: '118',
     dateJouei: '20170403',

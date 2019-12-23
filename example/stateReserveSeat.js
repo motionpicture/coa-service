@@ -1,12 +1,20 @@
 /**
  * 座席予約状態抽出サンプル
- * @ignore
  */
-
 const COA = require('../');
 const fs = require('fs');
 
-COA.services.reserve.stateReserveSeat({
+const service = new COA.service.Reserve(
+    {
+        endpoint: process.env.COA_ENDPOINT,
+        auth: new COA.auth.RefreshToken({
+            endpoint: process.env.COA_ENDPOINT,
+            refreshToken: process.env.COA_REFRESH_TOKEN
+        })
+    }
+);
+
+service.stateReserveSeat({
     theaterCode: '118',
     dateJouei: '20190605',
     titleCode: '16421',
