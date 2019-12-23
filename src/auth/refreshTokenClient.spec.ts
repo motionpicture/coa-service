@@ -1,7 +1,6 @@
 // tslint:disable:no-implicit-dependencies
 /**
  * refreshTokenClient test
- * @ignore
  */
 import * as assert from 'assert';
 import { BAD_REQUEST, FORBIDDEN, INTERNAL_SERVER_ERROR, OK, UNAUTHORIZED } from 'http-status';

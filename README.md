@@ -1,5 +1,3 @@
-<img src="https://motionpicture.jp/images/common/logo_01.svg" alt="motionpicture" title="motionpicture" align="right" height="56" width="98"/>
-
 # COA client library for Node.js
 
 [![npm (scoped)](https://img.shields.io/npm/v/@motionpicture/coa-service.svg)](https://www.npmjs.com/package/@motionpicture/coa-service)
@@ -46,30 +44,24 @@ const COA = require('@motionpicture/coa-service');
 
 ### Environment variables
 
-| Name                | Required | Value         | Purpose             |
-|---------------------|----------|---------------|---------------------|
-| `DEBUG`             | false    | coa-service:* | Debug               |
-| `COA_ENDPOINT`      | true     |               | APIのエンドポイント         |
-| `COA_REFRESH_TOKEN` | true     |               | リクエストに必要なリフレッシュトークン |
+| Name    | Required | Value         | Purpose |
+| ------- | -------- | ------------- | ------- |
+| `DEBUG` | false    | coa-service:* | Debug   |
 
 ### 劇場情報を取得する
 
 ```js
 const COA = require('@motionpicture/coa-service');
 
-COA.services.master.theater({
-    theaterCode: '123'
-})
-    .then(console.log)
-    .catch(console.error);
-```
+const masterService = new COA.service.Master({
+    endpoint: '',
+    auth: new COA.auth.RefreshTokenClient({
+        endpoint: '',
+        refreshToken: ''
+    })
+});
 
-### 作品情報を取得する
-
-```js
-const COA = require('@motionpicture/coa-service');
-
-COA.services.master.title({
+masterService.theater({
     theaterCode: '123'
 })
     .then(console.log)

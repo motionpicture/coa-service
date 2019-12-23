@@ -1,13 +1,20 @@
 /**
  * 販売可能チケット抽出の例
- *
- * @ignore
  */
-
 const COA = require('../');
 const fs = require('fs');
 
-COA.services.reserve.salesTicket({
+const service = new COA.service.Reserve(
+    {
+        endpoint: process.env.COA_ENDPOINT,
+        auth: new COA.auth.RefreshToken({
+            endpoint: process.env.COA_ENDPOINT,
+            refreshToken: process.env.COA_REFRESH_TOKEN
+        })
+    }
+);
+
+service.salesTicket({
     theaterCode: '118',
     dateJouei: '20170411',
     titleCode: '99600',

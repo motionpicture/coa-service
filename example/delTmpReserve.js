@@ -1,12 +1,19 @@
 /**
  * 座席仮予約削除の例
- *
- * @ignore
  */
-
 const COA = require('../');
 
-COA.services.reserve.delTmpReserve({
+const service = new COA.service.Reserve(
+    {
+        endpoint: process.env.COA_ENDPOINT,
+        auth: new COA.auth.RefreshToken({
+            endpoint: process.env.COA_ENDPOINT,
+            refreshToken: process.env.COA_REFRESH_TOKEN
+        })
+    }
+);
+
+service.delTmpReserve({
     tmpReserveNum: 985,
     theaterCode: '118',
     dateJouei: '20170403',

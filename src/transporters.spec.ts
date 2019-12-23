@@ -1,7 +1,6 @@
 // tslint:disable:no-implicit-dependencies
 /**
  * トランスポーターテスト
- * @ignore
  */
 import * as assert from 'assert';
 import { INTERNAL_SERVER_ERROR, NO_CONTENT, OK } from 'http-status';
