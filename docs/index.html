@@ -64,7 +64,6 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<p><img src="https://motionpicture.jp/images/common/logo_01.svg" alt="motionpicture" title="motionpicture" align="right" height="56" width="98"/></p>
 				<h1 id="coa-client-library-for-node-js">COA client library for Node.js</h1>
 				<p><a href="https://www.npmjs.com/package/@motionpicture/coa-service"><img src="https://img.shields.io/npm/v/@motionpicture/coa-service.svg" alt="npm (scoped)"></a>
 					<a href="https://circleci.com/gh/motionpicture/coa-service"><img src="https://circleci.com/gh/motionpicture/coa-service.svg?style=shield" alt="CircleCI"></a>
@@ -119,33 +118,20 @@
 							<td>coa-service:*</td>
 							<td>Debug</td>
 						</tr>
-						<tr>
-							<td><code>COA_ENDPOINT</code></td>
-							<td>true</td>
-							<td></td>
-							<td>APIのエンドポイント</td>
-						</tr>
-						<tr>
-							<td><code>COA_REFRESH_TOKEN</code></td>
-							<td>true</td>
-							<td></td>
-							<td>リクエストに必要なリフレッシュトークン</td>
-						</tr>
 					</tbody>
 				</table>
 				<h3 id="-">劇場情報を取得する</h3>
 				<pre><code class="lang-js"><span class="hljs-keyword">const</span> COA = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@motionpicture/coa-service'</span>);
 
-COA.services.master.theater({
-    <span class="hljs-attr">theaterCode</span>: <span class="hljs-string">'123'</span>
-})
-    .then(<span class="hljs-built_in">console</span>.log)
-    .catch(<span class="hljs-built_in">console</span>.error);
-</code></pre>
-				<h3 id="-">作品情報を取得する</h3>
-				<pre><code class="lang-js"><span class="hljs-keyword">const</span> COA = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@motionpicture/coa-service'</span>);
+<span class="hljs-keyword">const</span> masterService = <span class="hljs-keyword">new</span> COA.service.Master({
+    <span class="hljs-attr">endpoint</span>: <span class="hljs-string">''</span>,
+    <span class="hljs-attr">auth</span>: <span class="hljs-keyword">new</span> COA.auth.RefreshTokenClient({
+        <span class="hljs-attr">endpoint</span>: <span class="hljs-string">''</span>,
+        <span class="hljs-attr">refreshToken</span>: <span class="hljs-string">''</span>
+    })
+});
 
-COA.services.master.title({
+masterService.theater({
     <span class="hljs-attr">theaterCode</span>: <span class="hljs-string">'123'</span>
 })
     .then(<span class="hljs-built_in">console</span>.log)
