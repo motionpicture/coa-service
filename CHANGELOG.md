@@ -18,6 +18,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## v8.0.1 - 2020-02-13
+
+### Fixed
+
+- XMLスケジュール抽出を、screener.timeが配列でない場合に対応
+
 ## v8.0.0 - 2019-12-23
 
 ### Changed
