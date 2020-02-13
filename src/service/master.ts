@@ -144,7 +144,7 @@ export class MasterService extends Service {
      * @param args.endpoint XMLのエンドポイント
      * @param args.theaterCodeName 劇場のコード名
      */
-    // tslint:disable-next-line:prefer-function-over-method
+    // tslint:disable-next-line:max-func-body-length prefer-function-over-method
     public async xmlSchedule(args: MasterFactory.IXMLScheduleArgs): Promise<MasterFactory.IXMLScheduleResult[][]> {
         const getSchedule = async (baseUrl: string, uri: string) => new Promise<MasterFactory.IXMLScheduleResult[]>((resolve, reject) => {
             request.get(
@@ -162,6 +162,8 @@ export class MasterService extends Service {
                     if (response.statusCode !== OK) {
                         let err = new Error('Unexpected error occurred.');
 
+                        // tslint:disable-next-line:no-single-line-block-comment
+                        /* istanbul ignore else */
                         if (typeof body === 'string' && body.length > 0) {
                             err = new Error(body);
                         }
@@ -177,53 +179,65 @@ export class MasterService extends Service {
                                 } else if (result.schedules.error[0] === MasterFactory.XMLErrorCode.NoData) {
                                     resolve([]);
                                 } else {
-                                    let schedules: MasterFactory.IXMLScheduleResult[] = [];
-                                    // tslint:disable-next-line:no-single-line-block-comment
-                                    /* istanbul ignore else */
-                                    if (Array.isArray(result.schedules.schedule)) {
-                                        schedules = result.schedules.schedule.map((scheduleByDate) => {
-                                            const movies: MasterFactory.IXMLMovie[] = scheduleByDate.movie.map((movie) => {
-                                                const screens: MasterFactory.IXMLScreen[] = movie.screen.map((screener) => {
-                                                    const times: MasterFactory.IXMLTime[] = screener.time.map((time) => ({
-                                                        available: parseInt(time.available[0], 10),
-                                                        url: time.url[0],
-                                                        late: parseInt(time.late[0], 10),
-                                                        startTime: time.start_time[0],
-                                                        endTime: time.end_time[0]
-                                                    }));
+                                    try {
+                                        let schedules: MasterFactory.IXMLScheduleResult[] = [];
+                                        // tslint:disable-next-line:no-single-line-block-comment
+                                        /* istanbul ignore else */
+                                        if (Array.isArray(result.schedules.schedule)) {
+                                            schedules = result.schedules.schedule.map((scheduleByDate) => {
+                                                const movies: MasterFactory.IXMLMovie[] = scheduleByDate.movie.map((movie) => {
+                                                    const screens: MasterFactory.IXMLScreen[] = movie.screen.map((screener) => {
+                                                        // screener.timeが配列でない場合に対応
+                                                        let times: MasterFactory.IXMLTime[] = [];
+                                                        // tslint:disable-next-line:no-single-line-block-comment
+                                                        /* istanbul ignore else */
+                                                        if (Array.isArray(screener.time)) {
+                                                            times = screener.time.map((time) => ({
+                                                                available: parseInt(time.available[0], 10),
+                                                                url: time.url[0],
+                                                                late: parseInt(time.late[0], 10),
+                                                                startTime: time.start_time[0],
+                                                                endTime: time.end_time[0]
+                                                            }));
+                                                        }
+
+                                                        return {
+                                                            time: times,
+                                                            name: screener.name[0],
+                                                            screenCode: screener.screen_code[0]
+                                                        };
+                                                    });
 
                                                     return {
-                                                        time: times,
-                                                        name: screener.name[0],
-                                                        screenCode: screener.screen_code[0]
+                                                        screen: screens,
+                                                        movieCode: movie.movie_code[0],
+                                                        movieShortCode: movie.movie_short_code[0],
+                                                        movieBranchCode: movie.movie_branch_code[0],
+                                                        name: movie.name[0],
+                                                        eName: movie.ename[0],
+                                                        cName: movie.cname[0],
+                                                        comment: movie.comment[0],
+                                                        runningTime: parseInt(movie.running_time[0], 10),
+                                                        cmTime: parseInt(movie.cm_time[0], 10),
+                                                        officialSite: movie.official_site[0],
+                                                        summary: movie.summary[0]
                                                     };
                                                 });
 
                                                 return {
-                                                    screen: screens,
-                                                    movieCode: movie.movie_code[0],
-                                                    movieShortCode: movie.movie_short_code[0],
-                                                    movieBranchCode: movie.movie_branch_code[0],
-                                                    name: movie.name[0],
-                                                    eName: movie.ename[0],
-                                                    cName: movie.cname[0],
-                                                    comment: movie.comment[0],
-                                                    runningTime: parseInt(movie.running_time[0], 10),
-                                                    cmTime: parseInt(movie.cm_time[0], 10),
-                                                    officialSite: movie.official_site[0],
-                                                    summary: movie.summary[0]
+                                                    date: scheduleByDate.date[0],
+                                                    usable: scheduleByDate.usable[0] !== '0',
+                                                    movie: movies
                                                 };
                                             });
+                                        }
 
-                                            return {
-                                                date: scheduleByDate.date[0],
-                                                usable: scheduleByDate.usable[0] !== '0',
-                                                movie: movies
-                                            };
-                                        });
+                                        resolve(schedules);
+                                    } catch (error) {
+                                        // tslint:disable-next-line:no-single-line-block-comment
+                                        /* istanbul ignore next */
+                                        reject(error);
                                     }
-
-                                    resolve(schedules);
                                 }
                             }
                         });

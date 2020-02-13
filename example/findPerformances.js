@@ -12,13 +12,13 @@ const service = new COA.service.Master(
             refreshToken: process.env.COA_REFRESH_TOKEN
         })
     },
-    { timeout: 1000 }
+    // { timeout: 1000 }
 );
 
 service.schedule({
-    theaterCode: '118',
-    begin: '20180126',
-    end: '20180126'
+    theaterCode: '012',
+    begin: '20200213',
+    end: '20200218'
 }).then((result) => {
     fs.writeFileSync(`${__dirname}/output/schedule.json`, JSON.stringify(result, null, '    '));
     console.log(result);

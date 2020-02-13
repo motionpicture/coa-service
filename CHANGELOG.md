@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Fixed
 
+- XMLスケジュール抽出を、screener.timeが配列でない場合に対応
+
 ### Security
 
 ## v8.0.0 - 2019-12-23
