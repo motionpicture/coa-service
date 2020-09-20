@@ -36,9 +36,13 @@ describe('リクエストコールバック', () => {
             method: 'GET'
         };
 
-        scope = nock(options.baseUrl).get(options.uri).once().reply(INTERNAL_SERVER_ERROR, body);
+        scope = nock(options.baseUrl)
+            .get(options.uri)
+            .once()
+            .reply(INTERNAL_SERVER_ERROR, body);
 
-        const result = await new DefaultTransporter([OK]).request(options).catch((err) => err);
+        const result = await new DefaultTransporter([OK]).request(options)
+            .catch((err) => err);
         assert(result instanceof Error);
         assert(scope.isDone());
         sandbox.verify();
@@ -51,7 +55,10 @@ describe('リクエストコールバック', () => {
             method: 'GET'
         };
 
-        scope = nock(options.baseUrl).get(options.uri).once().reply(NO_CONTENT);
+        scope = nock(options.baseUrl)
+            .get(options.uri)
+            .once()
+            .reply(NO_CONTENT);
 
         const result = await new DefaultTransporter([NO_CONTENT]).request(options);
         assert.equal(result, undefined);
@@ -67,9 +74,13 @@ describe('リクエストコールバック', () => {
             method: 'GET'
         };
 
-        scope = nock(options.baseUrl).get(options.uri).once().replyWithError(error.message);
+        scope = nock(options.baseUrl)
+            .get(options.uri)
+            .once()
+            .replyWithError(error.message);
 
-        const result = await new DefaultTransporter([NO_CONTENT]).request(options).catch((err) => err);
+        const result = await new DefaultTransporter([NO_CONTENT]).request(options)
+            .catch((err) => err);
         assert(result instanceof COAServiceError);
         assert.equal(result.message, error.message);
         sandbox.verify();
@@ -94,7 +105,9 @@ describe('リクエストコールバック', () => {
                     'User-Agent': `User-Agent ${DefaultTransporter.USER_AGENT}`
                 }
             })
-            .get(options.uri).once().reply(OK, body);
+            .get(options.uri)
+            .once()
+            .reply(OK, body);
 
         const result = await new DefaultTransporter([OK]).request(options);
         assert.deepEqual(result, body);
@@ -112,9 +125,13 @@ describe('リクエストコールバック', () => {
             json: true
         };
 
-        scope = nock(options.baseUrl).get(options.uri).once().reply(INTERNAL_SERVER_ERROR, body);
+        scope = nock(options.baseUrl)
+            .get(options.uri)
+            .once()
+            .reply(INTERNAL_SERVER_ERROR, body);
 
-        const result = await new DefaultTransporter([OK]).request(options).catch((err) => err);
+        const result = await new DefaultTransporter([OK]).request(options)
+            .catch((err) => err);
         assert(result instanceof COAServiceError);
         assert.equal(result.message, body.message);
         assert(scope.isDone());
@@ -131,9 +148,13 @@ describe('リクエストコールバック', () => {
             json: true
         };
 
-        scope = nock(options.baseUrl).get(options.uri).once().reply(OK, body);
+        scope = nock(options.baseUrl)
+            .get(options.uri)
+            .once()
+            .reply(OK, body);
 
-        const result = await new DefaultTransporter([OK]).request(options).catch((err) => err);
+        const result = await new DefaultTransporter([OK]).request(options)
+            .catch((err) => err);
         assert(result instanceof COAServiceError);
         assert.equal(result.status, body.status);
         assert(scope.isDone());

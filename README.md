@@ -11,11 +11,15 @@ Node.jsでCOAサービスを使うためのライブラリです。
 
 ## Table of contents
 
-* [Specification](#specification)
-* [Usage](#usage)
-* [Example](#code-samples)
-* [Documentation](#documentation)
-* [License](#license)
+- [COA client library for Node.js](#coa-client-library-for-nodejs)
+  - [Table of contents](#table-of-contents)
+  - [Specification](#specification)
+  - [Usage](#usage)
+    - [Environment variables](#environment-variables)
+    - [劇場情報を取得する](#劇場情報を取得する)
+  - [Code Samples](#code-samples)
+  - [Documentation](#documentation)
+  - [License](#license)
 
 ## Specification
 
@@ -78,4 +82,4 @@ Code sample are [here](https://github.com/motionpicture/coa-service/tree/master/
 
 ## License
 
-UNLICENSED
+ISC

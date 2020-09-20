@@ -312,6 +312,7 @@ export class ReserveService extends Service {
 
         // 該当予約がなくてもステータス0が返ってくる
         if ((<ReserveFactory.IStateReserveTicket[]>body.list_ticket).length === 0) {
+            // tslint:disable-next-line:no-null-keyword
             return null;
         }
 

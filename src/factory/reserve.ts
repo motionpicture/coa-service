@@ -433,7 +433,7 @@ export interface IUpdReserveResult {
 }
 
 /**
- * 入場QR
+ * 入場情報
  */
 export interface IUpdReserveQR {
     /**

@@ -160,8 +160,9 @@ export default class RefreshTokenClient {
                             continue;
                         } else {
                             // リトライしても認証エラーが出る状況は不可解なので、エラー出力
+                            // tslint:disable-next-line:no-console
                             console.error(
-                                'Retried request threw an error.', error,
+                                '[COA service]Retried request threw an error.', error,
                                 'credentials:', this.credentials,
                                 'request options:', options,
                                 'now:', new Date()
