@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IScheduleArgs | @motionpicture/coa-service</title>
+	<title>IMgtkTicketcodeResult | @motionpicture/coa-service</title>
 	<meta name="description" content="Documentation for @motionpicture/coa-service">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,10 +59,10 @@
 					<a href="../modules/_factory_master_.html">&quot;factory/master&quot;</a>
 				</li>
 				<li>
-					<a href="_factory_master_.ischeduleargs.html">IScheduleArgs</a>
+					<a href="_factory_master_.imgtkticketcoderesult.html">IMgtkTicketcodeResult</a>
 				</li>
 			</ul>
-			<h1>Interface IScheduleArgs</h1>
+			<h1>Interface IMgtkTicketcodeResult</h1>
 		</div>
 	</div>
 </header>
@@ -72,7 +72,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>スケジュールマスター抽出in</p>
+						<p>ＭＧチケットコード確認out</p>
 					</div>
 				</div>
 			</section>
@@ -80,7 +80,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IScheduleArgs</span>
+						<span class="target">IMgtkTicketcodeResult</span>
 					</li>
 				</ul>
 			</section>
@@ -91,9 +91,12 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.ischeduleargs.html#begin" class="tsd-kind-icon">begin</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.ischeduleargs.html#end" class="tsd-kind-icon">end</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.ischeduleargs.html#theatercode" class="tsd-kind-icon">theater<wbr>Code</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.imgtkticketcoderesult.html#addprice" class="tsd-kind-icon">add<wbr>Price</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.imgtkticketcoderesult.html#addpriceglasses" class="tsd-kind-icon">add<wbr>Price<wbr>Glasses</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.imgtkticketcoderesult.html#ticketcode" class="tsd-kind-icon">ticket<wbr>Code</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.imgtkticketcoderesult.html#ticketname" class="tsd-kind-icon">ticket<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.imgtkticketcoderesult.html#ticketnameeng" class="tsd-kind-icon">ticket<wbr>Name<wbr>Eng</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.imgtkticketcoderesult.html#ticketnamekana" class="tsd-kind-icon">ticket<wbr>Name<wbr>Kana</a></li>
 							</ul>
 						</section>
 					</div>
@@ -102,47 +105,92 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="begin" class="tsd-anchor"></a>
-					<h3>begin</h3>
-					<div class="tsd-signature tsd-kind-icon">begin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="addprice" class="tsd-anchor"></a>
+					<h3>add<wbr>Price</h3>
+					<div class="tsd-signature tsd-kind-icon">add<wbr>Price<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/8cf9f27/src/factory/master.ts#L190">src/factory/master.ts:190</a></li>
+							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/8cf9f27/src/factory/master.ts#L490">src/factory/master.ts:490</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>スケジュールを抽出する上映日の開始日 ※日付は西暦8桁 &#39;YYYYMMDD&#39;</p>
+							<p>加算単価 ※３Ｄ、ＩＭＡＸ、４ＤＸ等の加算料金（メガネ抜き）</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="end" class="tsd-anchor"></a>
-					<h3>end</h3>
-					<div class="tsd-signature tsd-kind-icon">end<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="addpriceglasses" class="tsd-anchor"></a>
+					<h3>add<wbr>Price<wbr>Glasses</h3>
+					<div class="tsd-signature tsd-kind-icon">add<wbr>Price<wbr>Glasses<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/8cf9f27/src/factory/master.ts#L194">src/factory/master.ts:194</a></li>
+							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/8cf9f27/src/factory/master.ts#L494">src/factory/master.ts:494</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>スケジュールを抽出する上映日の終了日 ※日付は西暦8桁 &#39;YYYYMMDD&#39;</p>
+							<p>メガネ単価 ※３Ｄメガネの加算料金</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="theatercode" class="tsd-anchor"></a>
-					<h3>theater<wbr>Code</h3>
-					<div class="tsd-signature tsd-kind-icon">theater<wbr>Code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="ticketcode" class="tsd-anchor"></a>
+					<h3>ticket<wbr>Code</h3>
+					<div class="tsd-signature tsd-kind-icon">ticket<wbr>Code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/8cf9f27/src/factory/master.ts#L186">src/factory/master.ts:186</a></li>
+							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/8cf9f27/src/factory/master.ts#L474">src/factory/master.ts:474</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>劇場コード</p>
+							<p>チケットコード</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="ticketname" class="tsd-anchor"></a>
+					<h3>ticket<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">ticket<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/8cf9f27/src/factory/master.ts#L478">src/factory/master.ts:478</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>チケット名</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="ticketnameeng" class="tsd-anchor"></a>
+					<h3>ticket<wbr>Name<wbr>Eng</h3>
+					<div class="tsd-signature tsd-kind-icon">ticket<wbr>Name<wbr>Eng<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/8cf9f27/src/factory/master.ts#L486">src/factory/master.ts:486</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>チケット名(英)</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="ticketnamekana" class="tsd-anchor"></a>
+					<h3>ticket<wbr>Name<wbr>Kana</h3>
+					<div class="tsd-signature tsd-kind-icon">ticket<wbr>Name<wbr>Kana<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/8cf9f27/src/factory/master.ts#L482">src/factory/master.ts:482</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>チケット名(カナ)</p>
 						</div>
 					</div>
 				</section>
@@ -203,33 +251,42 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_factory_master_.imgtkticketcodeargs.html" class="tsd-kind-icon">IMgtk<wbr>Ticketcode<wbr>Args</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
 						<a href="_factory_master_.imgtkticketcoderesult.html" class="tsd-kind-icon">IMgtk<wbr>Ticketcode<wbr>Result</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_factory_master_.imgtkticketcoderesult.html#addprice" class="tsd-kind-icon">add<wbr>Price</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_factory_master_.imgtkticketcoderesult.html#addpriceglasses" class="tsd-kind-icon">add<wbr>Price<wbr>Glasses</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_factory_master_.imgtkticketcoderesult.html#ticketcode" class="tsd-kind-icon">ticket<wbr>Code</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_factory_master_.imgtkticketcoderesult.html#ticketname" class="tsd-kind-icon">ticket<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_factory_master_.imgtkticketcoderesult.html#ticketnameeng" class="tsd-kind-icon">ticket<wbr>Name<wbr>Eng</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_factory_master_.imgtkticketcoderesult.html#ticketnamekana" class="tsd-kind-icon">ticket<wbr>Name<wbr>Kana</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_factory_master_.imvtkticketcodeargs.html" class="tsd-kind-icon">IMvtk<wbr>Ticketcode<wbr>Args</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_factory_master_.imvtkticketcoderesult.html" class="tsd-kind-icon">IMvtk<wbr>Ticketcode<wbr>Result</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_factory_master_.ischeduleargs.html" class="tsd-kind-icon">ISchedule<wbr>Args</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_factory_master_.ischeduleargs.html#begin" class="tsd-kind-icon">begin</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_factory_master_.ischeduleargs.html#end" class="tsd-kind-icon">end</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_factory_master_.ischeduleargs.html#theatercode" class="tsd-kind-icon">theater<wbr>Code</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_factory_master_.ischeduleresult.html" class="tsd-kind-icon">ISchedule<wbr>Result</a>
 					</li>
