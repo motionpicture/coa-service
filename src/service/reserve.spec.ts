@@ -142,7 +142,8 @@ describe('座席本予約', () => {
                 mvtkKbnDenshiken: '',
                 mvtkKbnMaeuriken: '',
                 mvtkKbnKensyu: '',
-                mvtkSalesPrice: 123
+                mvtkSalesPrice: 123,
+                kbnMgtk: ''
             }]
         };
         const body = {

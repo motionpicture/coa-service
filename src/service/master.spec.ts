@@ -192,6 +192,47 @@ describe('ムビチケチケットコード取得', () => {
     });
 });
 
+describe('ＭＧチケットコード確認', () => {
+    beforeEach(() => {
+        nock.cleanAll();
+        nock.disableNetConnect();
+        sandbox = sinon.createSandbox();
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
+        nock.enableNetConnect();
+
+        sandbox.restore();
+    });
+
+    it('ムビチケが存在すれば抽出できるはず', async () => {
+        const params = {
+            theaterCode: '118',
+            mgtkTicketcode: '01',
+            titleCode: 'xxxxx',
+            titleBranchNum: 'xx',
+            dateJouei: '20181107'
+        };
+        const body = {
+        };
+
+        sandbox.mock(RefreshTokenClient.prototype)
+            .expects('getAccessToken')
+            .once()
+            .resolves('access_token');
+        scope = nock(<string>process.env.COA_ENDPOINT)
+            .get(`/api/v1/theater/${params.theaterCode}/mgtk_ticketcode/`)
+            .query(true)
+            .reply(OK, body);
+
+        const result = await masterService.mgtkTicketcode(params);
+        assert(typeof result, 'object');
+        assert(scope.isDone());
+        sandbox.verify();
+    });
+});
+
 describe('各種区分マスター抽出', () => {
     beforeEach(() => {
         nock.cleanAll();

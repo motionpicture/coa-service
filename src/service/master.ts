@@ -236,4 +236,32 @@ export class MasterService extends Service {
         };
     }
 
+    /**
+     * ＭＧチケットコード確認
+     */
+    public async mgtkTicketcode(args: MasterFactory.IMgtkTicketcodeArgs): Promise<MasterFactory.IMgtkTicketcodeResult> {
+        const body = await this.request(
+            {
+                uri: `/api/v1/theater/${args.theaterCode}/mgtk_ticketcode/`,
+                method: 'GET',
+                qs: {
+                    theater_code: args.theaterCode,
+                    mgtk_ticketcode: args.mgtkTicketcode,
+                    title_code: args.titleCode,
+                    title_branch_num: args.titleBranchNum,
+                    date_jouei: args.dateJouei
+                }
+            },
+            [OK]
+        );
+
+        return {
+            ticketCode: body.ticket_code,
+            ticketName: body.ticket_name,
+            ticketNameKana: body.ticket_name_kana,
+            ticketNameEng: body.ticket_name_eng,
+            addPrice: body.add_price,
+            addPriceGlasses: body.add_price_glasses
+        };
+    }
 }

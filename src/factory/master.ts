@@ -437,3 +437,59 @@ export interface IMvtkTicketcodeResult {
      */
     addPriceGlasses: number;
 }
+
+/**
+ * ＭＧチケットコード確認in
+ */
+export interface IMgtkTicketcodeArgs {
+    /**
+     * 施設コード
+     */
+    theaterCode: string;
+    /**
+     * MGチケットコード
+     */
+    mgtkTicketcode: string;
+    /**
+     * 作品コード
+     */
+    titleCode: string;
+    /**
+     * 作品枝番
+     */
+    titleBranchNum: string;
+    /**
+     * 上映日
+     */
+    dateJouei: string;
+}
+
+/**
+ * ＭＧチケットコード確認out
+ */
+export interface IMgtkTicketcodeResult {
+    /**
+     * チケットコード
+     */
+    ticketCode: string;
+    /**
+     * チケット名
+     */
+    ticketName: string;
+    /**
+     * チケット名(カナ)
+     */
+    ticketNameKana: string;
+    /**
+     * チケット名(英)
+     */
+    ticketNameEng: string;
+    /**
+     * 加算単価 ※３Ｄ、ＩＭＡＸ、４ＤＸ等の加算料金（メガネ抜き）
+     */
+    addPrice: number;
+    /**
+     * メガネ単価 ※３Ｄメガネの加算料金
+     */
+    addPriceGlasses: number;
+}

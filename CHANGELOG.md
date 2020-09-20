@@ -8,12 +8,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Added
 
+- マスターサービスにＭＧチケットコード確認を追加
+
 ### Changed
 
 - update typescript
 - update tslint
 - .npmignoreを削除
 - update packages
+- 本予約にMG関連インターフェースを追加
 
 ### Deprecated
 
