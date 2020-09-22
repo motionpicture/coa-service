@@ -362,8 +362,9 @@ export interface IUpdReserveTicket {
      */
     salePrice: number;
     /**
-     * ムビチケ計上単価
-     * ムビチケの場合、計上単価（興収報告単価）をセット（ムビチケ以外は0をセット）
+     * ムビチケ・ＭＧ計上単価
+     * ムビチケ・ＭＧの場合、計上単価（興収報告単価）をセット
+     * （ムビチケ・ＭＧ以外は0をセット）
      */
     mvtkAppPrice: number;
     /**
