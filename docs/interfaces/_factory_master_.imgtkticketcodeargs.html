@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IScreenSeat | @motionpicture/coa-service</title>
+	<title>IMgtkTicketcodeArgs | @motionpicture/coa-service</title>
 	<meta name="description" content="Documentation for @motionpicture/coa-service">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,10 +59,10 @@
 					<a href="../modules/_factory_master_.html">&quot;factory/master&quot;</a>
 				</li>
 				<li>
-					<a href="_factory_master_.iscreenseat.html">IScreenSeat</a>
+					<a href="_factory_master_.imgtkticketcodeargs.html">IMgtkTicketcodeArgs</a>
 				</li>
 			</ul>
-			<h1>Interface IScreenSeat</h1>
+			<h1>Interface IMgtkTicketcodeArgs</h1>
 		</div>
 	</div>
 </header>
@@ -72,7 +72,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>座席</p>
+						<p>ＭＧチケットコード確認in</p>
 					</div>
 				</div>
 			</section>
@@ -80,7 +80,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IScreenSeat</span>
+						<span class="target">IMgtkTicketcodeArgs</span>
 					</li>
 				</ul>
 			</section>
@@ -91,13 +91,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.iscreenseat.html#flgfree" class="tsd-kind-icon">flg<wbr>Free</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.iscreenseat.html#flghc" class="tsd-kind-icon">flg<wbr>Hc</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.iscreenseat.html#flgpair" class="tsd-kind-icon">flg<wbr>Pair</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.iscreenseat.html#flgspare" class="tsd-kind-icon">flg<wbr>Spare</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.iscreenseat.html#flgspecial" class="tsd-kind-icon">flg<wbr>Special</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.iscreenseat.html#seatnum" class="tsd-kind-icon">seat<wbr>Num</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.iscreenseat.html#seatsection" class="tsd-kind-icon">seat<wbr>Section</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.imgtkticketcodeargs.html#datejouei" class="tsd-kind-icon">date<wbr>Jouei</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.imgtkticketcodeargs.html#mgtkticketcode" class="tsd-kind-icon">mgtk<wbr>Ticketcode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.imgtkticketcodeargs.html#theatercode" class="tsd-kind-icon">theater<wbr>Code</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.imgtkticketcodeargs.html#titlebranchnum" class="tsd-kind-icon">title<wbr>Branch<wbr>Num</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_factory_master_.imgtkticketcodeargs.html#titlecode" class="tsd-kind-icon">title<wbr>Code</a></li>
 							</ul>
 						</section>
 					</div>
@@ -106,107 +104,77 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="flgfree" class="tsd-anchor"></a>
-					<h3>flg<wbr>Free</h3>
-					<div class="tsd-signature tsd-kind-icon">flg<wbr>Free<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="datejouei" class="tsd-anchor"></a>
+					<h3>date<wbr>Jouei</h3>
+					<div class="tsd-signature tsd-kind-icon">date<wbr>Jouei<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/d542659/src/factory/master.ts#L151">src/factory/master.ts:151</a></li>
+							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/d542659/src/factory/master.ts#L464">src/factory/master.ts:464</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>自由席フラグ</p>
+							<p>上映日</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="flghc" class="tsd-anchor"></a>
-					<h3>flg<wbr>Hc</h3>
-					<div class="tsd-signature tsd-kind-icon">flg<wbr>Hc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="mgtkticketcode" class="tsd-anchor"></a>
+					<h3>mgtk<wbr>Ticketcode</h3>
+					<div class="tsd-signature tsd-kind-icon">mgtk<wbr>Ticketcode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/d542659/src/factory/master.ts#L143">src/factory/master.ts:143</a></li>
+							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/d542659/src/factory/master.ts#L452">src/factory/master.ts:452</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>車椅子席フラグ</p>
+							<p>MGチケットコード</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="flgpair" class="tsd-anchor"></a>
-					<h3>flg<wbr>Pair</h3>
-					<div class="tsd-signature tsd-kind-icon">flg<wbr>Pair<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="theatercode" class="tsd-anchor"></a>
+					<h3>theater<wbr>Code</h3>
+					<div class="tsd-signature tsd-kind-icon">theater<wbr>Code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/d542659/src/factory/master.ts#L147">src/factory/master.ts:147</a></li>
+							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/d542659/src/factory/master.ts#L448">src/factory/master.ts:448</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>ペア席フラグ</p>
+							<p>施設コード</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="flgspare" class="tsd-anchor"></a>
-					<h3>flg<wbr>Spare</h3>
-					<div class="tsd-signature tsd-kind-icon">flg<wbr>Spare<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="titlebranchnum" class="tsd-anchor"></a>
+					<h3>title<wbr>Branch<wbr>Num</h3>
+					<div class="tsd-signature tsd-kind-icon">title<wbr>Branch<wbr>Num<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/d542659/src/factory/master.ts#L155">src/factory/master.ts:155</a></li>
+							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/d542659/src/factory/master.ts#L460">src/factory/master.ts:460</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>予備席フラグ</p>
+							<p>作品枝番</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="flgspecial" class="tsd-anchor"></a>
-					<h3>flg<wbr>Special</h3>
-					<div class="tsd-signature tsd-kind-icon">flg<wbr>Special<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="titlecode" class="tsd-anchor"></a>
+					<h3>title<wbr>Code</h3>
+					<div class="tsd-signature tsd-kind-icon">title<wbr>Code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/d542659/src/factory/master.ts#L139">src/factory/master.ts:139</a></li>
+							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/d542659/src/factory/master.ts#L456">src/factory/master.ts:456</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>特別席フラグ</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="seatnum" class="tsd-anchor"></a>
-					<h3>seat<wbr>Num</h3>
-					<div class="tsd-signature tsd-kind-icon">seat<wbr>Num<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/d542659/src/factory/master.ts#L135">src/factory/master.ts:135</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>座席番号</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="seatsection" class="tsd-anchor"></a>
-					<h3>seat<wbr>Section</h3>
-					<div class="tsd-signature tsd-kind-icon">seat<wbr>Section<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/motionpicture/coa-service/blob/d542659/src/factory/master.ts#L131">src/factory/master.ts:131</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>座席セクション</p>
+							<p>作品コード</p>
 						</div>
 					</div>
 				</section>
@@ -264,9 +232,30 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_factory_master_.ikubunnameresult.html" class="tsd-kind-icon">IKubun<wbr>Name<wbr>Result</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
 						<a href="_factory_master_.imgtkticketcodeargs.html" class="tsd-kind-icon">IMgtk<wbr>Ticketcode<wbr>Args</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_factory_master_.imgtkticketcodeargs.html#datejouei" class="tsd-kind-icon">date<wbr>Jouei</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_factory_master_.imgtkticketcodeargs.html#mgtkticketcode" class="tsd-kind-icon">mgtk<wbr>Ticketcode</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_factory_master_.imgtkticketcodeargs.html#theatercode" class="tsd-kind-icon">theater<wbr>Code</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_factory_master_.imgtkticketcodeargs.html#titlebranchnum" class="tsd-kind-icon">title<wbr>Branch<wbr>Num</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_factory_master_.imgtkticketcodeargs.html#titlecode" class="tsd-kind-icon">title<wbr>Code</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_factory_master_.imgtkticketcoderesult.html" class="tsd-kind-icon">IMgtk<wbr>Ticketcode<wbr>Result</a>
 					</li>
@@ -288,36 +277,9 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_factory_master_.iscreenresult.html" class="tsd-kind-icon">IScreen<wbr>Result</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_factory_master_.iscreenseat.html" class="tsd-kind-icon">IScreen<wbr>Seat</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_factory_master_.iscreenseat.html#flgfree" class="tsd-kind-icon">flg<wbr>Free</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_factory_master_.iscreenseat.html#flghc" class="tsd-kind-icon">flg<wbr>Hc</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_factory_master_.iscreenseat.html#flgpair" class="tsd-kind-icon">flg<wbr>Pair</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_factory_master_.iscreenseat.html#flgspare" class="tsd-kind-icon">flg<wbr>Spare</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_factory_master_.iscreenseat.html#flgspecial" class="tsd-kind-icon">flg<wbr>Special</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_factory_master_.iscreenseat.html#seatnum" class="tsd-kind-icon">seat<wbr>Num</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_factory_master_.iscreenseat.html#seatsection" class="tsd-kind-icon">seat<wbr>Section</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_factory_master_.itheaterargs.html" class="tsd-kind-icon">ITheater<wbr>Args</a>
 					</li>
