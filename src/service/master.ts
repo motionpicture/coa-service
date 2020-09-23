@@ -1,6 +1,4 @@
 import { OK } from 'http-status';
-import * as request from 'request';
-import * as xml2js from 'xml2js';
 
 import * as MasterFactory from '../factory/master';
 
@@ -140,119 +138,6 @@ export class MasterService extends Service {
     }
 
     /**
-     * スケジュールマスター抽出(XMLからスケジュールデータを取得)
-     * @param args.endpoint XMLのエンドポイント
-     * @param args.theaterCodeName 劇場のコード名
-     */
-    // tslint:disable-next-line:max-func-body-length prefer-function-over-method
-    public async xmlSchedule(args: MasterFactory.IXMLScheduleArgs): Promise<MasterFactory.IXMLScheduleResult[][]> {
-        const getSchedule = async (baseUrl: string, uri: string) => new Promise<MasterFactory.IXMLScheduleResult[]>((resolve, reject) => {
-            request.get(
-                {
-                    baseUrl: baseUrl,
-                    uri: uri
-                },
-                (error, response, body) => {
-                    if (error instanceof Error) {
-                        reject(new Error(error.message));
-
-                        return;
-                    }
-
-                    if (response.statusCode !== OK) {
-                        let err = new Error('Unexpected error occurred.');
-
-                        // tslint:disable-next-line:no-single-line-block-comment
-                        /* istanbul ignore else */
-                        if (typeof body === 'string' && body.length > 0) {
-                            err = new Error(body);
-                        }
-
-                        reject(err);
-                    } else {
-                        xml2js.parseString(body, (err, result: MasterFactory.IXMLScheduleOriginal) => {
-                            if (err) {
-                                reject(err);
-                            } else {
-                                if (result.schedules.error[0] === MasterFactory.XMLErrorCode.Error) {
-                                    reject(new Error('XMLエンドポイントからエラーが発生しました。'));
-                                } else if (result.schedules.error[0] === MasterFactory.XMLErrorCode.NoData) {
-                                    resolve([]);
-                                } else {
-                                    try {
-                                        let schedules: MasterFactory.IXMLScheduleResult[] = [];
-                                        // tslint:disable-next-line:no-single-line-block-comment
-                                        /* istanbul ignore else */
-                                        if (Array.isArray(result.schedules.schedule)) {
-                                            schedules = result.schedules.schedule.map((scheduleByDate) => {
-                                                const movies: MasterFactory.IXMLMovie[] = scheduleByDate.movie.map((movie) => {
-                                                    const screens: MasterFactory.IXMLScreen[] = movie.screen.map((screener) => {
-                                                        // screener.timeが配列でない場合に対応
-                                                        let times: MasterFactory.IXMLTime[] = [];
-                                                        // tslint:disable-next-line:no-single-line-block-comment
-                                                        /* istanbul ignore else */
-                                                        if (Array.isArray(screener.time)) {
-                                                            times = screener.time.map((time) => ({
-                                                                available: parseInt(time.available[0], 10),
-                                                                url: time.url[0],
-                                                                late: parseInt(time.late[0], 10),
-                                                                startTime: time.start_time[0],
-                                                                endTime: time.end_time[0]
-                                                            }));
-                                                        }
-
-                                                        return {
-                                                            time: times,
-                                                            name: screener.name[0],
-                                                            screenCode: screener.screen_code[0]
-                                                        };
-                                                    });
-
-                                                    return {
-                                                        screen: screens,
-                                                        movieCode: movie.movie_code[0],
-                                                        movieShortCode: movie.movie_short_code[0],
-                                                        movieBranchCode: movie.movie_branch_code[0],
-                                                        name: movie.name[0],
-                                                        eName: movie.ename[0],
-                                                        cName: movie.cname[0],
-                                                        comment: movie.comment[0],
-                                                        runningTime: parseInt(movie.running_time[0], 10),
-                                                        cmTime: parseInt(movie.cm_time[0], 10),
-                                                        officialSite: movie.official_site[0],
-                                                        summary: movie.summary[0]
-                                                    };
-                                                });
-
-                                                return {
-                                                    date: scheduleByDate.date[0],
-                                                    usable: scheduleByDate.usable[0] !== '0',
-                                                    movie: movies
-                                                };
-                                            });
-                                        }
-
-                                        resolve(schedules);
-                                    } catch (error) {
-                                        // tslint:disable-next-line:no-single-line-block-comment
-                                        /* istanbul ignore next */
-                                        reject(error);
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            );
-        });
-
-        return Promise.all([
-            getSchedule(args.baseUrl, `/${args.theaterCodeName}/schedule/xml/schedule.xml`),
-            getSchedule(args.baseUrl, `/${args.theaterCodeName}/schedule/xml/preSchedule.xml`)
-        ]);
-    }
-
-    /**
      * 券種マスター抽出
      * @param args.theaterCode 劇場コード
      */
@@ -351,4 +236,32 @@ export class MasterService extends Service {
         };
     }
 
+    /**
+     * ＭＧチケットコード確認
+     */
+    public async mgtkTicketcode(args: MasterFactory.IMgtkTicketcodeArgs): Promise<MasterFactory.IMgtkTicketcodeResult> {
+        const body = await this.request(
+            {
+                uri: `/api/v1/theater/${args.theaterCode}/mgtk_ticketcode/`,
+                method: 'GET',
+                qs: {
+                    theater_code: args.theaterCode,
+                    mgtk_ticketcode: args.mgtkTicketcode,
+                    title_code: args.titleCode,
+                    title_branch_num: args.titleBranchNum,
+                    date_jouei: args.dateJouei
+                }
+            },
+            [OK]
+        );
+
+        return {
+            ticketCode: body.ticket_code,
+            ticketName: body.ticket_name,
+            ticketNameKana: body.ticket_name_kana,
+            ticketNameEng: body.ticket_name_eng,
+            addPrice: body.add_price,
+            addPriceGlasses: body.add_price_glasses
+        };
+    }
 }

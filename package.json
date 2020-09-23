@@ -13,10 +13,9 @@
     }
   ],
   "dependencies": {
-    "debug": "^3.1.0",
-    "http-status": "^1.1.2",
-    "request": "^2.87.0",
-    "xml2js": "^0.4.19"
+    "debug": "^3.2.6",
+    "http-status": "^1.4.2",
+    "request": "^2.88.2"
   },
   "description": "COA client library for Node.js",
   "devDependencies": {
@@ -24,34 +23,31 @@
     "@types/http-status": "^0.2.30",
     "@types/mocha": "^5.2.0",
     "@types/nock": "^9.1.3",
+    "@types/node": "^8.10.64",
     "@types/power-assert": "^1.5.0",
-    "@types/request": "^2.47.0",
+    "@types/request": "^2.48.5",
     "@types/sinon": "^4.3.3",
-    "@types/xml2js": "^0.4.3",
     "coveralls": "^3.0.1",
     "grunt-contrib-watch": "^1.1.0",
-    "ink-docstrap": "^1.3.2",
     "mocha": "^5.2.0",
     "moment": "^2.22.1",
     "nock": "^9.3.0",
-    "nsp": "^3.2.1",
-    "nyc": "^11.9.0",
+    "nyc": "^15.1.0",
     "power-assert": "^1.5.0",
     "rimraf": "^2.6.2",
     "sinon": "^5.0.10",
-    "snyk": "^1.82.0",
-    "ts-node": "^6.0.5",
-    "tslint": "^5.10.0",
-    "tslint-microsoft-contrib": "^5.0.3",
-    "typedoc": "^0.11.1",
-    "typescript": "^2.9.1"
+    "ts-node": "^8.10.2",
+    "tslint": "^6.1.3",
+    "tslint-microsoft-contrib": "^6.2.0",
+    "typedoc": "^0.19.1",
+    "typescript": "^4.0.3"
   },
   "engines": {
-    "node": ">=6.9.1",
+    "node": ">=8.0.0",
     "npm": ">=3.10.8"
   },
   "keywords": [],
-  "license": "UNLICENSED",
+  "license": "ISC",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "files": [
@@ -77,8 +73,7 @@
     "doc": "typedoc --out ./docs/ --exclude **/*.spec.ts ./src/",
     "mocha": "mocha",
     "nyc": "nyc mocha \"src/**/*.spec.ts\"",
-    "coverage": "npm run nyc | coveralls",
-    "snyk": "snyk wizard",
+    "coverage": "npm run nyc && nyc report --reporter=text-lcov | coveralls",
     "test": "npm run check && npm run coverage",
     "tslint": "tslint --project tsconfig.json -c tslint.json --exclude \"**/*.spec.ts\" \"src/**/*.ts\"",
     "preversion": "npm run clean && npm run build && npm test && npm run doc",
@@ -86,5 +81,5 @@
     "postversion": "git push origin --tags",
     "prepublishOnly": "npm run clean && npm run build && npm test && npm run doc"
   },
-  "version": "8.0.1"
+  "version": "9.0.0"
 }

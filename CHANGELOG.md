@@ -18,6 +18,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## v9.0.0 - 2020-09-23
+
+### Added
+
+- マスターサービスにＭＧチケットコード確認を追加
+
+### Changed
+
+- update typescript
+- update tslint
+- .npmignoreを削除
+- update packages
+- 本予約にMG関連インターフェースを追加
+
+### Removed
+
+- COA XMLに対する処理を削除
+
 ## v8.0.1 - 2020-02-13
 
 ### Fixed

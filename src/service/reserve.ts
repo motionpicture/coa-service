@@ -196,12 +196,13 @@ export class ReserveService extends Service {
      * @param args.listTicket.spseatKbn 特別席区分 000：通常席、001：コンフォート、002：グラントクラス、003：プレミアクラス
      * @param args.listTicket.seatNum 座席番号
      * @param args.listTicket.addGlasses メガネ単価 ※メガネ代が別途発生した場合は、メガネ代をセット。それ以外は０をセット（ムビチケの場合も同様）
-     * @param args.listTicket.kbnEisyahousiki ムビチケ連携情報より
-     * @param args.listTicket.mvtkNum ムビチケ連携情報より（ムビチケ以外は""）
-     * @param args.listTicket.mvtkKbnDenshiken ムビチケ連携情報より（01：電子、02：紙 ※ムビチケ以外は"00"をセット）
-     * @param args.listTicket.mvtkKbnMaeuriken ムビチケ連携情報より（01：全国券、02：劇場券 ※ムビチケ以外は"00"をセット）
-     * @param args.listTicket.mvtkKbnKensyu ムビチケ連携情報より（01：一般2Ｄ、02：小人2Ｄ、03：一般3Ｄ ※ムビチケ以外は"00"をセット）
-     * @param args.listTicket.mvtkSalesPrice ムビチケ連携情報より（ムビチケ以外は0をセット）
+     * @param args.listTicket.kbnEisyahousiki ムビチケ・ＭＧ映写方式区分
+     * @param args.listTicket.mvtkNum ムビチケ・ＭＧ購入管理番号
+     * @param args.listTicket.mvtkKbnDenshiken ムビチケ・ＭＧ電子券区分
+     * @param args.listTicket.mvtkKbnMaeuriken ムビチケ・ＭＧ前売券区分
+     * @param args.listTicket.mvtkKbnKensyu ムビチケ・ＭＧ券種区分
+     * @param args.listTicket.mvtkSalesPrice ムビチケ・ＭＧ販売単価
+     * @param args.listTicket.kbnMgtk ＭＧチケット区分
      */
     public async updReserve(args: ReserveFactory.IUpdReserveArgs): Promise<ReserveFactory.IUpdReserveResult> {
         const body = await this.request(
@@ -237,7 +238,8 @@ export class ReserveService extends Service {
                     mvtk_kbn_denshiken: args.listTicket.map((value) => value.mvtkKbnDenshiken),
                     mvtk_kbn_maeuriken: args.listTicket.map((value) => value.mvtkKbnMaeuriken),
                     mvtk_kbn_kensyu: args.listTicket.map((value) => value.mvtkKbnKensyu),
-                    mvtk_sales_price: args.listTicket.map((value) => value.mvtkSalesPrice)
+                    mvtk_sales_price: args.listTicket.map((value) => value.mvtkSalesPrice),
+                    kbn_mgtk: args.listTicket.map((value) => value.kbnMgtk)
                 }
             },
             [OK]
@@ -312,6 +314,7 @@ export class ReserveService extends Service {
 
         // 該当予約がなくてもステータス0が返ってくる
         if ((<ReserveFactory.IStateReserveTicket[]>body.list_ticket).length === 0) {
+            // tslint:disable-next-line:no-null-keyword
             return null;
         }
 
